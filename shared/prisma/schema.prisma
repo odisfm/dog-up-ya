@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Game {
+  id           String       @id @default(uuid()) @db.Uuid
+  squiggleId   Int          @unique
+  awayTeamId   String?      @db.Uuid
+  homeTeamId   String?      @db.Uuid
+  winnerTeamId String?      @db.Uuid
+  unixTime     Int
+  localTime    DateTime
+  updatedTime  DateTime
+  gmtOffset    Int
+  hScore       Int
+  hGoals       Int
+  hBehinds     Int
+  aScore       Int
+  aGoals       Int
+  aBehinds     Int
+  timeString   String?
+  venue        String
+  progress     Int
+  roundId      String       @db.Uuid
+  awayTeam     Team?        @relation("awayTeam", fields: [awayTeamId], references: [id])
+  homeTeam     Team?        @relation("homeTeam", fields: [homeTeamId], references: [id])
+  round        Round        @relation(fields: [roundId], references: [id])
+  winnerTeam   Team?        @relation("winnerTeam", fields: [winnerTeamId], references: [id])
+  scoreEvents  ScoreEvent[]
+  tips         Tip[]
+}
+
+model Team {
+  id           String       @id @default(uuid()) @db.Uuid
+  name         String
+  abbreviation String
+  awayGames    Game[]       @relation("awayTeam")
+  homeGames    Game[]       @relation("homeTeam")
+  wonGames     Game[]       @relation("winnerTeam")
+  seasonTeam   SeasonTeam[]
+  standings    Standing[]
+  tips         Tip[]
+}
+
+model Season {
+  id           String       @id @default(uuid()) @db.Uuid
+  year         Int
+  isPremSeason Boolean
+  rounds       Round[]
+  seasonTeams  SeasonTeam[]
+  standings    Standing[]
+}
+
+model SeasonTeam {
+  seasonId       String @db.Uuid
+  teamId         String @db.Uuid
+  season         Season @relation(fields: [seasonId], references: [id])
+  team           Team   @relation(fields: [teamId], references: [id])
+  squiggleTeamId Int
+
+  @@id([seasonId, teamId])
+}
+
+model Round {
+  id          String     @id @default(uuid()) @db.Uuid
+  name        String?
+  roundNumber Int
+  seasonId    String     @db.Uuid
+  games       Game[]
+  season      Season     @relation(fields: [seasonId], references: [id])
+  standings   Standing[]
+  finalType   FinalType  @default(NOT_FINAL)
+}
+
+model Standing {
+  teamId         String @db.Uuid
+  roundId        String @db.Uuid
+  seasonId       String @db.Uuid
+  rank           Int
+  pointsFor      Int
+  goalsFor       Int
+  behindsFor     Int
+  pointsAgainst  Int
+  goalsAgainst   Int
+  behindsAgainst Int
+  wins           Int
+  losses         Int
+  draws          Int
+  premPoints     Int
+  percentage     Float
+  played         Int
+  round          Round  @relation(fields: [roundId], references: [id])
+  season         Season @relation(fields: [seasonId], references: [id])
+  team           Team   @relation(fields: [teamId], references: [id])
+
+  @@id([teamId, roundId, seasonId])
+}
+
+model ScoreEvent {
+  id           String         @id @default(uuid()) @db.Uuid
+  gameId       String         @db.Uuid
+  type         ScoreEventType
+  timeString   String
+  time         DateTime
+  gameProgress Int
+  game         Game           @relation(fields: [gameId], references: [id])
+}
+
+model Tip {
+  id         String @id @default(uuid()) @db.Uuid
+  gameId     String @db.Uuid
+  sourceId   Int
+  sourceName String
+  tipTeamId  String @db.Uuid
+  confidence Float
+  error      Float
+  margin     Float
+  bits       Float
+  game       Game   @relation(fields: [gameId], references: [id])
+  tipTeam    Team   @relation(fields: [tipTeamId], references: [id])
+}
+
+enum FinalType {
+  NOT_FINAL
+  MISC_FINAL
+  ELIMINATION_FINAL
+  QUALIFYING_FINAL
+  SEMI_FINAL
+  PRELIMINARY_FINAL
+  GRAND_FINAL
+}
+
+enum ScoreEventType {
+  HOME_GOAL
+  HOME_BEHIND
+  AWAY_GOAL
+  AWAY_BEHIND
+}

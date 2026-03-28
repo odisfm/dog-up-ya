@@ -1,0 +1,24 @@
+{
+  "name": "@footy-scores/shared",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.20.0",
+    "prisma": "^7.6.0",
+    "supabase": "^2.84.4"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.6.0",
+    "@prisma/client": "^7.6.0",
+    "dotenv": "^16.6.1",
+    "pg": "^8.20.0"
+  }
+}

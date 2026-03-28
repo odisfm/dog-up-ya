@@ -1,0 +1,19 @@
+{
+  "name": "@footy-scores/api",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@footy-scores/shared": "*",
+    "@hono/node-server": "^1.19.11",
+    "hono": "^4.12.9"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3"
+  }
+}
