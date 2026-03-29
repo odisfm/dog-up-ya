@@ -3,6 +3,7 @@ import { db } from '@footy-scores/shared'
 import pullTeams from "./getSquiggleData/pullTeams";
 import pullRounds from "./getSquiggleData/pullRounds";
 import pullGames from "./getSquiggleData/pullGames";
+import pullStandings from "./getSquiggleData/pullStandings";
 
 enum AllowedCommands {
     teams="teams",
@@ -68,6 +69,9 @@ if (isNaN(yearToUse)) {
             break
         case AllowedCommands.games:
             await pullGames(season)
+            break
+        case AllowedCommands.standings:
+            await pullStandings(season)
             break
     }
 })().then(()=> {
