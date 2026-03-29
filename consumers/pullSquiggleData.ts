@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import { db } from '@footy-scores/shared'
 import pullTeams from "./getSquiggleData/pullTeams";
+import pullRounds from "./getSquiggleData/pullRounds";
 
 enum AllowedCommands {
     teams="teams",
@@ -60,5 +61,9 @@ if (isNaN(yearToUse)) {
     switch (command) {
         case AllowedCommands.teams:
             await pullTeams(season)
+            break
+        case AllowedCommands.rounds:
+            await pullRounds(season)
+            break
     }
 })()
