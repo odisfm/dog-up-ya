@@ -75,6 +75,8 @@ model Round {
   season      Season     @relation(fields: [seasonId], references: [id])
   standings   Standing[]
   finalType   FinalType  @default(NOT_FINAL)
+
+  @@unique([seasonId, roundNumber])
 }
 
 model Standing {
