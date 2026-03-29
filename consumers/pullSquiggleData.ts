@@ -66,4 +66,9 @@ if (isNaN(yearToUse)) {
             await pullRounds(season)
             break
     }
-})()
+})().then(()=> {
+    console.log("Command complete!")
+    process.exit(0)
+})
+
+
