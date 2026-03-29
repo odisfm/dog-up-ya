@@ -94,3 +94,12 @@ export type SquiggleTip = {
     /** Format: "YYYY-MM-DD HH:mm:ss" */
     updated: string;
 }
+
+export type SquiggleTeam = {
+    id: number;
+    logo: string;
+    name: string;
+    debut: number;
+    retirement: number;
+    abbrev: string
+}
