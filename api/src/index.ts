@@ -1,11 +1,17 @@
 import 'dotenv/config'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { db } from '@footy-scores/shared'
 import * as dbUtils from './dbUtils.js'
 import type {LadderResponse, SeasonResponse, GameResponse, RoundResponse} from "@footy-scores/shared/src/types/apiResponses.js";
 
 const app = new Hono()
+app.use(
+    cors({
+      origin: process.env.ALLOWED_CORS ? process.env.ALLOWED_CORS.split(" ") : []
+    })
+)
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')
