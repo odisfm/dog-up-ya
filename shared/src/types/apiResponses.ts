@@ -7,9 +7,11 @@ export type LadderResponse = Array<Prisma.StandingGetPayload<{
 }>>
 
 export type GameResponse = Prisma.GameGetPayload<{
-    include: { homeTeam: true, awayTeam: true }
-} & {
-    scoreEvents: ScoreEvent[]
+    include: {
+        homeTeam: true
+        awayTeam: true
+        scoreEvents: true
+    }
 }>
 
 export type RoundResponse = Round & {
