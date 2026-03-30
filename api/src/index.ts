@@ -53,6 +53,42 @@ app.get('/ladder/:year', async (c) => {
 
 })
 
+app.get('/round/:year/:roundNumber', async (c) => {
+  const year = parseInt(c.req.param("year"))
+  const seasonRecord = await db.season.findFirst({
+    where: {
+      year: year
+    },
+  })
+  if (!seasonRecord) {
+    return c.json({ error: `No data for year "${year}"` }, 500)
+  }
+  const roundNumber = parseInt(c.req.param("roundNumber"))
+  const roundRecord =  await db.round.findFirst({
+    where: {
+      season: seasonRecord,
+      roundNumber
+
+    },
+    include: {
+      games: {
+        include: {
+          scoreEvents: true,
+          homeTeam: true,
+          awayTeam: true
+        }
+      }
+    }
+  }) satisfies RoundResponse | null
+
+  if (!roundRecord) {
+    return c.json({ error: `No data for season ${year} round ${roundNumber}`})
+  }
+
+  return c.json({data: roundRecord})
+
+})
+
 serve({
   fetch: app.fetch,
   port: 3000
