@@ -12,7 +12,7 @@ export function areGamesLive(games: Game[], preGameMinutesMargin=15): boolean {
 
         const gameStartTime = new Date(game.unixTime * 1000);
 
-        if (differenceInMinutes(now, gameStartTime) <= preGameMinutesMargin) {
+        if (differenceInMinutes(gameStartTime, now) <= preGameMinutesMargin) {
             return true;
         }
     }

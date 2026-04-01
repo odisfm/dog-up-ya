@@ -56,11 +56,11 @@ export default function Round() {
             }
         }
 
-        if (!soonestGame || differenceInMinutes(now, soonestGame) > (60 * 24)) {
+        if (!soonestGame || differenceInMinutes(soonestGame, now) > (60 * 24)) {
             return;
         }
 
-        const minutesTilNextGame = differenceInMinutes(now, soonestGame);
+        const minutesTilNextGame = differenceInMinutes(soonestGame, now);
 
         const timer = setTimeout(fetchRoundData, minutesTilNextGame * 60_000)
         return () => {
