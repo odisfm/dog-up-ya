@@ -2,6 +2,7 @@ import './GameSummary.css'
 import type {Game, Team} from '@footy-scores/shared'
 import GameSummaryTeam from "./GameSummaryTeam.tsx";
 import GameSummaryScore from "./GameSummaryScore.tsx";
+import {createScreenreaderGameDescription} from "./utils.ts";
 
 
 export default function GameSummary({gameData, homeTeamData, awayTeamData, isEven}:
@@ -20,41 +21,44 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
     return (
         <div className={
             `game-summary ${isEven ? bg1 : bg2} text-white p-4 first-of-type:rounded-t-md last-of-type:rounded-b-md`
-        }>
-            <GameSummaryTeam teamData={homeTeamData} gameData={gameData} homeTeam={true}/>
-            <div className={"game-summary-detail gap-2"}>
-                <span className={`venue-name ${pillStyles}`}>{gameData.venue}</span>
-                { preGame  &&
-                    <>
+        }
+             aria-label={createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData)}
+        >
+            <div aria-hidden={true}>
+                <GameSummaryTeam teamData={homeTeamData} gameData={gameData} homeTeam={true}/>
+                <div className={"game-summary-detail gap-2 "}>
+                    <span className={`venue-name ${pillStyles}`}>{gameData.venue}</span>
+                    {preGame &&
+                        <>
                         <span className={`pre-game-time text-xl md:text-2xl font-bold self-center`}>
-                            {gameStart.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                            {gameStart.toLocaleString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}
                         </span>
-                    </>
-                }
-                { !preGame &&
-                    <>
-                        <div className={"home-team"}>
-                            <GameSummaryScore
-                                score={gameData.hScore}
-                                margin={gameData.hScore - gameData.aScore}
-                                goals={gameData.hGoals}
-                                behinds={gameData.hBehinds}
-                            />
-                        </div>
-                        <div className={"away-team"}>
-                            <GameSummaryScore
-                                score={gameData.aScore}
-                                margin={gameData.aScore - gameData.hScore}
-                                goals={gameData.aGoals}
-                                behinds={gameData.aBehinds}
-                            />
-                        </div>
-                        <span className={`time-string ${pillStyles}`}>{gameData.timeString}</span>
-                    </>
-                }
+                        </>
+                    }
+                    {!preGame &&
+                        <>
+                            <div className={"home-team"}>
+                                <GameSummaryScore
+                                    score={gameData.hScore}
+                                    margin={gameData.hScore - gameData.aScore}
+                                    goals={gameData.hGoals}
+                                    behinds={gameData.hBehinds}
+                                />
+                            </div>
+                            <div className={"away-team"}>
+                                <GameSummaryScore
+                                    score={gameData.aScore}
+                                    margin={gameData.aScore - gameData.hScore}
+                                    goals={gameData.aGoals}
+                                    behinds={gameData.aBehinds}
+                                />
+                            </div>
+                            <span className={`time-string ${pillStyles}`}>{gameData.timeString}</span>
+                        </>
+                    }
 
-            </div>
-            <GameSummaryTeam teamData={awayTeamData} gameData={gameData} homeTeam={false}/>
+                </div>
+                <GameSummaryTeam teamData={awayTeamData} gameData={gameData} homeTeam={false}/></div>
         </div>
     )
 }
