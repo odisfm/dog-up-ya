@@ -136,10 +136,6 @@ export default function Round() {
                 })
             }
             {roundSegments &&
-                roundSegments.pastGames && !allGamesFinished &&
-                    <h2>Finished games</h2>
-            }
-            {roundSegments &&
             roundSegments.futureGames &&
                 Object.entries(roundSegments.pastGames).map(([label, games], i) => {
                     return <RoundSegment label={label} games={games} />
