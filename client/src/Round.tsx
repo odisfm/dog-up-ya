@@ -1,17 +1,24 @@
 import { useParams } from "react-router";
-import {useCallback, useEffect, useState} from "react";
-import type {RoundResponse} from "@footy-scores/shared/src/types/apiResponses";
-import GameSummary from "./GameSummary.tsx";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import type {GameResponse, RoundResponse} from "@footy-scores/shared/src/types/apiResponses";
 import {areGamesLive} from "./utils.ts";
 import {REFRESH_TIME_MS} from "./consts.ts";
-import {differenceInMinutes} from "date-fns";
+import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore} from "date-fns";
+import RoundSegment from "./RoundSegment.tsx";
+
+type RoundSegment = Record<string, GameResponse[]>
+
+type RoundGrouping = {
+    liveGames: GameResponse[],
+    pastGames: RoundSegment,
+    futureGames: RoundSegment,
+}
 
 export default function Round() {
     const params = useParams();
     const [failed, setFailed] = useState(false);
     const [hasLiveGames, setHasLiveGames] = useState(false);
     const [roundData, setRoundData] = useState<RoundResponse | null>(null);
-    console.log(params);
 
     const fetchRoundData = useCallback(async () => {
         try {
@@ -76,17 +83,69 @@ export default function Round() {
         return () => clearInterval(interval);
     }, [hasLiveGames, fetchRoundData]);
 
+    const roundSegments: RoundGrouping | null = useMemo(() => {
+        if (!roundData) return null
+        const roundGrouping: RoundGrouping = {
+            liveGames: [],
+            pastGames: {},
+            futureGames: {}
+        }
+        const now = new Date()
+        for (const gameData of roundData.games) {
+            if (areGamesLive([gameData])) {
+                console.log(`game is live: ${gameData.localTime} timestr: ${gameData.timeString}`)
+                roundGrouping.liveGames.push(gameData);
+                continue;
+            }
+            let dateString: string;
+            const gameStartTime = new Date(gameData.unixTime * 1000);
+            const inPast = isBefore(gameStartTime, now)
+            if (isThisYear(gameStartTime)) {
+                dateString = formatDate(gameStartTime, "EEEE")
+                dateString += `, ${formatDate(gameStartTime, "do")}`
+                dateString += ` ${formatDate(gameStartTime, "LLLL")}`
+
+            } else {
+                dateString = formatDate(gameStartTime, "PPPP")
+            }
+            const group = inPast ? roundGrouping.pastGames : roundGrouping.futureGames
+            if (dateString in group) {
+                group[dateString].push(gameData)
+            } else {
+                group[dateString] = [gameData]
+            }
+        }
+        return roundGrouping
+    }, [roundData]);
+
+    const allGamesFinished =
+        !!roundSegments && roundSegments.liveGames.length === 0 && Object.keys(roundSegments.futureGames).length === 0
+
+    console.log(roundSegments)
+
     return (
         <div className={"flex flex-col  w-full  md:w-2/3"}>
-            {roundData && roundData.games.map((gameData, i) => {
-                return <GameSummary
-                    gameData={gameData}
-                    homeTeamData={gameData.homeTeam}
-                    awayTeamData={gameData.awayTeam}
-                    key={gameData.id}
-                    isEven={!(i % 2 === 0)}
-                />
-            })}
+            {roundSegments &&
+                roundSegments.liveGames &&
+                    <RoundSegment label={"Live!"} games={roundSegments.liveGames} />
+            }
+            {roundSegments &&
+                roundSegments.futureGames &&
+                Object.entries(roundSegments.futureGames).map(([label, games], i) => {
+                    return <RoundSegment label={label} games={games} />
+                })
+            }
+            {roundSegments &&
+                roundSegments.pastGames && !allGamesFinished &&
+                    <h2>Finished games</h2>
+            }
+            {roundSegments &&
+            roundSegments.futureGames &&
+                Object.entries(roundSegments.pastGames).map(([label, games], i) => {
+                    return <RoundSegment label={label} games={games} />
+                })
+            }
+
         </div>
     )
 }
