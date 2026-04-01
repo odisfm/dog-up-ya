@@ -21,7 +21,6 @@ function App() {
 
     return (
         <>
-            <div className={"flex flex-col text-white dark:text-black"}>
                 <header className={`grid grid-cols-3 w-full py-3 px-5 bg-mist-500 dark:bg-mist-900 justify-center items-center gap-3`}>
                     <div></div>
                     <h1 className={"text-white text-2xl"}>Hello</h1>
@@ -36,10 +35,9 @@ function App() {
                     </div>
                 </header>
 
-                <div className={"bg-neutral-300 dark:bg-mist-950 pt-2 flex flex-col items-center"}>
+                <main className={"bg-neutral-300 dark:bg-mist-950 pt-2 flex flex-col items-center"}>
                     <Outlet/>
-                </div>
-            </div>
+                </main>
         </>
     )
 }

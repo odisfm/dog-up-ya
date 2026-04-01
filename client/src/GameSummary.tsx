@@ -19,11 +19,10 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
     const gameStart = new Date(gameData.unixTime * 1000)
     const preGame = gameStart > now
     return (
-        <div className={
-            `game-summary ${isEven ? bg1 : bg2} text-white p-4 first-of-type:rounded-t-md last-of-type:rounded-b-md`
-        }
-             aria-label={createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData)}
+        <div
+            className={`game-summary ${isEven ? bg1 : bg2} text-white p-4 first-of-type:rounded-t-md last-of-type:rounded-b-md`}
         >
+            <span className={"sr-only"}>{createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData)}</span>
             <div aria-hidden={true}>
                 <GameSummaryTeam teamData={homeTeamData} gameData={gameData} homeTeam={true}/>
                 <div className={"game-summary-detail gap-2 "}>
@@ -58,7 +57,8 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
                     }
 
                 </div>
-                <GameSummaryTeam teamData={awayTeamData} gameData={gameData} homeTeam={false}/></div>
+                <GameSummaryTeam teamData={awayTeamData} gameData={gameData} homeTeam={false}/>
+            </div>
         </div>
     )
 }

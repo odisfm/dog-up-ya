@@ -7,8 +7,8 @@ export default function RoundSegment({label, games}: {label: string, games: Game
     }
 
     return (
-        <div className={"flex flex-col mt-6"}>
-            <h3 className={"text-white self-start bg-mist-500 dark:bg-mist-900 py-1 px-2 mb-2 rounded-md"}>{label}</h3>
+        <section className={"flex flex-col mt-6"}>
+            <h3 aria-hidden={true} className={"text-white self-start bg-mist-500 dark:bg-mist-900 py-1 px-2 mb-2 rounded-md"}>{label}</h3>
             {games.map((game, i) => {
                 return (
                     <GameSummary
@@ -19,6 +19,6 @@ export default function RoundSegment({label, games}: {label: string, games: Game
                     />
                 )
             })}
-        </div>
+        </section>
     )
 }

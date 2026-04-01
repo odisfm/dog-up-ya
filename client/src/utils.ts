@@ -24,13 +24,17 @@ export function createScreenreaderGameDescription(game: Game, homeTeam: Team | n
     const venueName = game.venue || "venue TBD";
     const date = formatDate(new Date(game.unixTime * 1000), "eeee, do MMMM hh:mmaa");
     if (!homeTeam || !awayTeam) {
-        description += `Teams for game at ${venueName}, ${date}, are undecided.`
+        description += `Teams for game at ${venueName}, ${date}, are undecided.\n`
         return description;
     }
     description += `${homeTeam.name} host ${awayTeam.name} at ${venueName}`
     if (!game.timeString) {
-        description += `, starting ${date}. `
+        description += `, starting ${date}.\n`
         return description;
+    } else if (game.timeString === "Full Time") {
+        description += `, full time, game played on ${date}`
+    } else {
+        description += `, live now, ${game.timeString}`
     }
     description += `. `
 
@@ -52,5 +56,6 @@ export function createScreenreaderGameDescription(game: Game, homeTeam: Team | n
             to ${game.aGoals}, ${game.aBehinds}, ${game.aScore}`
         }
     }
+    description += `.\n`
     return description;
 }
