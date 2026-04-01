@@ -7,5 +7,6 @@ export default defineConfig({
   envDir: '../',
   server: {
     cors: false,
+    host: true,
   },
 })
