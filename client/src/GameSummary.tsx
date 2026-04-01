@@ -19,7 +19,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
     const preGame = gameStart > now
     return (
         <div className={
-            `game-summary ${isEven ? bg1 : bg2} text-white p-4 first-of-type:rounded-t-md`
+            `game-summary ${isEven ? bg1 : bg2} text-white p-4 first-of-type:rounded-t-md last-of-type:rounded-b-md`
         }>
             <GameSummaryTeam teamData={homeTeamData} gameData={gameData} homeTeam={true}/>
             <div className={"game-summary-detail gap-2"}>

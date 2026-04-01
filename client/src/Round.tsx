@@ -124,7 +124,7 @@ export default function Round() {
     console.log(roundSegments)
 
     return (
-        <div className={"flex flex-col  w-full  md:w-2/3"}>
+        <div className={"flex flex-col  w-full  md:w-2/3 p-1 md:p-0"}>
             {roundSegments &&
                 roundSegments.liveGames &&
                     <RoundSegment label={"Live!"} games={roundSegments.liveGames} />
