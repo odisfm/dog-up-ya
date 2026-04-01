@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
     font: 18px/145% sans-serif;
     letter-spacing: 0.18px;
