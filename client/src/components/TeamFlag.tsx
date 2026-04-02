@@ -4,6 +4,7 @@ import brisbaneLionsFlag from "../assets/flags/brisbane-lions.png?url"
 import carltonFlag from "../assets/flags/carlton.png?url"
 import collingwoodFlag from "../assets/flags/collingwood.png?url"
 import essendonFlag from "../assets/flags/essendon.png?url"
+import fitzroyFlag from "../assets/flags/fitzroy.png?url"
 import fremantleFlag from "../assets/flags/fremantle.png?url"
 import geelongFlag from "../assets/flags/geelong.png?url"
 import goldCoastFlag from "../assets/flags/gold-coast.png?url"
@@ -29,6 +30,7 @@ const FLAGS: Record<string, string> = {
     carlton: carltonFlag,
     collingwood: collingwoodFlag,
     essendon: essendonFlag,
+    fitzroy: fitzroyFlag,
     fremantle: fremantleFlag,
     geelong: geelongFlag,
     "gold-coast": goldCoastFlag,
