@@ -74,6 +74,12 @@ es.addEventListener('score', async (event) => {
             timeString: data.timestr,
             time: new Date(),
             gameProgress: data.complete,
+            hScore: data.score.hscore,
+            hGoals: data.score.hgoals,
+            hBehinds: data.score.hbehinds,
+            aScore: data.score.ascore,
+            aGoals: data.score.agoals,
+            aBehinds: data.score.abehinds,
         }
     })
 

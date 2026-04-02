@@ -108,6 +108,12 @@ model ScoreEvent {
   time         DateTime
   gameProgress Int
   game         Game           @relation(fields: [gameId], references: [id])
+  hScore       Int?
+  hGoals       Int?
+  hBehinds     Int?
+  aScore       Int?
+  aGoals       Int?
+  aBehinds     Int?
 }
 
 model Tip {
