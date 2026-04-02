@@ -1,8 +1,8 @@
-import { useParams } from "react-router";
+import {Navigate, useParams} from "react-router";
 import {useCallback, useEffect, useMemo, useState} from "react";
-import type {GameResponse, RoundResponse} from "@footy-scores/shared/src/types/apiResponses";
-import {areGamesLive} from "./utils.ts";
-import {REFRESH_TIME_MS} from "./consts.ts";
+import type {GameResponse, RoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import {areGamesLive} from "../utils.ts";
+import {REFRESH_TIME_MS} from "../consts.ts";
 import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore} from "date-fns";
 import RoundSegment from "./RoundSegment.tsx";
 

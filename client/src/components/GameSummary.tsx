@@ -2,7 +2,7 @@ import './GameSummary.css'
 import type {Game, Team} from '@footy-scores/shared'
 import GameSummaryTeam from "./GameSummaryTeam.tsx";
 import GameSummaryScore from "./GameSummaryScore.tsx";
-import {createScreenreaderGameDescription} from "./utils.ts";
+import {createScreenreaderGameDescription} from "../utils.ts";
 
 
 export default function GameSummary({gameData, homeTeamData, awayTeamData, isEven}:
