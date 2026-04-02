@@ -3,6 +3,7 @@ import type {Game, Team} from '@footy-scores/shared'
 import GameSummaryTeam from "./GameSummaryTeam.tsx";
 import GameSummaryScore from "./GameSummaryScore.tsx";
 import {createScreenreaderGameDescription} from "../../utils.ts";
+import GameProgressBar from "./GameProgressBar/GameProgressBar.tsx";
 
 
 export default function GameSummary({gameData, homeTeamData, awayTeamData, isEven}:
@@ -16,6 +17,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
     const bg2 = "bg-mist-500 dark:bg-mist-900"
     const inPlay = !!(gameData.timeString &&
         !["1/4 Time", "1/2 Time", "Half Time", "3/4 Time", "Full Time"].includes(gameData.timeString))
+    const isLive = !!(gameData.timeString && gameData.timeString !== "Full Time")
     const basePillStyles = `rounded-md px-3 py-1 justify-self-center self-center text-xs `
     const bgPillStyles = `${isEven ? "bg-mist-600 dark:bg-mist-900" : "bg-mist-700 dark:bg-mist-800"}`
     const dullPillStyles = `${basePillStyles} ${bgPillStyles}`
@@ -26,10 +28,10 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
 
     return (
         <div
-            className={`game-summary ${isEven ? bg1 : bg2} text-white p-4 first-of-type:rounded-t-md last-of-type:rounded-b-md`}
+            className={`game-summary flex flex-col gap-2 ${isEven ? bg1 : bg2} text-white pt-4 pl-4 pr-4 pb-1 first-of-type:rounded-t-md last-of-type:rounded-b-md`}
         >
             <span className={"sr-only"}>{createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData)}</span>
-            <div aria-hidden={true}>
+            <div className={"game-summary-inner"} aria-hidden={true}>
                 <GameSummaryTeam teamData={homeTeamData} gameData={gameData} homeTeam={true}/>
                 <div className={"game-summary-detail gap-2 "}>
                     <span className={`venue-name ${dullPillStyles}`}>{gameData.venue}</span>
@@ -67,6 +69,8 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
                 </div>
                 <GameSummaryTeam teamData={awayTeamData} gameData={gameData} homeTeam={false}/>
             </div>
+            { isLive && <GameProgressBar progress={gameData.progress} timeString={gameData.timeString} />}
+
         </div>
     )
 }
