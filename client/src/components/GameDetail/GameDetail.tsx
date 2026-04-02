@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useState} from "react";
 import GameSummary from "../GameSummary/GameSummary.tsx";
-import {Navigate, useParams} from "react-router";
+import {Link, Navigate, useParams} from "react-router";
 import type {GameResponse, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season, Round} from "@footy-scores/shared"
 import { formatDate } from "date-fns";
@@ -55,14 +55,18 @@ export default function GameDetail() {
     }
 
     return (
-        <div className={"flex flex-col gap-2 text-white mt-2 items-start"}>
-            <h2 className={"text-3xl rounded-lg px-2 pr-6 py-1 bg-mist-700 dark:bg-mist-700"}>
+        <div className={"flex flex-col text-white mt-2 items-start w-full md:w-2/3"}>
+            <h2 className={"text-3xl mb-1 rounded-lg px-2 pr-6 py-1 bg-mist-700 dark:bg-mist-700"}>
                 {gameData.homeTeam?.name || "TBD"} v {gameData.awayTeam?.name || "TBD"}
             </h2>
-            <h3 className={"text-2xl rounded-lg px-2 py-1 bg-mist-600 dark:bg-mist-800"}>
-                {roundData.name}, {seasonData.year} { seasonData.isPremSeason && `Premiership Season`}
-            </h3>
-            <h4 className={"text-xl rounded-lg px-2 py-1 bg-mist-500 dark:bg-mist-900"}>
+            <Link to={`/round/${seasonData.year}/${roundData.roundNumber}`} className={"group"}>
+                <h3 className=
+                        {"text-2xl mb-1 rounded-lg px-2 py-1 bg-mist-600 dark:bg-mist-800 group-hover:bg-mist-700 dark:group-hover:bg-mist-700"}
+                >
+                {roundData.name}, {seasonData.year} {seasonData.isPremSeason && `Premiership Season`}
+                </h3>
+            </Link>
+            <h4 className={"text-xl mb-4 rounded-lg px-2 py-1 bg-mist-500 dark:bg-mist-900"}>
                 {gameData.venue}, {formatDate(gameData.localTime, "EEEE do MMMM, yyyy")}
             </h4>
 

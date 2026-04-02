@@ -28,7 +28,11 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
 
     return (
         <div
-            className={`game-summary flex flex-col gap-2 ${isEven ? bg1 : bg2} text-white pt-4 pl-4 pr-4 pb-1 first-of-type:rounded-t-md last-of-type:rounded-b-md`}
+            className={
+            `game-summary flex flex-col gap-2 ${isEven ? bg1 : bg2} self-stretch text-white 
+            pt-4 pl-4 pr-4 pb-1 first-of-type:rounded-t-md last-of-type:rounded-b-md
+            group-hover:bg-mist-400 dark:group-hover:bg-mist-700
+            `}
         >
             <span className={"sr-only"}>{createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData)}</span>
             <div className={"game-summary-inner"} aria-hidden={true}>

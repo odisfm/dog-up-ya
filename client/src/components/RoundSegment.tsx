@@ -1,5 +1,6 @@
 import GameSummary from "./GameSummary/GameSummary.tsx";
 import type {GameResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import {Link} from "react-router";
 
 export default function RoundSegment({label, games}: {label: string, games: GameResponse[]}){
     if (games.length === 0) {
@@ -14,13 +15,15 @@ export default function RoundSegment({label, games}: {label: string, games: Game
             <h3 aria-hidden={true} className={`text-white self-start ${label === "Live!" ? liveStyles : dullStyles}  py-1 px-2 mb-2 rounded-md`}>{label}</h3>
             {games.map((game, i) => {
                 return (
-                    <GameSummary
+                    <Link to={`/game/${game.id}`} className={"group"}>
+                        <GameSummary
                         gameData={game}
                         homeTeamData={game.homeTeam}
                         awayTeamData={game.awayTeam}
                         isEven={i % 2 == 0}
                         key={game.id}
                     />
+                    </Link>
                 )
             })}
         </section>
