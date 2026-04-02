@@ -174,18 +174,18 @@ export default function Round() {
             <div className={"flex flex-col  w-full  md:w-2/3 p-1 md:p-0"}>
                 {roundSegments &&
                     roundSegments.liveGames &&
-                    <RoundSegment label={"Live!"} games={roundSegments.liveGames}/>
+                    <RoundSegment label={"Live!"} games={roundSegments.liveGames} key={"Live!"}/>
                 }
                 {roundSegments &&
                     roundSegments.futureGames &&
                     Object.entries(roundSegments.futureGames).map(([label, games], i) => {
-                        return <RoundSegment label={label} games={games}/>
+                        return <RoundSegment label={label} games={games} key={label}/>
                     })
                 }
                 {roundSegments &&
                     roundSegments.futureGames &&
                     Object.entries(roundSegments.pastGames).map(([label, games], i) => {
-                        return <RoundSegment label={label} games={games}/>
+                        return <RoundSegment label={label} games={games} key={label}/>
                     })
                 }
 

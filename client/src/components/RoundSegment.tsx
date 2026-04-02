@@ -19,6 +19,7 @@ export default function RoundSegment({label, games}: {label: string, games: Game
                         homeTeamData={game.homeTeam}
                         awayTeamData={game.awayTeam}
                         isEven={i % 2 == 0}
+                        key={game.id}
                     />
                 )
             })}
