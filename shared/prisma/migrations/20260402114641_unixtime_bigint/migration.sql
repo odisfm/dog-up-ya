@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Game" ALTER COLUMN "unixTime" SET DATA TYPE BIGINT;

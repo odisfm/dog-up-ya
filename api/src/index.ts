@@ -12,6 +12,7 @@ import type {
   CurrentRoundResponse, SeasonAllRoundsResponse
 } from "@footy-scores/shared/src/types/apiResponses.js";
 import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
+import {serialiseGames} from "./utils.js";
 
 const app = new Hono()
 app.use(
@@ -99,7 +100,7 @@ app.get('/round/:year/:roundNumber', async (c) => {
   if (!roundRecord) {
     return c.json({ error: `No data for season ${year} round ${roundNumber}`})
   }
-
+  roundRecord.games = serialiseGames(roundRecord.games)
   return c.json({data: roundRecord})
 
 })

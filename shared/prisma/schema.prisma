@@ -13,7 +13,7 @@ model Game {
   awayTeamId   String?      @db.Uuid
   homeTeamId   String?      @db.Uuid
   winnerTeamId String?      @db.Uuid
-  unixTime     Int
+  unixTime     BigInt
   localTime    DateTime
   updatedTime  DateTime
   gmtOffset    Int
