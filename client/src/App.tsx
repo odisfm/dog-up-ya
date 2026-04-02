@@ -5,16 +5,27 @@ import {useEffect} from "react";
 function App() {
 
     function toggleDarkMode() {
+        const darkModePref = localStorage.getItem("darkModePref")
+        if (darkModePref === null) {
+            localStorage.setItem("darkModePref", "false");
+        } else if (darkModePref === "true") {
+            localStorage.setItem("darkModePref", "false");
+        } else {
+            localStorage.setItem("darkModePref", "true");
+        }
         document.documentElement.classList.toggle("dark");
     }
 
     useEffect(() => {
-        let darkModePref = localStorage.getItem('darkModePref');
+        const darkModePref = localStorage.getItem('darkModePref');
+        let setDarkMode = true;
         if (darkModePref === null) {
             localStorage.setItem('darkModePref', 'true');
-            darkModePref = true;
+            setDarkMode = true;
+        } else if (darkModePref === "false") {
+            setDarkMode = false;
         }
-        if (darkModePref) {
+        if (setDarkMode) {
             document.documentElement.classList.add("dark");
         }
     }, [])
