@@ -23,7 +23,7 @@ export async function getCurrentRoundForSeason(season: Season): Promise<Round> {
     const nearestGame = await db.game.findFirst({
         where: {
             unixTime: {
-                lt: nowUnixTime / 1000,
+                lt: BigInt(Math.floor(nowUnixTime / 1000)),
             },
             timeString: "Full Time"
         },
@@ -35,7 +35,7 @@ export async function getCurrentRoundForSeason(season: Season): Promise<Round> {
         }
     }) as Prisma.GameGetPayload<{include: {round: true}}>
 
-    if(differenceInDays(nowUnixTime, nearestGame.unixTime * 1000) <= 1) {
+    if(differenceInDays(nowUnixTime, Number(nearestGame.unixTime) * 1000) <= 1) {
         return nearestGame.round
     }
 
