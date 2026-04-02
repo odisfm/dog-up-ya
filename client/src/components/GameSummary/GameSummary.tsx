@@ -6,12 +6,13 @@ import {createScreenreaderGameDescription} from "../../utils.ts";
 import GameProgressBar from "./GameProgressBar/GameProgressBar.tsx";
 
 
-export default function GameSummary({gameData, homeTeamData, awayTeamData, isEven}:
+export default function GameSummary({gameData, homeTeamData, awayTeamData, segmentIdx, segmentLength}:
                                     {
                                         gameData: Game,
                                         homeTeamData: Team | null,
                                         awayTeamData: Team | null,
-                                        isEven: boolean
+                                        segmentIdx: number,
+                                        segmentLength: number
                                     }) {
     const bg1 = "bg-mist-500 dark:bg-mist-800"
     const bg2 = "bg-mist-600 dark:bg-mist-900"
@@ -19,6 +20,9 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
         !["1/4 Time", "1/2 Time", "Half Time", "3/4 Time", "Full Time"].includes(gameData.timeString))
     const isLive = !!(gameData.timeString && gameData.timeString !== "Full Time")
     const basePillStyles = `rounded-md px-3 py-1 justify-self-center self-center text-xs `
+    const isEven = segmentIdx % 2 == 0
+    const firstOfSegment = segmentIdx === 0
+    const lastOfSegment = segmentIdx + 1 === segmentLength
     const bgPillStyles = `${isEven ? "bg-mist-700 dark:bg-mist-900" : "bg-mist-800 dark:bg-mist-800"}`
     const dullPillStyles = `${basePillStyles} ${bgPillStyles}`
     const livePillStyles = `${basePillStyles} bg-cyan-700`
@@ -30,7 +34,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
         <div
             className={
             `game-summary flex flex-col gap-2 ${isEven ? bg1 : bg2} self-stretch text-white 
-            pt-4 pl-4 pr-4 pb-1 first-of-type:rounded-t-md last-of-type:rounded-b-md
+            pt-4 pl-4 pr-4 pb-1 ${firstOfSegment && `rounded-t-md`} ${lastOfSegment && `rounded-b-md`}
             group-hover:bg-mist-400 dark:group-hover:bg-mist-700
             `}
         >

@@ -72,7 +72,7 @@ export default function GameDetail() {
 
 
             <GameSummary gameData={gameData} homeTeamData={gameData.homeTeam} awayTeamData={gameData.awayTeam}
-                        isEven={false}/>
+                        segmentIdx={0} segmentLength={1}/>
         </div>
     )
 
