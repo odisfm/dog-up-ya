@@ -31,6 +31,7 @@ const FLAGS: Record<string, string> = {
     collingwood: collingwoodFlag,
     essendon: essendonFlag,
     fitzroy: fitzroyFlag,
+    footscray: westernBulldogsFlag,
     fremantle: fremantleFlag,
     geelong: geelongFlag,
     "gold-coast": goldCoastFlag,
