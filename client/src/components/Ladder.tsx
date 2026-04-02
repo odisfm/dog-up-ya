@@ -1,15 +1,17 @@
 import {useEffect, useState} from "react";
 import type {LadderResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import TeamFlag from "./TeamFlag.tsx";
+import {useParams} from "react-router";
 
 export default function Ladder() {
     const [ladder, setLadder] = useState<LadderResponse | null>(null);
     const [failed, setFailed] = useState(false);
+    const params = useParams();
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/ladder`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/ladder/${params.season}`);
                 const data = await response.json();
                 if (data.data) {
                     setLadder(data.data);
@@ -23,7 +25,7 @@ export default function Ladder() {
             }
 
         })()
-    }, []);
+    }, [params.season]);
 
     return (
         <>
