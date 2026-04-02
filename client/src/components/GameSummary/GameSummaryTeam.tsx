@@ -1,5 +1,5 @@
 import type {Team, Game} from '@footy-scores/shared'
-import TeamFlag from "./TeamFlag.tsx"
+import TeamFlag from "../TeamFlag.tsx"
 
 export default function GameSummaryTeam({teamData, gameData, homeTeam}: {
     teamData: Team | null,
@@ -18,7 +18,7 @@ export default function GameSummaryTeam({teamData, gameData, homeTeam}: {
                             </div>
 
                             <span
-                            className={`${homeTeam ? 'text-left' : 'text-right'} mt-2 text-xs`}>
+                            className={`${homeTeam ? 'text-left' : 'text-right'} mt-2 text-sm`}>
                             {teamData.name.length < 17 ? teamData.name : teamData.abbreviation}
                             </span>
                         </>

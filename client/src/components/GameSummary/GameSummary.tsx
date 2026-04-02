@@ -2,7 +2,7 @@ import './GameSummary.css'
 import type {Game, Team} from '@footy-scores/shared'
 import GameSummaryTeam from "./GameSummaryTeam.tsx";
 import GameSummaryScore from "./GameSummaryScore.tsx";
-import {createScreenreaderGameDescription} from "../utils.ts";
+import {createScreenreaderGameDescription} from "../../utils.ts";
 
 
 export default function GameSummary({gameData, homeTeamData, awayTeamData, isEven}:
@@ -14,10 +14,16 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
                                     }) {
     const bg1 = "bg-mist-400 dark:bg-mist-800"
     const bg2 = "bg-mist-500 dark:bg-mist-900"
-    const pillStyles = `${isEven ? "bg-mist-600 dark:bg-mist-900" : "bg-mist-700 dark:bg-mist-800"} rounded-md px-3 py-1 justify-self-center self-center text-xs `
+    const inPlay = !!(gameData.timeString &&
+        !["1/4 Time", "1/2 Time", "Half Time", "3/4 Time", "Full Time"].includes(gameData.timeString))
+    const basePillStyles = `rounded-md px-3 py-1 justify-self-center self-center text-xs `
+    const bgPillStyles = `${isEven ? "bg-mist-600 dark:bg-mist-900" : "bg-mist-700 dark:bg-mist-800"}`
+    const dullPillStyles = `${basePillStyles} ${bgPillStyles}`
+    const livePillStyles = `${basePillStyles} bg-cyan-800`
     const now = new Date();
     const gameStart = new Date(gameData.unixTime * 1000)
     const preGame = gameStart > now
+
     return (
         <div
             className={`game-summary ${isEven ? bg1 : bg2} text-white p-4 first-of-type:rounded-t-md last-of-type:rounded-b-md`}
@@ -26,7 +32,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
             <div aria-hidden={true}>
                 <GameSummaryTeam teamData={homeTeamData} gameData={gameData} homeTeam={true}/>
                 <div className={"game-summary-detail gap-2 "}>
-                    <span className={`venue-name ${pillStyles}`}>{gameData.venue}</span>
+                    <span className={`venue-name ${dullPillStyles}`}>{gameData.venue}</span>
                     {preGame &&
                         <>
                         <span className={`pre-game-time text-xl md:text-2xl font-bold self-center`}>
@@ -52,7 +58,9 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
                                     behinds={gameData.aBehinds}
                                 />
                             </div>
-                            <span className={`time-string ${pillStyles}`}>{gameData.timeString}</span>
+                            <span
+                                className={`time-string ${inPlay ? livePillStyles : dullPillStyles} `}
+                            >{gameData.timeString}</span>
                         </>
                     }
 

@@ -1,4 +1,4 @@
-import GameSummary from "./GameSummary.tsx";
+import GameSummary from "./GameSummary/GameSummary.tsx";
 import type {GameResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 
 export default function RoundSegment({label, games}: {label: string, games: GameResponse[]}){
@@ -6,9 +6,12 @@ export default function RoundSegment({label, games}: {label: string, games: Game
         return <></>
     }
 
+    const dullStyles = `bg-mist-500 dark:bg-mist-900`
+    const liveStyles = `bg-cyan-800 dark:bg-cyan-700 font-bold`
+
     return (
         <section className={"flex flex-col mt-6"}>
-            <h3 aria-hidden={true} className={"text-white self-start bg-mist-500 dark:bg-mist-900 py-1 px-2 mb-2 rounded-md"}>{label}</h3>
+            <h3 aria-hidden={true} className={`text-white self-start ${label === "Live!" ? liveStyles : dullStyles}  py-1 px-2 mb-2 rounded-md`}>{label}</h3>
             {games.map((game, i) => {
                 return (
                     <GameSummary
