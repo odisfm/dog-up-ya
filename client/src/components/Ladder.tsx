@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import type {LadderResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import TeamFlag from "./TeamFlag.tsx";
 
 export default function Ladder() {
     const [ladder, setLadder] = useState<LadderResponse | null>(null);
@@ -52,7 +53,8 @@ export default function Ladder() {
                             <td className={"px-3 text-right"}>
                                 {i + 1}
                             </td>
-                            <td className={"text-left"}>
+                            <td className={"text-left flex gap-2 items-center"}>
+                                <TeamFlag teamName={standing.team.name} size={"xs"} />
                                 {standing.team.name.length < 17 ? standing.team.name : standing.team.abbreviation}
                             </td>
                             <td>
