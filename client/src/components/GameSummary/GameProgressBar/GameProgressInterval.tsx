@@ -1,8 +1,4 @@
-export enum GameProgressIntervalStatus {
-    future = "future",
-    current = "current",
-    past = "past",
-}
+import type {GameProgressIntervalStatus} from "./GameProgressIntervalStatus.tsx";
 
 export default function GameProgressInterval({label, status}: {label: string, status: GameProgressIntervalStatus}) {
     let bgColors: string;
