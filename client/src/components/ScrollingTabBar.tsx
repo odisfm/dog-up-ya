@@ -1,4 +1,4 @@
-import {Link, useParams} from "react-router";
+import {Link} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 

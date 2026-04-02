@@ -1,16 +1,13 @@
-import type {Team, Game} from '@footy-scores/shared'
+import type {Team} from '@footy-scores/shared'
 import TeamFlag from "../TeamFlag.tsx"
 
-export default function GameSummaryTeam({teamData, gameData, homeTeam}: {
+export default function GameSummaryTeam({teamData, homeTeam}: {
     teamData: Team | null,
-    gameData: Game,
     homeTeam: boolean,
 }) {
     return (
         <div className={`flex w-full ${homeTeam ? 'justify-start' : 'justify-end'}`}>
             <div className={`grid grid-rows-2 ${homeTeam ? 'justify-items-start' : 'justify-items-end'}`}>
-                {/*<div></div>/!*spacer*!/*/}
-                {/*<div className={`${homeTeam ? 'text-left' : 'text-right'} w-full`}>*/}
                     { teamData &&
                         <>
                             <div className={"self-end"}>
@@ -27,7 +24,6 @@ export default function GameSummaryTeam({teamData, gameData, homeTeam}: {
                         !teamData &&
                         <span className={"text-center self-center"}>TBD</span>
                     }
-                {/*</div>*/}
             </div>
         </div>
     )

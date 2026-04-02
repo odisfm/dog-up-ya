@@ -2,7 +2,6 @@ import './GameSummaryScore.css'
 
 export default function GameSummaryScore({score, margin, goals, behinds}:
                                          { score: number, margin: number, goals: number, behinds: number }) {
-    const winning = margin > 0
     return (
         <div className={`game-summary-score h-full gap-2 justify-items-center`}>
             <span className={"self-end"}>{`${goals}.${behinds}`}</span>

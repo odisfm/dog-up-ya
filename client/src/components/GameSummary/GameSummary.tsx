@@ -32,7 +32,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
         >
             <span className={"sr-only"}>{createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData)}</span>
             <div className={"game-summary-inner"} aria-hidden={true}>
-                <GameSummaryTeam teamData={homeTeamData} gameData={gameData} homeTeam={true}/>
+                <GameSummaryTeam teamData={homeTeamData} homeTeam={true}/>
                 <div className={"game-summary-detail gap-2 "}>
                     <span className={`venue-name ${dullPillStyles}`}>{gameData.venue}</span>
                     {preGame &&
@@ -67,7 +67,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
                     }
 
                 </div>
-                <GameSummaryTeam teamData={awayTeamData} gameData={gameData} homeTeam={false}/>
+                <GameSummaryTeam teamData={awayTeamData} homeTeam={false}/>
             </div>
             { isLive && <GameProgressBar progress={gameData.progress} timeString={gameData.timeString} />}
 
