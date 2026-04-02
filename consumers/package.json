@@ -8,5 +8,13 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "eventsource": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/eventsource": "^1.1.15",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

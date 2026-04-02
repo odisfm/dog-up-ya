@@ -103,3 +103,60 @@ export type SquiggleTeam = {
     retirement: number;
     abbrev: string
 }
+
+export type SquiggleEventGame = {
+    id: number;
+    year: number;
+    round: number;
+    hteam: number;
+    ateam: number;
+    /** Format: "YYYY-MM-DDTHH:mm:ssZ" */
+    date: string;
+    tz: string;
+    complete: number;
+    winner: number | null;
+    hscore: number;
+    ascore: number;
+    hgoals: number;
+    hbehinds: number;
+    agoals: number;
+    abehinds: number;
+    venue: string;
+    timestr: string | null;
+    /** Format: "YYYY-MM-DDTHH:mm:ssZ" */
+    updated: string;
+    is_final: SquiggleIsFinal;
+    is_grand_final: 0 | 1;
+}
+
+export type SquiggleEventScore = {
+    gameid: number;
+    type: "goal" | "behind";
+    side: "hteam" | "ateam";
+    team: number;
+    complete: number;
+    timestr: string;
+    score: {
+        hscore: number;
+        hgoals: number;
+        hbehinds: number;
+        ascore: number;
+        agoals: number;
+        abehinds: number;
+    };
+}
+
+export type SquiggleEventTime = {
+    gameid: number;
+    timestr: string;
+}
+
+export type SquiggleEventWinner = {
+    gameid: number;
+    winner: number | null;
+}
+
+export type SquiggleEventProgress = {
+    gameid: number;
+    complete: number;
+}
