@@ -51,7 +51,7 @@ es.addEventListener('score', async (event) => {
         }
     }
 
-    db.game.update({
+    await db.game.update({
         where: {
             squiggleId: data.gameid
         },
@@ -64,11 +64,10 @@ es.addEventListener('score', async (event) => {
             aBehinds: data.score.abehinds,
             progress: data.complete,
             timeString: data.timestr,
-            updatedTime: new Date().toTimeString(),
         }
     })
 
-    db.scoreEvent.create({
+    await db.scoreEvent.create({
         data: {
             gameId: gameRecord.id,
             type: scoreType,
@@ -122,7 +121,6 @@ es.addEventListener('game', async (event) => {
             aGoals: data.agoals,
             aBehinds: data.abehinds,
             timeString: data.timestr,
-            updatedTime: data.updated
         }
     })
 })
@@ -188,3 +186,11 @@ async function getGameRecord(squiggleId: number): Promise<GamePayload> {
 
 
 console.log(`listening`)
+
+const keepAlive = setInterval(() => {}, 1 << 30);
+
+process.on('SIGINT', () => {
+    es.close();
+    clearInterval(keepAlive);
+    process.exit(0);
+});
