@@ -7,7 +7,7 @@ export default function GameProgressBar({progress, timeString}: {progress: numbe
     let [firstQuarterPct, secondQuarterPct, thirdQuarterPct, fourthQuarterPct] = [0, 0, 0, 0];
     let quarterTimeStatus: GameProgressIntervalStatus = "future";
     let halfTimeStatus: GameProgressIntervalStatus = "future";
-    let threeQaurterTimeStatus: GameProgressIntervalStatus = "future";
+    let threeQuarterTimeStatus: GameProgressIntervalStatus = "future";
     let fullTimeStatus: GameProgressIntervalStatus = "future";
 
     if (progress >= 0) {
@@ -32,9 +32,9 @@ export default function GameProgressBar({progress, timeString}: {progress: numbe
     if (progress >= 75) {
         fourthQuarterPct = Math.min(((progress - 75) / 25) * 100, 100);
         if (timeString === "3/4 Time") {
-            threeQaurterTimeStatus = "current";
+            threeQuarterTimeStatus = "current";
         } else {
-            threeQaurterTimeStatus = "past";
+            threeQuarterTimeStatus = "past";
         }
     }
     if (progress >= 100) {
@@ -54,7 +54,7 @@ export default function GameProgressBar({progress, timeString}: {progress: numbe
                 <GameProgressSegment progress={secondQuarterPct}/>
                 <GameProgressInterval label={"HT"} status={halfTimeStatus}/>
                 <GameProgressSegment progress={thirdQuarterPct}/>
-                <GameProgressInterval label={"3QT"} status={threeQaurterTimeStatus}/>
+                <GameProgressInterval label={"3QT"} status={threeQuarterTimeStatus}/>
                 <GameProgressSegment progress={fourthQuarterPct}/>
                 <GameProgressInterval label={"FT"} status={fullTimeStatus}/>
             </div>
