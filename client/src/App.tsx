@@ -35,7 +35,7 @@ function App() {
                     </div>
                 </header>
 
-                <main className={"bg-neutral-300 dark:bg-mist-950 pt-2 flex flex-col items-center"}>
+                <main className={"bg-neutral-300 dark:bg-mist-950 pt-2 pb-12 flex flex-col items-center flex-1"}>
                     <Outlet/>
                 </main>
         </>

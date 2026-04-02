@@ -42,7 +42,7 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
 
 
     return (
-        <nav className={"flex items-center gap-2 h-20 text-white w-full md:w-4/5 lg:w-2/3 p-1"}>
+        <nav className={"flex items-center gap-2 text-white w-full md:w-4/5 lg:w-2/3 p-1"}>
             <button className={`${scrollButtonClasses}`} onClick={scrollLeft}>
                 <FaChevronCircleLeft />
             </button>

@@ -21,10 +21,37 @@
     box-sizing: border-box;
 }
 
+html {
+    min-height: 100%;
+    &.dark body {
+        background-color: var(--color-mist-950);
+    }
+
+    &:not(.dark) body {
+        background-color: var(--color-neutral-300);
+    }
+}
+
 body {
     margin: 0;
     flex-grow: 1;
     align-self: stretch;
+    min-height: 100vh;
+
+    &
+
+    @media (prefers-color-scheme: light) {
+        background-color: var(--color-neutral-300);
+
+    }
+
+    &
+
+    @media (prefers-color-scheme: dark) {
+        background-color: var(--color-mist-950);
+
+    }
+
 }
 
 @media (prefers-reduced-motion: no-preference) {
