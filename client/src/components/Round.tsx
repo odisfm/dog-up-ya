@@ -9,7 +9,7 @@ import type {
 import ScrollingTabBar, {type TabBarItem} from "./ScrollingTabBar.tsx";
 import {areGamesLive} from "../utils.ts";
 import {REFRESH_TIME_MS} from "../consts.ts";
-import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore} from "date-fns";
+import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore, isToday} from "date-fns";
 import RoundSegment from "./RoundSegment.tsx";
 
 type RoundSegment = Record<string, GameResponse[]>
@@ -126,10 +126,14 @@ export default function Round() {
             let dateString: string;
             const gameStartTime = new Date(gameData.unixTime * 1000);
             const inPast = isBefore(gameStartTime, now)
-            if (isThisYear(gameStartTime)) {
+            if (isToday(gameStartTime)) {
+                dateString = `Today`
+            }
+            else if (isThisWeek(gameStartTime, {weekStartsOn: 1})) {
                 dateString = formatDate(gameStartTime, "EEEE")
-                dateString += `, ${formatDate(gameStartTime, "do")}`
-                dateString += ` ${formatDate(gameStartTime, "LLLL")}`
+            }
+            else if (isThisYear(gameStartTime)) {
+                dateString = formatDate(gameStartTime, "EEEE, do LLLL")
 
             } else {
                 dateString = formatDate(gameStartTime, "PPPP")
