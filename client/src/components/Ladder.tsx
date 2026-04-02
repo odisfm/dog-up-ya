@@ -34,9 +34,9 @@ export default function Ladder() {
             }
 
             {ladder &&
-            <table>
-                <thead>
-                <tr className={"*:px-2 bg-sky-600 text-white"}>
+            <table className={"border-separate border-spacing-0 rounded-lg overflow-hidden"}>
+                <thead className={""}>
+                <tr className={"*:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
                     <th className={"px-3 text-right"}>#</th>
                     <th className={"text-left"}>Team</th>
                     <th>Played</th>
@@ -47,7 +47,8 @@ export default function Ladder() {
                 </thead>
                 <tbody>
                     {ladder.map((standing, i) => (
-                        <tr key={standing.team.id} className={"odd:bg-stone-200 *:px-2"}>
+                        <tr key={standing.team.id}
+                            className={"bg-neutral-100 odd:bg-neutral-200 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white *:p-2"}>
                             <td className={"px-3 text-right"}>
                                 {i + 1}
                             </td>
@@ -64,7 +65,7 @@ export default function Ladder() {
                                 {standing.premPoints}
                             </td>
                             <td>
-                                {standing.percentage.toFixed(1)}%
+                                {standing.percentage.toFixed(1)}
                             </td>
                         </tr>
                     ))}
