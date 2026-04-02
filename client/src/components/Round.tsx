@@ -1,6 +1,12 @@
 import {Navigate, useParams} from "react-router";
 import {useCallback, useEffect, useMemo, useState} from "react";
-import type {GameResponse, RoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import type {Round as RoundType} from "@footy-scores/shared/src"
+import type {
+    GameResponse,
+    RoundResponse,
+    SeasonAllRoundsResponse
+} from "@footy-scores/shared/src/types/apiResponses.ts";
+import ScrollingTabBar, {type TabBarItem} from "./ScrollingTabBar.tsx";
 import {areGamesLive} from "../utils.ts";
 import {REFRESH_TIME_MS} from "../consts.ts";
 import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore} from "date-fns";
@@ -19,8 +25,9 @@ export default function Round() {
     const [failed, setFailed] = useState(false);
     const [hasLiveGames, setHasLiveGames] = useState(false);
     const [roundData, setRoundData] = useState<RoundResponse | null>(null);
+    const [seasonAllRoundsData, setSeasonAllRoundsData] = useState<RoundType[]>([]);
 
-    const fetchRoundData = useCallback(async () => {
+    const fetchThisRoundData = useCallback(async () => {
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/round/${params.season}/${params.roundNum}`);
             const data = await response.json();
@@ -38,11 +45,30 @@ export default function Round() {
         }
     }, [params.season, params.roundNum]);
 
+    const fetchSeasonAllRoundsData = useCallback(async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/season/${params.season}/rounds`);
+            const data = await response.json();
+            if (data.data) {
+                const _data: SeasonAllRoundsResponse = data.data;
+                setSeasonAllRoundsData(_data)
+            }
+            else {
+                console.error(`All seasons round data missing`)
+            }
+        } catch (e) {
+            console.error(e);
+            setFailed(true);
+        }
+    }, [params.season]);
+
+
     useEffect(() => {
         (async () => {
-            await fetchRoundData();
+            await fetchThisRoundData();
+            await fetchSeasonAllRoundsData();
         })()
-    }, [fetchRoundData]);
+    }, [fetchThisRoundData, fetchSeasonAllRoundsData]);
 
     useEffect(() => {
         if (hasLiveGames) return;
@@ -69,19 +95,19 @@ export default function Round() {
 
         const minutesTilNextGame = differenceInMinutes(soonestGame, now);
 
-        const timer = setTimeout(fetchRoundData, minutesTilNextGame * 60_000)
+        const timer = setTimeout(fetchThisRoundData, minutesTilNextGame * 60_000)
         return () => {
             clearTimeout(timer);
         }
 
-    }, [hasLiveGames, roundData, fetchRoundData]);
+    }, [hasLiveGames, roundData, fetchThisRoundData]);
 
     useEffect(() => {
         if (!hasLiveGames) return;
 
-        const interval = setInterval(fetchRoundData, REFRESH_TIME_MS);
+        const interval = setInterval(fetchThisRoundData, REFRESH_TIME_MS);
         return () => clearInterval(interval);
-    }, [hasLiveGames, fetchRoundData]);
+    }, [hasLiveGames, fetchThisRoundData]);
 
     const roundSegments: RoundGrouping | null = useMemo(() => {
         if (!roundData) return null
@@ -121,27 +147,45 @@ export default function Round() {
     const allGamesFinished =
         !!roundSegments && roundSegments.liveGames.length === 0 && Object.keys(roundSegments.futureGames).length === 0
 
+    const roundItems: TabBarItem[] = []
+    for (const roundData of seasonAllRoundsData) {
+        let label = roundData.name as string;
+        if (label.startsWith("Round")) {
+            label = `R${roundData.roundNumber}`
+        }
+        roundItems.push({
+            label,
+            link: `/round/${params.season}/${roundData.roundNumber}`
+        })
+    }
+
+
     console.log(roundSegments)
 
     return (
-        <div className={"flex flex-col  w-full  md:w-2/3 p-1 md:p-0"}>
-            {roundSegments &&
-                roundSegments.liveGames &&
-                    <RoundSegment label={"Live!"} games={roundSegments.liveGames} />
+        <>
+            { seasonAllRoundsData &&
+                <ScrollingTabBar items={roundItems} activeItem={`/round/${params.season}/${params.roundNum}`} />
             }
-            {roundSegments &&
-                roundSegments.futureGames &&
-                Object.entries(roundSegments.futureGames).map(([label, games], i) => {
-                    return <RoundSegment label={label} games={games} />
-                })
-            }
-            {roundSegments &&
-            roundSegments.futureGames &&
-                Object.entries(roundSegments.pastGames).map(([label, games], i) => {
-                    return <RoundSegment label={label} games={games} />
-                })
-            }
+            <div className={"flex flex-col  w-full  md:w-2/3 p-1 md:p-0"}>
+                {roundSegments &&
+                    roundSegments.liveGames &&
+                    <RoundSegment label={"Live!"} games={roundSegments.liveGames}/>
+                }
+                {roundSegments &&
+                    roundSegments.futureGames &&
+                    Object.entries(roundSegments.futureGames).map(([label, games], i) => {
+                        return <RoundSegment label={label} games={games}/>
+                    })
+                }
+                {roundSegments &&
+                    roundSegments.futureGames &&
+                    Object.entries(roundSegments.pastGames).map(([label, games], i) => {
+                        return <RoundSegment label={label} games={games}/>
+                    })
+                }
 
-        </div>
+            </div>
+        </>
     )
 }

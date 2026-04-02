@@ -55,7 +55,7 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
                             <Link
                                 to={item.link}
                                 aria-label={item.accessibleLabel}
-                                className={`rounded-md py-1 px-2 min-w-15 inline-block 
+                                className={`rounded-md py-1 px-2 min-w-15 inline-block whitespace-nowrap  
                                     ${!isActive ? `bg-mist-500 hover:bg-mist-600 dark:bg-mist-900 hover:dark:bg-mist-800`: 
                                     `bg-cyan-700`}`
                             }

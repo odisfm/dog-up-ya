@@ -9,7 +9,7 @@ import type {
   SeasonResponse,
   GameResponse,
   RoundResponse,
-  CurrentRoundResponse
+  CurrentRoundResponse, SeasonAllRoundsResponse
 } from "@footy-scores/shared/src/types/apiResponses.js";
 import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
 
@@ -102,6 +102,23 @@ app.get('/round/:year/:roundNumber', async (c) => {
 
   return c.json({data: roundRecord})
 
+})
+
+app.get(`/season/:year/rounds`, async (c) => {
+  const year = parseInt(c.req.param("year"))
+  const seasonRecord = await db.season.findFirst({
+    where: {
+      year: year
+    },
+    include: {
+      rounds: true
+    }
+  })
+  if (!seasonRecord) {
+    return c.json({ error: `No data for year "${year}"` }, 500)
+  }
+  const data = seasonRecord.rounds satisfies SeasonAllRoundsResponse
+  return c.json({data}, 200)
 })
 
 serve({

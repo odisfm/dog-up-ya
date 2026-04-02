@@ -26,3 +26,6 @@ export type CurrentRoundResponse = {
     season: number,
     roundNum: number,
 }
+
+export type SeasonAllRoundsResponse = Round[]
+
