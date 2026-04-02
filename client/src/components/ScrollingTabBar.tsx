@@ -1,5 +1,5 @@
-import {Link} from "react-router";
-import {useEffect, useRef} from "react";
+import {Link, useParams} from "react-router";
+import {useEffect, useRef, useState} from "react";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 
 
@@ -12,18 +12,19 @@ export type TabBarItem = {
 const scrollDistance = 150
 
 export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[], activeItem: string | undefined}) {
-    const activeTabRef = useRef<HTMLLIElement>(null)
+    const [activeTab, setActiveTab] = useState<HTMLLIElement | null>(null);
     const ulRef = useRef<HTMLUListElement>(null)
 
     useEffect(() => {
-        if (activeTabRef.current) {
-            activeTabRef.current.scrollIntoView({
+        if (activeTab) {
+            console.log("scrolling into view")
+            activeTab.scrollIntoView({
                 behavior: "smooth",
                 inline: "center",
                 block: "nearest",
             })
         }
-    }, [activeItem])
+    }, [activeTab, setActiveTab])
 
     const scrollLeft = () => {
         if (ulRef.current) {
@@ -37,7 +38,7 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
         }
     };
 
-    const scrollButtonClasses = `text-mist-500 dark:text-white text-xl p-1 rounded-md hover:bg-white dark:hover:bg-mist-700`
+    const scrollButtonClasses = `pointer-coarse:hidden text-mist-500 dark:text-white text-xl p-1 rounded-md hover:bg-white dark:hover:bg-mist-700`
 
 
     return (
@@ -50,7 +51,7 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
                     const isActive = item.link === activeItem;
                     return (
                         <li key={item.link}
-                            ref={isActive ? activeTabRef : null}
+                            ref={isActive ? setActiveTab : null}
                         >
                             <Link
                                 to={item.link}
