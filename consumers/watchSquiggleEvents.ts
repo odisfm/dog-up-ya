@@ -18,8 +18,13 @@ const es = new EventSource(url, {
 });
 
 
+es.addEventListener('open', () => console.log('SSE connection opened'));
+es.addEventListener('error', (e) => console.error('SSE error:', e));
+
+
 es.addEventListener('score', async (event) => {
     const data: SquiggleEventScore = JSON.parse(event.data);
+    console.log(`got score event`, data)
     if (TEST_MODE) {
         console.log('Got score event', data)
         return
@@ -77,6 +82,7 @@ es.addEventListener('score', async (event) => {
 
 es.addEventListener('game', async (event) => {
     const data: SquiggleEventGame = JSON.parse(event.data);
+    console.log(`got game event`, data)
     if (TEST_MODE) {
         console.log('Got score event', data)
         return
@@ -123,6 +129,7 @@ es.addEventListener('game', async (event) => {
 
 es.addEventListener('complete', async (event) => {
     const data: SquiggleEventProgress = JSON.parse(event.data);
+    console.log(`got progress event`, data)
     if (TEST_MODE) {
         console.log('Got progress event', data)
         return
@@ -140,6 +147,7 @@ es.addEventListener('complete', async (event) => {
 
 es.addEventListener('timestr', async (event) => {
     const data: SquiggleEventTime = JSON.parse(event.data);
+    console.log(`got time event`, data)
     if (TEST_MODE) {
         console.log('Got time event', data)
         return
@@ -177,3 +185,6 @@ async function getGameRecord(squiggleId: number): Promise<GamePayload> {
     })
     return record;
 }
+
+
+console.log(`listening`)
