@@ -17,7 +17,6 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
 
     useEffect(() => {
         if (activeTab) {
-            console.log("scrolling into view")
             activeTab.scrollIntoView({
                 behavior: "smooth",
                 inline: "center",

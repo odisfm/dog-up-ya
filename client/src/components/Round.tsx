@@ -34,7 +34,6 @@ export default function Round() {
             if (data.data) {
                 setRoundData(data.data);
                 setHasLiveGames(areGamesLive(data.data.games))
-                console.log(data.data);
             }
             else {
                 setFailed(true);
@@ -162,9 +161,6 @@ export default function Round() {
             link: `/round/${params.season}/${roundData.roundNumber}`
         })
     }
-
-
-    console.log(roundSegments)
 
     return (
         <>
