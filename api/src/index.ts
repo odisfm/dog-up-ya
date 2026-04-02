@@ -2,9 +2,16 @@ import 'dotenv/config'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
-import { db } from '@footy-scores/shared'
+import {db, type Season} from '@footy-scores/shared'
 import * as dbUtils from './dbUtils.js'
-import type {LadderResponse, SeasonResponse, GameResponse, RoundResponse} from "@footy-scores/shared/src/types/apiResponses.js";
+import type {
+  LadderResponse,
+  SeasonResponse,
+  GameResponse,
+  RoundResponse,
+  CurrentRoundResponse
+} from "@footy-scores/shared/src/types/apiResponses.js";
+import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
 
 const app = new Hono()
 app.use(
@@ -51,6 +58,14 @@ app.get('/ladder/:year', async (c) => {
 
   return c.json({ data: standingsRecords }, 200)
 
+})
+
+app.get(`/round/current`, async (c) => {
+  const currentSeason = await getCurrentSeason() as Season
+  const currentRound = await getCurrentRoundForSeason(currentSeason)
+  const response = {roundNum: currentRound.roundNumber, season: currentSeason.year} satisfies CurrentRoundResponse
+
+  return c.json({data: response}, 200)
 })
 
 app.get('/round/:year/:roundNumber', async (c) => {
