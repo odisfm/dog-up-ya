@@ -6,7 +6,7 @@ export default function RoundSegment({label, games}: {label: string, games: Game
         return <></>
     }
 
-    const dullStyles = `bg-mist-500 dark:bg-mist-900`
+    const dullStyles = `bg-mist-700 dark:bg-mist-900`
     const liveStyles = `bg-cyan-800 dark:bg-cyan-700 font-bold`
 
     return (

@@ -43,16 +43,20 @@ export default function GameProgressBar({progress, timeString}: {progress: numbe
     }
 
     return (
-        <div className={"game-progress-bar gap-1 h-4 w-full flex items-center justify-items-center mb-1 overflow-hidden mt-1"} aria-hidden={true}>
-            <GameProgressInterval label={"PG"} status={GameProgressIntervalStatus.past} />
-            <GameProgressSegment progress={firstQuarterPct} />
-            <GameProgressInterval label={"QT"} status={quarterTimeStatus}/>
-            <GameProgressSegment progress={secondQuarterPct} />
-            <GameProgressInterval label={"HT"} status={halfTimeStatus}/>
-            <GameProgressSegment progress={thirdQuarterPct} />
-            <GameProgressInterval label={"3QT"} status={threeQaurterTimeStatus}/>
-            <GameProgressSegment progress={fourthQuarterPct} />
-            <GameProgressInterval label={"FT"} status={fullTimeStatus} />
+        <div className={"rounded-lg p-1 bg-mist-700 dark:bg-mist-900"}>
+            <div
+                className={"game-progress-bar hidden md:grid gap-1 h-4 w-full  items-center justify-items-center mb-1 overflow-hidden mt-1"}
+                aria-hidden={true}>
+                <GameProgressInterval label={"PG"} status={GameProgressIntervalStatus.past}/>
+                <GameProgressSegment progress={firstQuarterPct}/>
+                <GameProgressInterval label={"QT"} status={quarterTimeStatus}/>
+                <GameProgressSegment progress={secondQuarterPct}/>
+                <GameProgressInterval label={"HT"} status={halfTimeStatus}/>
+                <GameProgressSegment progress={thirdQuarterPct}/>
+                <GameProgressInterval label={"3QT"} status={threeQaurterTimeStatus}/>
+                <GameProgressSegment progress={fourthQuarterPct}/>
+                <GameProgressInterval label={"FT"} status={fullTimeStatus}/>
+            </div>
         </div>
     )
 }

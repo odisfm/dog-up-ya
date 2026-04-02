@@ -13,15 +13,15 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
                                         awayTeamData: Team | null,
                                         isEven: boolean
                                     }) {
-    const bg1 = "bg-mist-400 dark:bg-mist-800"
-    const bg2 = "bg-mist-500 dark:bg-mist-900"
+    const bg1 = "bg-mist-500 dark:bg-mist-800"
+    const bg2 = "bg-mist-600 dark:bg-mist-900"
     const inPlay = !!(gameData.timeString &&
         !["1/4 Time", "1/2 Time", "Half Time", "3/4 Time", "Full Time"].includes(gameData.timeString))
     const isLive = !!(gameData.timeString && gameData.timeString !== "Full Time")
     const basePillStyles = `rounded-md px-3 py-1 justify-self-center self-center text-xs `
-    const bgPillStyles = `${isEven ? "bg-mist-600 dark:bg-mist-900" : "bg-mist-700 dark:bg-mist-800"}`
+    const bgPillStyles = `${isEven ? "bg-mist-700 dark:bg-mist-900" : "bg-mist-800 dark:bg-mist-800"}`
     const dullPillStyles = `${basePillStyles} ${bgPillStyles}`
-    const livePillStyles = `${basePillStyles} bg-cyan-800`
+    const livePillStyles = `${basePillStyles} bg-cyan-700`
     const now = new Date();
     const gameStart = new Date(gameData.unixTime * 1000)
     const preGame = gameStart > now
@@ -61,7 +61,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, isEve
                                 />
                             </div>
                             <span
-                                className={`time-string ${inPlay ? livePillStyles : dullPillStyles} `}
+                                className={`time-string ${inPlay ? livePillStyles : dullPillStyles} font-bold`}
                             >{gameData.timeString}</span>
                         </>
                     }
