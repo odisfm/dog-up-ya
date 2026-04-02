@@ -6,7 +6,7 @@ export type LadderResponse = Array<Prisma.StandingGetPayload<{
     include: { team: true }
 }>>
 
-type GameGetPayload = Prisma.GameGetPayload<{
+export type GameGetPayload = Prisma.GameGetPayload<{
     include: {
         homeTeam: true
         awayTeam: true

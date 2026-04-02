@@ -95,13 +95,16 @@ app.get('/round/:year/:roundNumber', async (c) => {
         }
       }
     }
-  }) satisfies RoundResponse | null
+  })
 
   if (!roundRecord) {
     return c.json({ error: `No data for season ${year} round ${roundNumber}`})
   }
-  roundRecord.games = serialiseGames(roundRecord.games)
-  return c.json({data: roundRecord})
+  const response: RoundResponse = {
+    ...roundRecord,
+    games: serialiseGames(roundRecord.games)
+  }
+  return c.json({data: response})
 
 })
 
