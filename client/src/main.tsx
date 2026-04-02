@@ -6,6 +6,7 @@ import App from './App.tsx'
 import Ladder from "./components/Ladder.tsx";
 import Round from "./components/Round.tsx";
 import RoundNoDetailsRedirect from "./components/redirects/RoundNoDetailsRedirect.tsx";
+import GameDetail from "./components/GameDetail/GameDetail.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="ladder/:season?" element={<Ladder />} />
                     <Route path="round/:season/:roundNum" element={<Round />} />
                     <Route path="round/*" element={<RoundNoDetailsRedirect />} />
+                    <Route path="game/:gameId?" element={<GameDetail />} />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -2,14 +2,14 @@ import 'dotenv/config'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
-import {db, type Season} from '@footy-scores/shared'
+import {db, type Round, type Season} from '@footy-scores/shared'
 import * as dbUtils from './dbUtils.js'
 import type {
   LadderResponse,
   SeasonResponse,
   GameResponse,
   RoundResponse,
-  CurrentRoundResponse, SeasonAllRoundsResponse
+  CurrentRoundResponse, SeasonAllRoundsResponse, GameDetailsResponse
 } from "@footy-scores/shared/src/types/apiResponses.js";
 import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
 import {serialiseGames} from "./utils.js";
@@ -123,6 +123,44 @@ app.get(`/season/:year/rounds`, async (c) => {
   }
   const data = seasonRecord.rounds satisfies SeasonAllRoundsResponse
   return c.json({data}, 200)
+})
+
+app.get(`/game/:gameId`, async (c) => {
+  const gameId = c.req.param("gameId")
+  const gameRecord = await db.game.findUnique({
+    where: {
+      id: gameId
+    },
+    include: {
+      homeTeam: true,
+      awayTeam: true,
+      scoreEvents: true,
+    }
+  })
+  if (!gameRecord) {
+    return c.json({ error: `No game with id ${gameId}`})
+  }
+
+  const roundRecord = await db.round.findUnique({
+    where: {
+      id: gameRecord.roundId
+    }
+  }) as Round;
+
+  const seasonRecord = await db.season.findUnique({
+    where: {
+      id: roundRecord.seasonId
+    }
+  }) as Season;
+
+  const gameResponse: GameResponse = serialiseGames([gameRecord])[0]
+  const response: GameDetailsResponse = {
+    game: gameResponse,
+    round: roundRecord,
+    season: seasonRecord
+  }
+  return c.json({data: response})
+
 })
 
 serve({
