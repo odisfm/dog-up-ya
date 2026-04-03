@@ -56,7 +56,7 @@ export default function GameDetail() {
     }
 
     return (
-        <div className={"flex flex-col text-white mt-2 items-start w-full md:w-2/3"}>
+        <div className={"flex flex-col text-white mt-2 items-start w-full md:w-2/3 px-2 md:px-0"}>
             <h2 className={"text-3xl mb-1 rounded-lg px-2 pr-6 py-1 bg-mist-700 dark:bg-mist-700"}>
                 {gameData.homeTeam?.name || "TBD"} v {gameData.awayTeam?.name || "TBD"}
             </h2>
