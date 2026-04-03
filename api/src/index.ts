@@ -89,7 +89,11 @@ app.get('/round/:year/:roundNumber', async (c) => {
     include: {
       games: {
         include: {
-          scoreEvents: true,
+          scoreEvents: {
+            orderBy: {
+              time: "desc"
+            }
+          },
           homeTeam: true,
           awayTeam: true
         }
@@ -134,7 +138,11 @@ app.get(`/game/:gameId`, async (c) => {
     include: {
       homeTeam: true,
       awayTeam: true,
-      scoreEvents: true,
+      scoreEvents: {
+        orderBy: {
+          time: "desc"
+        }
+      },
     }
   })
   if (!gameRecord) {
