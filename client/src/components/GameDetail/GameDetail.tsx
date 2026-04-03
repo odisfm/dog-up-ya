@@ -4,6 +4,7 @@ import {Link, Navigate, useParams} from "react-router";
 import type {GameResponse, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season, Round} from "@footy-scores/shared"
 import { formatDate } from "date-fns";
+import ScoreEvents from "./ScoreEvents.tsx";
 
 
 export default function GameDetail() {
@@ -73,6 +74,14 @@ export default function GameDetail() {
 
             <GameSummary gameData={gameData} homeTeamData={gameData.homeTeam} awayTeamData={gameData.awayTeam}
                         segmentIdx={0} segmentLength={1}/>
+
+            { gameData.homeTeam && gameData.awayTeam && gameData.timeString !== null &&
+                <>
+                    <h3 className={"mt-3 mb-3 text-xl px-3 py-1 rounded-md bg-mist-700"}>Scoring shots</h3>
+                    <ScoreEvents scoreEvents={gameData.scoreEvents} homeTeam={gameData.homeTeam}
+                              awayTeam={gameData.awayTeam}/>
+                </>
+            }
         </div>
     )
 
