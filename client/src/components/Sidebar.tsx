@@ -1,11 +1,16 @@
 import SeasonSwitcher from "./buttons/SeasonSwitcher.tsx";
 import {ViewContext} from "../contexts/ViewProvider.tsx";
 import {useContext} from "react";
+import {PrefsContext} from "../contexts/PrefsProvider.tsx";
 
 export default function Sidebar() {
     const viewContext = useContext(ViewContext)!;
+    const prefsContext = useContext(PrefsContext)!;
 
     const labelStyles = `text-left font-bold mb-2`
+    const buttonStyles = `rounded-md px-2 py-1 font-bold cursor-pointer`
+    const inactiveButtonStyles = `bg-mist-700 hover:bg-mist-600`
+    const activeButtonStyles = `bg-cyan-700 hover:bg-cyan-700`
     return (
         <div
             style={{
@@ -20,6 +25,25 @@ export default function Sidebar() {
                     <label htmlFor={"sidebarSeasonSwitcher"} className={labelStyles}>Season</label>
                     <div id={"sidebarSeasonSwitcher"}>
                         <SeasonSwitcher />
+                    </div>
+                </fieldset>
+                <fieldset className={`flex flex-col`}>
+                    <label htmlFor={"spoilerPreference"} className={labelStyles}>
+                        Scores for recent games
+                    </label>
+                    <div id={"spoilerPreference"} className={"flex gap-1"}>
+                        <button
+                            className={`${!prefsContext.showSpoilers ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                            onClick={() => prefsContext.setShowSpoilersPref(false)}
+                        >
+                            Hide
+                        </button>
+                        <button
+                            className={`${prefsContext.showSpoilers ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                            onClick={() => prefsContext.setShowSpoilersPref(true)}
+                        >
+                            Reveal
+                        </button>
                     </div>
                 </fieldset>
             </div>

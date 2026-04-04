@@ -2,8 +2,12 @@ import './GameSummary.css'
 import type {Game, Team} from '@footy-scores/shared'
 import GameSummaryTeam from "./GameSummaryTeam.tsx";
 import GameSummaryScore from "./GameSummaryScore.tsx";
-import {createScreenreaderGameDescription} from "../../utils.ts";
+import {createScreenreaderGameDescription, isInSpoilerWindow} from "../../utils.ts";
 import GameProgressBar from "./GameProgressBar/GameProgressBar.tsx";
+import {useContext} from "react";
+import {PrefsContext} from "../../contexts/PrefsProvider.tsx";
+import { FaEye } from "react-icons/fa";
+import {MouseEvent} from "react";
 
 
 export default function GameSummary({gameData, homeTeamData, awayTeamData, segmentIdx, segmentLength}:
@@ -14,6 +18,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                                         segmentIdx: number,
                                         segmentLength: number
                                     }) {
+    const prefsContext = useContext(PrefsContext)!
     const bg1 = "bg-mist-500 dark:bg-mist-800"
     const bg2 = "bg-mist-600 dark:bg-mist-900"
     const inPlay = !!(gameData.timeString &&
@@ -29,6 +34,13 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
     const now = new Date();
     const gameStart = new Date(gameData.unixTime * 1000)
     const preGame = gameStart > now
+    const inSpoilerWindow = isInSpoilerWindow(gameStart)
+
+    const spoilerIgnoreGame = (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        prefsContext.addSpoilerIgnoredGame(gameData.id)
+    }
 
     return (
         <div
@@ -50,7 +62,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                         </span>
                         </>
                     }
-                    {!preGame &&
+                    {!preGame && (!inSpoilerWindow || prefsContext.showSpoilers || prefsContext.spoilerIgnoredGames.includes(gameData.id)) &&
                         <>
                             <div className={"home-team"}>
                                 <GameSummaryScore
@@ -72,6 +84,18 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                             <span
                                 className={`time-string ${inPlay ? livePillStyles : dullPillStyles} font-bold`}
                             >{gameData.timeString}</span>
+                        </>
+                    }
+                    {
+                        !preGame && (!prefsContext.showSpoilers && inSpoilerWindow && !prefsContext.spoilerIgnoredGames.includes(gameData.id)) &&
+                        <>
+                            <button
+                                className={"reveal-spoiler-button flex items-center px-4 py-2 " +
+                                    "gap-2 rounded-md cursor-pointer bg-mist-600 hover:bg-red-900 self-center justify-self-center"}
+                                onClick={(e) => spoilerIgnoreGame(e)}
+                            >
+                                <FaEye /> <span>Reveal scores</span>
+                            </button>
                         </>
                     }
 

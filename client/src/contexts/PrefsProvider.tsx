@@ -8,7 +8,8 @@ type PrefsContextType = {
     setShowSpoilersPref: (pref: boolean) => void;
     showSpoilers: boolean
     theme: Theme
-    addSpoilerIgnoredGame: (gameId: string) => void;
+    addSpoilerIgnoredGame: (gameId: string) => void
+    spoilerIgnoredGames: string[]
 }
 
 export const PrefsContext = createContext<PrefsContextType | null>(null);
@@ -63,7 +64,15 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     }
 
     return (
-        <PrefsContext.Provider value={{ changeTheme, toggleTheme, setShowSpoilersPref, showSpoilers, theme, addSpoilerIgnoredGame }}>
+        <PrefsContext.Provider value={{
+            changeTheme,
+            toggleTheme,
+            setShowSpoilersPref,
+            showSpoilers,
+            theme,
+            addSpoilerIgnoredGame,
+            spoilerIgnoredGames
+        }}>
             {children}
         </PrefsContext.Provider>
     )

@@ -1,5 +1,6 @@
 import type {Game, Team} from "@footy-scores/shared";
-import {differenceInMinutes, formatDate} from "date-fns";
+import {differenceInHours, differenceInMinutes, formatDate} from "date-fns";
+import {SPOILER_WINDOW_HOURS} from "./consts.ts";
 
 export function areGamesLive(games: Game[], preGameMinutesMargin=15): boolean {
     const now = new Date();
@@ -58,4 +59,8 @@ export function createScreenreaderGameDescription(game: Game, homeTeam: Team | n
     }
     description += `.\n`
     return description;
+}
+
+export function isInSpoilerWindow(gameStart: Date) {
+    return differenceInHours(new Date(), gameStart) < SPOILER_WINDOW_HOURS
 }

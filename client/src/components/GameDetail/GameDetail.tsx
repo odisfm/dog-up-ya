@@ -9,10 +9,12 @@ import GameLinks from "./GameLinks.tsx";
 import Section from "../Section.tsx";
 import GameTip from "./GameTip.tsx";
 import {TimeContext} from "../../contexts/TimeProvider.tsx";
-import * as sea from "node:sea";
+import {PrefsContext} from "../../contexts/PrefsProvider.tsx";
+import {isInSpoilerWindow} from "../../utils.ts";
 
 
 export default function GameDetail() {
+    const prefsContext = useContext(PrefsContext)!;
     const params = useParams();
     const timeContext = useContext(TimeContext)!;
     const [gameData, setGameData] = useState<GameDetailsPayload | null>(null);
@@ -63,12 +65,15 @@ export default function GameDetail() {
         if (!gameData || !gameData.homeTeam || !gameData.awayTeam) {
             return false
         }
+        if (!prefsContext.showSpoilers && isInSpoilerWindow(gameData.localTime) && !prefsContext.spoilerIgnoredGames.includes(gameData.id)) {
+            return false
+        }
         if (gameData.timeString === "Full Time" && gameData.scoreEvents.length === 0) {
             return false
         }
         return true
 
-    }, [gameData])
+    }, [gameData, prefsContext.spoilerIgnoredGames, prefsContext.showSpoilers]);
 
     const showGameLinks = useMemo(() => {
         if (!gameData || !gameData.gameLinks) {
