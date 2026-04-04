@@ -1,6 +1,6 @@
 import SeasonSwitcher from "./buttons/SeasonSwitcher.tsx";
 import {ViewContext} from "../contexts/ViewProvider.tsx";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {PrefsContext} from "../contexts/PrefsProvider.tsx";
 
 export default function Sidebar() {
@@ -11,6 +11,20 @@ export default function Sidebar() {
     const buttonStyles = `rounded-md px-2 py-1 font-bold cursor-pointer`
     const inactiveButtonStyles = `bg-mist-700 hover:bg-mist-600`
     const activeButtonStyles = `bg-cyan-700 hover:bg-cyan-700`
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (viewContext.sidebarActive) {
+                if (e.key === "Escape") {
+                    viewContext.setSidebarActive(false);
+                }
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown); // cleanup
+    }, [viewContext]);
+
     return (
         <div
             style={{
