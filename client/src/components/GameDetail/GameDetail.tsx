@@ -5,6 +5,7 @@ import type {GameDetailsPayload, GameDetailsResponse} from "@footy-scores/shared
 import type {Season, Round} from "@footy-scores/shared"
 import { formatDate } from "date-fns";
 import ScoreEvents from "./ScoreEvents.tsx";
+import GameLinks from "./GameLinks.tsx";
 
 
 export default function GameDetail() {
@@ -56,6 +57,17 @@ export default function GameDetail() {
 
     }, [gameData])
 
+    const showGameLinks = useMemo(() => {
+        if (!gameData || !gameData.gameLinks) {
+            return false
+        }
+        const links = gameData.gameLinks
+        if (!links.redditAflMatchThread && !links.redditAflPostMatchThread) {
+            return false
+        }
+        return true
+    }, [gameData])
+
     if (!params.gameId) {
         return (
             <Navigate to={"/round"} />
@@ -85,6 +97,10 @@ export default function GameDetail() {
 
             <GameSummary gameData={gameData} homeTeamData={gameData.homeTeam} awayTeamData={gameData.awayTeam}
                         segmentIdx={0} segmentLength={1}/>
+
+            { showGameLinks && gameData.gameLinks &&
+                <GameLinks linkData={gameData.gameLinks}/>
+            }
 
             { showScoreEvents && gameData.homeTeam && gameData.awayTeam &&
                 <>
