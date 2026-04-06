@@ -1,5 +1,5 @@
 import type {GameLinks} from "@footy-scores/shared";
-import LinkButton from "../LinkButton.tsx";
+import LinkButton from "../buttons/LinkButton.tsx";
 import Section from "../Section.tsx";
 
 export default function GameLinks({linkData}: {linkData: GameLinks}) {

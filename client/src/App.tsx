@@ -3,9 +3,10 @@ import { MdLightMode } from "react-icons/md"
 import {useEffect, useState} from "react";
 import {APP_NAME} from "./consts.ts";
 import { LiaFootballBallSolid } from "react-icons/lia";
-import RoundLadderSwitcher from "./components/RoundLadderSwitcher.tsx";
-import Sidebar from "./Sidebar.tsx";
+import RoundLadderSwitcher from "./components/buttons/RoundLadderSwitcher.tsx";
+import Sidebar from "./components/Sidebar.tsx";
 import {GiHamburgerMenu} from "react-icons/gi";
+import SeasonSwitcher from "./components/buttons/SeasonSwitcher.tsx";
 
 export default function App() {
     const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -46,8 +47,11 @@ export default function App() {
     return (
         <>
             <div className={`flex flex-col overflow-x-hidden ${sidebarVisible ? 'h-screen overflow-y-hidden' : 'min-h-screen'}`}>            <header className={`${headerFooterStyles} grid w-full py-3 px-5 justify-center items-center gap-3`}>
-                <div>
+                <div className={"flex gap-2 items-center"}>
                     <RoundLadderSwitcher/>
+                    <div className={"hidden md:block"}>
+                        <SeasonSwitcher current={2026} min={1897} max={2026} />
+                    </div>
                 </div>
 
                 <Link to={"/"}
