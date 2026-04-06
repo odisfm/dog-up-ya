@@ -6,7 +6,7 @@ import type {Season, Round} from "@footy-scores/shared"
 import { formatDate } from "date-fns";
 import ScoreEvents from "./ScoreEvents.tsx";
 import GameLinks from "./GameLinks.tsx";
-import SectionHeading from "../SectionHeading.tsx";
+import Section from "../Section.tsx";
 
 
 export default function GameDetail() {
@@ -105,9 +105,10 @@ export default function GameDetail() {
 
             { showScoreEvents && gameData.homeTeam && gameData.awayTeam &&
                 <>
-                    <SectionHeading title={"Scoring shots"} level={3}/>
-                    <ScoreEvents scoreEvents={gameData.scoreEvents} homeTeam={gameData.homeTeam}
-                              awayTeam={gameData.awayTeam}/>
+                    <Section title={"Scoring shots"} headingLevel={3} collapsible={true} prefName={"scoreEvents"} collapsedDefault={true} role={null}>
+                        <ScoreEvents scoreEvents={gameData.scoreEvents} homeTeam={gameData.homeTeam}
+                                  awayTeam={gameData.awayTeam}/>
+                    </Section>
                 </>
             }
         </div>
