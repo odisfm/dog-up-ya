@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import GameSummary from "../GameSummary/GameSummary.tsx";
 import {Link, Navigate, useParams} from "react-router";
 import type {GameDetailsPayload, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
@@ -45,6 +45,17 @@ export default function GameDetail() {
         })()
     }, [params.gameId, fetchGameData]);
 
+    const showScoreEvents = useMemo(() => {
+        if (!gameData || !gameData.homeTeam || !gameData.awayTeam) {
+            return false
+        }
+        if (gameData.timeString === "Full Time" && gameData.scoreEvents.length === 0) {
+            return false
+        }
+        return true
+
+    }, [gameData])
+
     if (!params.gameId) {
         return (
             <Navigate to={"/round"} />
@@ -75,7 +86,7 @@ export default function GameDetail() {
             <GameSummary gameData={gameData} homeTeamData={gameData.homeTeam} awayTeamData={gameData.awayTeam}
                         segmentIdx={0} segmentLength={1}/>
 
-            { gameData.homeTeam && gameData.awayTeam && gameData.timeString !== null &&
+            { showScoreEvents && gameData.homeTeam && gameData.awayTeam &&
                 <>
                     <h3 className={"mt-3 mb-3 text-xl px-3 py-1 rounded-md bg-mist-700"}>Scoring shots</h3>
                     <ScoreEvents scoreEvents={gameData.scoreEvents} homeTeam={gameData.homeTeam}
