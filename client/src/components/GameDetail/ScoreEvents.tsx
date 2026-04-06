@@ -59,7 +59,9 @@ export default function ScoreEvents({scoreEvents, homeTeam, awayTeam}:
             { scoreEvents.map((event: ScoreEvent, i)=> {
                 return (
                     <ScoreEventSingle
-                        team={event.type === "HOME_GOAL" || event.type === "HOME_BEHIND" ? homeTeam : awayTeam}
+                        scoringTeam={event.type === "HOME_GOAL" || event.type === "HOME_BEHIND" ? homeTeam : awayTeam}
+                        homeTeam={homeTeam}
+                        awayTeam={awayTeam}
                         event={event}
                         key={event.id}
                         />
