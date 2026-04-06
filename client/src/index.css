@@ -68,6 +68,11 @@ body {
     }
 }
 
+header {
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 1fr;
+}
+
 span {
     a {
         font-weight: bold;

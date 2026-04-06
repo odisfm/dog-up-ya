@@ -36,8 +36,7 @@ function App() {
 
     return (
         <>
-                <header className={`${headerFooterStyles} grid grid-cols-3 w-full py-3 px-5 justify-center items-center gap-3`}>
-                    <div></div>
+                <header className={`${headerFooterStyles} grid w-full py-3 px-5 justify-center items-center gap-3`}>
 
                     <Link to={"/"} className={"rounded-lg py-1 px-3 hover:bg-mist-700 dark:hover:bg-mist-950 cursor-pointer flex gap-2 justify-self-center items-center text-white no-underline"}>
                         <LiaFootballBallSolid className={"text-xl"}/>
