@@ -55,6 +55,10 @@ function App() {
                 <main className={"bg-mist-300 dark:bg-mist-950 pt-2 pb-12 flex flex-col items-center flex-1"}>
                     <Outlet/>
                 </main>
+
+                <footer className={`${headerFooterStyles} py-3 text-white font-light`}>
+                    <span>Data from <a href={"https://squiggle.com.au/"}>Squiggle</a>, site by <a href={"https://odis.fm"}>odis</a></span>
+                </footer>
         </>
     )
 }
