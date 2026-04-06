@@ -57,7 +57,7 @@ export default function App() {
                 </Link>
 
                 <div className={"flex gap-4 ml-auto text-white"}>
-                    <button onClick={toggleDarkMode} className={`${buttonStyles}`}>
+                    <button onClick={toggleDarkMode} className={`${buttonStyles} hidden md:block`}>
                         <MdLightMode/>
                     </button>
                     <button onClick={toggleSidebar} className={`${buttonStyles}`}>
