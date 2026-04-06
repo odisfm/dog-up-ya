@@ -3,6 +3,7 @@ import type {LadderResponse, LadderPayload} from "@footy-scores/shared/src/types
 import type {Season} from "@footy-scores/shared"
 import TeamFlag from "./TeamFlag.tsx";
 import {useParams} from "react-router";
+import {FaTrophy} from "react-icons/fa";
 
 export default function Ladder() {
     const [ladder, setLadder] = useState<LadderPayload | null>(null);
@@ -40,7 +41,7 @@ export default function Ladder() {
             <h1>Failed to get ladder... :(</h1>
             }
 
-            {ladder &&
+            {ladder && season &&
             <table className={"border-separate border-spacing-0 rounded-lg overflow-hidden"}>
                 <thead className={""}>
                 <tr className={"*:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
@@ -62,6 +63,9 @@ export default function Ladder() {
                             <td className={"text-left flex gap-2 items-center"}>
                                 <TeamFlag teamName={standing.team.name} size={"xs"} />
                                 {standing.team.name.length < 17 ? standing.team.name : standing.team.abbreviation}
+                                {season.premierTeamId === standing.teamId &&
+                                    <FaTrophy/>
+                                }
                             </td>
                             <td>
                                 {standing.played}
