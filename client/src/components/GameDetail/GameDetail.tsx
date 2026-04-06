@@ -6,6 +6,7 @@ import type {Season, Round} from "@footy-scores/shared"
 import { formatDate } from "date-fns";
 import ScoreEvents from "./ScoreEvents.tsx";
 import GameLinks from "./GameLinks.tsx";
+import SectionHeading from "../SectionHeading.tsx";
 
 
 export default function GameDetail() {
@@ -104,7 +105,7 @@ export default function GameDetail() {
 
             { showScoreEvents && gameData.homeTeam && gameData.awayTeam &&
                 <>
-                    <h3 className={"mt-3 mb-3 text-xl px-3 py-1 rounded-md bg-mist-700"}>Scoring shots</h3>
+                    <SectionHeading title={"Scoring shots"} level={3}/>
                     <ScoreEvents scoreEvents={gameData.scoreEvents} homeTeam={gameData.homeTeam}
                               awayTeam={gameData.awayTeam}/>
                 </>
