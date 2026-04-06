@@ -81,17 +81,17 @@ export default function GameDetail() {
 
     return (
         <div className={"flex flex-col text-white mt-2 items-start w-full md:w-2/3 px-2 md:px-0"}>
-            <h2 className={"font-black text-3xl mb-1 rounded-lg px-2 pr-6 py-1 bg-mist-700 dark:bg-mist-700"}>
+            <h2 className={"font-black text-xl md:text-5xl mb-1 rounded-lg px-2 pr-6 py-1 bg-mist-700 dark:bg-mist-700"}>
                 {gameData.homeTeam?.name || "TBD"} v {gameData.awayTeam?.name || "TBD"}
             </h2>
             <Link to={`/round/${seasonData.year}/${roundData.roundNumber}`} className={"group"}>
                 <h3 className=
-                        {"font-bold text-2xl mb-1 rounded-lg px-2 py-1 bg-mist-600 dark:bg-mist-800 group-hover:bg-mist-700 dark:group-hover:bg-mist-700"}
+                        {"font-bold text-lg md:text-xl mb-1 rounded-lg px-2 py-1 bg-mist-600 dark:bg-mist-800 group-hover:bg-mist-700 dark:group-hover:bg-mist-700"}
                 >
                 {roundData.name}, {seasonData.year} {seasonData.isPremSeason && `Premiership Season`}
                 </h3>
             </Link>
-            <h4 className={"font-light text-xl mb-4 rounded-lg px-2 py-1 bg-mist-500 dark:bg-mist-900"}>
+            <h4 className={"font-light text-md md:text-lg mb-4 rounded-lg px-2 py-1 bg-mist-500 dark:bg-mist-900"}>
                 {gameData.venue}, {formatDate(gameData.localTime, "EEEE do MMMM, yyyy")}
             </h4>
 

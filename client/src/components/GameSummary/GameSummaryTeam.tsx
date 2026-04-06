@@ -15,7 +15,7 @@ export default function GameSummaryTeam({teamData, homeTeam}: {
                             </div>
 
                             <span
-                            className={`${homeTeam ? 'text-left' : 'text-right'} mt-2 text-sm`}>
+                            className={`${homeTeam ? 'text-left' : 'text-right'} mt-2 text-sm md:text-lg `}>
                             {teamData.name.length < 17 ? teamData.name : teamData.abbreviation}
                             </span>
                         </>
