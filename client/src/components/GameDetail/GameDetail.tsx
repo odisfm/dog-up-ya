@@ -7,6 +7,7 @@ import { formatDate } from "date-fns";
 import ScoreEvents from "./ScoreEvents.tsx";
 import GameLinks from "./GameLinks.tsx";
 import Section from "../Section.tsx";
+import GameTip from "./GameTip.tsx";
 
 
 export default function GameDetail() {
@@ -69,6 +70,8 @@ export default function GameDetail() {
         return true
     }, [gameData])
 
+    const showTips = gameData && gameData.tips.length
+
     if (!params.gameId) {
         return (
             <Navigate to={"/round"} />
@@ -108,6 +111,20 @@ export default function GameDetail() {
                     <Section title={"Scoring shots"} headingLevel={3} collapsible={true} prefName={"scoreEvents"} collapsedDefault={true} role={null}>
                         <ScoreEvents scoreEvents={gameData.scoreEvents} homeTeam={gameData.homeTeam}
                                   awayTeam={gameData.awayTeam}/>
+                    </Section>
+                </>
+            }
+
+            { showTips &&
+                <>
+                    <Section title={"Tips"} headingLevel={3} collapsible={true} collapsedDefault={true} prefName={"tips"}>
+                        <div className={"grid grid-cols-3 auto-rows-auto gap-2"}>
+                            {gameData && gameData.homeTeam && gameData.awayTeam &&
+                            gameData.tips.map((tip) => {
+                                return <GameTip tipData={tip} homeTeam={gameData.homeTeam} awayTeam={gameData.awayTeam}/>
+                            })
+                        }
+                        </div>
                     </Section>
                 </>
             }
