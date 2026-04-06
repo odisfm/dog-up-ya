@@ -9,7 +9,7 @@ export default function RoundSegment({label, games}: {label: string, games: Game
     }
 
     const dullStyles = `bg-mist-700 dark:bg-mist-900`
-    const liveStyles = `bg-cyan-800 dark:bg-cyan-700 font-bold`
+    const liveStyles = `bg-cyan-800 dark:bg-cyan-700 font-bold text-xl px-4`
 
     return (
         <section className={"flex flex-col mt-6"}>
