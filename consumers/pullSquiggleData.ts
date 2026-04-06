@@ -4,6 +4,7 @@ import pullTeams from "./pullSquiggleData/pullTeams";
 import pullRounds from "./pullSquiggleData/pullRounds";
 import pullGames from "./pullSquiggleData/pullGames";
 import pullStandings from "./pullSquiggleData/pullStandings";
+import pullTips from "./pullSquiggleData/pullTips";
 
 enum AllowedCommands {
     teams="teams",
@@ -72,6 +73,9 @@ if (isNaN(yearToUse)) {
             break
         case AllowedCommands.standings:
             await pullStandings(season)
+            break
+        case AllowedCommands.tips:
+            await pullTips(season)
             break
     }
 })().then(()=> {
