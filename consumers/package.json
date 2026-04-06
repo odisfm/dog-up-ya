@@ -10,6 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "command-line-args": "^6.0.2",
+    "date-fns": "^4.1.0",
     "eventsource": "^4.1.0"
   },
   "devDependencies": {
