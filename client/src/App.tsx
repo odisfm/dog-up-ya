@@ -3,6 +3,7 @@ import { MdLightMode } from "react-icons/md"
 import {useEffect} from "react";
 import {APP_NAME} from "./consts.ts";
 import { LiaFootballBallSolid } from "react-icons/lia";
+import RoundLadderSwitcher from "./components/RoundLadderSwitcher.tsx";
 
 function App() {
 
@@ -37,6 +38,9 @@ function App() {
     return (
         <>
                 <header className={`${headerFooterStyles} grid w-full py-3 px-5 justify-center items-center gap-3`}>
+                    <div>
+                        <RoundLadderSwitcher />
+                    </div>
 
                     <Link to={"/"} className={"rounded-lg py-1 px-3 hover:bg-mist-700 dark:hover:bg-mist-950 cursor-pointer flex gap-2 justify-self-center items-center text-white no-underline"}>
                         <LiaFootballBallSolid className={"text-xl"}/>
