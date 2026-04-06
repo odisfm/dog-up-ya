@@ -9,7 +9,12 @@ import type {
   SeasonResponse,
   GameResponse,
   RoundResponse,
-  CurrentRoundResponse, SeasonAllRoundsResponse, GameDetailsResponse, GameDetailsGetPayload, GameDetailsPayload
+  CurrentRoundResponse,
+  SeasonAllRoundsResponse,
+  GameDetailsResponse,
+  GameDetailsGetPayload,
+  GameDetailsPayload,
+  LadderPayload
 } from "@footy-scores/shared/src/types/apiResponses.js";
 import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
 import {serialiseGames} from "./utils.js";
@@ -55,9 +60,13 @@ app.get('/ladder/:year', async (c) => {
     include: {
       team: true
     }
-  }) satisfies LadderResponse
+  })
+  const data: LadderResponse = {
+    ladder: standingsRecords,
+    season: seasonRecord
+  }
 
-  return c.json({ data: standingsRecords }, 200)
+  return c.json({ data }, 200)
 
 })
 

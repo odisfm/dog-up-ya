@@ -2,9 +2,14 @@ import type { Season, Standing, Team, Round, Game, ScoreEvent } from '@footy-sco
 import { Prisma } from '@footy-scores/shared'
 
 
-export type LadderResponse = Array<Prisma.StandingGetPayload<{
+export type LadderPayload = Array<Prisma.StandingGetPayload<{
     include: { team: true }
 }>>
+
+export type LadderResponse = {
+    ladder: LadderPayload
+    season: Season
+}
 
 export type GameGetPayload = Prisma.GameGetPayload<{
     include: {
