@@ -41,6 +41,7 @@ export default function App() {
     }
 
     const headerFooterStyles = `bg-mist-500 dark:bg-mist-900`
+    const buttonStyles = `rounded-lg px-3 py-2 bg-mist-800 hover:bg-mist-700 cursor-pointer`
 
     return (
         <>
@@ -56,10 +57,10 @@ export default function App() {
                 </Link>
 
                 <div className={"flex gap-4 ml-auto text-white"}>
-                    <button onClick={toggleDarkMode}>
+                    <button onClick={toggleDarkMode} className={`${buttonStyles}`}>
                         <MdLightMode/>
                     </button>
-                    <button onClick={toggleSidebar}>
+                    <button onClick={toggleSidebar} className={`${buttonStyles}`}>
                         <GiHamburgerMenu/>
                     </button>
                 </div>
