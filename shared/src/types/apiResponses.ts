@@ -10,11 +10,23 @@ export type GameGetPayload = Prisma.GameGetPayload<{
     include: {
         homeTeam: true
         awayTeam: true
+    }
+}>
+
+export type GameDetailsGetPayload = Prisma.GameGetPayload<{
+    include: {
+        homeTeam: true
+        awayTeam: true
         scoreEvents: true
+        tips: true
+        gameLinks: true
     }
 }>
 
 export type GameResponse = Omit<GameGetPayload, 'unixTime'> & { unixTime: number }
+
+export type GameDetailsPayload = Omit<GameDetailsGetPayload, 'unixTime'> & { unixTime: number }
+
 
 export type RoundResponse = Round & {
     games: GameResponse[]
@@ -32,7 +44,7 @@ export type CurrentRoundResponse = {
 export type SeasonAllRoundsResponse = Round[]
 
 export type GameDetailsResponse = {
-    game: GameResponse;
+    game: GameDetailsPayload;
     round: Round;
     season: Season;
 }

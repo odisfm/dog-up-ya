@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import GameSummary from "../GameSummary/GameSummary.tsx";
 import {Link, Navigate, useParams} from "react-router";
-import type {GameResponse, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import type {GameDetailsPayload, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season, Round} from "@footy-scores/shared"
 import { formatDate } from "date-fns";
 import ScoreEvents from "./ScoreEvents.tsx";
@@ -9,7 +9,7 @@ import ScoreEvents from "./ScoreEvents.tsx";
 
 export default function GameDetail() {
     const params = useParams();
-    const [gameData, setGameData] = useState<GameResponse | null>(null);
+    const [gameData, setGameData] = useState<GameDetailsPayload | null>(null);
     const [seasonData, setSeasonData] = useState<Season | null>(null);
     const [roundData, setRoundData] = useState<Round | null>(null);
     const [failed, setFailed] = useState(false);

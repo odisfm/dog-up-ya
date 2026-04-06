@@ -9,7 +9,7 @@ import type {
   SeasonResponse,
   GameResponse,
   RoundResponse,
-  CurrentRoundResponse, SeasonAllRoundsResponse, GameDetailsResponse
+  CurrentRoundResponse, SeasonAllRoundsResponse, GameDetailsResponse, GameDetailsGetPayload, GameDetailsPayload
 } from "@footy-scores/shared/src/types/apiResponses.js";
 import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
 import {serialiseGames} from "./utils.js";
@@ -138,6 +138,8 @@ app.get(`/game/:gameId`, async (c) => {
     include: {
       homeTeam: true,
       awayTeam: true,
+      tips: true,
+      gameLinks: true,
       scoreEvents: {
         orderBy: {
           time: "desc"
@@ -161,12 +163,12 @@ app.get(`/game/:gameId`, async (c) => {
     }
   }) as Season;
 
-  const gameResponse: GameResponse = serialiseGames([gameRecord])[0]
-  const response: GameDetailsResponse = {
+  const gameResponse = serialiseGames([gameRecord])[0] as GameDetailsPayload
+  const response = {
     game: gameResponse,
     round: roundRecord,
     season: seasonRecord
-  }
+  } satisfies GameDetailsResponse
   return c.json({data: response})
 
 })
