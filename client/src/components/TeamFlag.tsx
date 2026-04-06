@@ -26,7 +26,7 @@ import flagTexture from "../assets/flag-texture.png"
 const FLAGS: Record<string, string> = {
     adelaide: adelaideFlag,
     "brisbane-bears": brisbaneBearsFlag,
-    "brisbane-lions": brisbaneLionsFlag,
+    "brisbane": brisbaneLionsFlag,
     carlton: carltonFlag,
     collingwood: collingwoodFlag,
     essendon: essendonFlag,
@@ -35,7 +35,7 @@ const FLAGS: Record<string, string> = {
     fremantle: fremantleFlag,
     geelong: geelongFlag,
     "gold-coast": goldCoastFlag,
-    "greater-western-sydney": greaterWesternSydneyFlag,
+    "gws": greaterWesternSydneyFlag,
     hawthorn: hawthornFlag,
     melbourne: melbourneFlag,
     "north-melbourne": northMelbourneFlag,
