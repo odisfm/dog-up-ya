@@ -118,7 +118,6 @@ model ScoreEvent {
 }
 
 model Tip {
-  id         String @id @default(uuid()) @db.Uuid
   gameId     String @db.Uuid
   sourceId   Int
   sourceName String
@@ -129,6 +128,8 @@ model Tip {
   bits       Float
   game       Game   @relation(fields: [gameId], references: [id])
   tipTeam    Team   @relation(fields: [tipTeamId], references: [id])
+
+  @@id([gameId, sourceName])
 }
 
 enum FinalType {
