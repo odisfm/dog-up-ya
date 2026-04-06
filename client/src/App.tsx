@@ -59,7 +59,7 @@ function App() {
                 </main>
 
                 <footer className={`${headerFooterStyles} py-3 text-white font-light`}>
-                    <span>Data from <a href={"https://squiggle.com.au/"}>Squiggle</a>, site by <a href={"https://odis.fm"}>odis</a></span>
+                    <span>Data from <a href={"https://squiggle.com.au/"} target={"_blank"}>Squiggle</a>, site by <a href={"https://odis.fm"} target={"_blank"}>odis</a></span>
                 </footer>
         </>
     )
