@@ -1,6 +1,8 @@
 import {Outlet} from "react-router";
 import { MdLightMode } from "react-icons/md"
 import {useEffect} from "react";
+import {APP_NAME} from "./consts.ts";
+import { LiaFootballBallSolid } from "react-icons/lia";
 
 function App() {
 
@@ -34,7 +36,11 @@ function App() {
         <>
                 <header className={`grid grid-cols-3 w-full py-3 px-5 bg-mist-500 dark:bg-mist-900 justify-center items-center gap-3`}>
                     <div></div>
-                    <h1 className={"text-white text-2xl"}>Hello</h1>
+
+                    <div className={"flex gap-2 justify-self-center items-center text-white"}>
+                        <LiaFootballBallSolid className={"text-xl"}/>
+                        <h1 className={"text-white text-2xl"}>{APP_NAME}</h1>
+                    </div>
 
                     <div className={"ml-auto"}>
                         <button
