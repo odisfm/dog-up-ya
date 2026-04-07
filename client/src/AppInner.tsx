@@ -1,7 +1,7 @@
 import Header from "./components/Header.tsx";
 import Sidebar from "./components/Sidebar.tsx";
-import {Outlet, useLocation, useParams, useNavigate} from "react-router";
-import {useContext, useEffect, useState} from "react";
+import {Outlet, useLocation, useNavigate} from "react-router";
+import {useContext, useEffect} from "react";
 import {TimeContext} from "./contexts/TimeProvider.tsx";
 import {ViewContext} from "./contexts/ViewProvider.tsx";
 
@@ -13,9 +13,6 @@ export default function AppInner() {
     const isLadder = location.pathname.startsWith('/ladder');
     const isRound  = location.pathname.startsWith('/round');
     const isGame   = location.pathname.startsWith('/game');
-    const params = useParams();
-    const year = Number(params.season)
-    const round = Number(params.roundNum)
 
     useEffect(() => {
         if (isRound) {
@@ -43,7 +40,7 @@ export default function AppInner() {
     return (
         <>
 
-            <Header toggleSidebar={viewContext.toggleSidebar} />
+            <Header />
             <div
                 className={`flex flex-col overflow-x-hidden ${viewContext.sidebarActive ? 'h-screen overflow-y-hidden' : 'min-h-screen'}`}>
 

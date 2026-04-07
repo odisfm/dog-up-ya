@@ -1,8 +1,7 @@
-import {createContext, useContext, useEffect, useState} from "react";
-import {TimeContext, TimeProvider} from "./contexts/TimeProvider.tsx";
+import {TimeProvider} from "./contexts/TimeProvider.tsx";
 import AppInner from "./AppInner.tsx";
 import {useParams} from "react-router";
-import {ViewContext, ViewProvider} from "./contexts/ViewProvider.tsx";
+import {ViewProvider} from "./contexts/ViewProvider.tsx";
 import {PrefsProvider} from "./contexts/PrefsProvider.tsx";
 
 export default function App() {

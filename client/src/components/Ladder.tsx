@@ -2,7 +2,6 @@ import {useContext, useEffect, useMemo, useState} from "react";
 import type {LadderResponse, LadderPayload} from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season} from "@footy-scores/shared"
 import TeamFlag from "./TeamFlag.tsx";
-import {useParams} from "react-router";
 import {FaTrophy} from "react-icons/fa";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
 

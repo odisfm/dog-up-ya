@@ -153,9 +153,6 @@ export default function Round() {
         }
     }, [roundData]);
 
-    const allGamesFinished =
-        !!roundSegments && roundSegments.liveGames.length === 0 && Object.keys(roundSegments.futureGames).length === 0
-
     const roundItems: TabBarItem[] = []
     for (const roundData of seasonAllRoundsData) {
         let label = roundData.name as string;
