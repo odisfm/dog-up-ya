@@ -10,7 +10,7 @@ export default function Header({toggleSidebar}: {toggleSidebar: () => void}) {
     const headerStyles = `bg-mist-500 dark:bg-mist-900`
     const buttonStyles = `rounded-lg px-3 py-2 bg-mist-800 hover:bg-mist-700 cursor-pointer`
     return (
-        <header className={`${headerStyles} grid w-full py-3 px-5 justify-center items-center gap-3`}>
+        <header className={`${headerStyles} grid w-full py-3 px-3 justify-center items-center gap-3`}>
             <div className={"flex gap-2 items-center"}>
                 <RoundLadderSwitcher/>
                 <div className={`hidden md:block ${false && `hidden md:hidden`}`}>

@@ -12,7 +12,7 @@ export default function RoundLadderSwitcher() {
     const isRound  = location.pathname.startsWith('/round');
     const isGame   = location.pathname.startsWith('/game');
 
-    const buttonStyles = `rounded-md px-2 py-1 text-white`
+    const buttonStyles = `rounded-md px-2 py-1 text-white text-xs`
     const activeButtonStyles = `bg-cyan-700 font-bold hidden md:block`
     const inactiveButtonStyles = `bg-mist-800`
 
