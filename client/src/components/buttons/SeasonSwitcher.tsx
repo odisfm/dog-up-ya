@@ -4,6 +4,7 @@ import {FIRST_SEASON} from "../../consts.ts";
 import { GrReturn } from "react-icons/gr";
 import { MdCancel, MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import {ViewContext} from "../../contexts/ViewProvider.tsx";
+import type {SubmitEvent} from "react";
 
 
 export default function SeasonSwitcher() {

@@ -7,7 +7,7 @@ import GameProgressBar from "./GameProgressBar/GameProgressBar.tsx";
 import {useContext} from "react";
 import {PrefsContext} from "../../contexts/PrefsProvider.tsx";
 import { FaEye } from "react-icons/fa";
-import {MouseEvent} from "react";
+import type {MouseEvent} from "react";
 
 
 export default function GameSummary({gameData, homeTeamData, awayTeamData, segmentIdx, segmentLength}:
