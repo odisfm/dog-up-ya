@@ -3,6 +3,7 @@ import {TimeContext} from "../../contexts/TimeProvider.tsx";
 import {FIRST_SEASON} from "../../consts.ts";
 import { GrReturn } from "react-icons/gr";
 import { MdCancel, MdNavigateBefore, MdNavigateNext } from "react-icons/md";
+import {ViewContext} from "../../contexts/ViewProvider.tsx";
 
 
 export default function SeasonSwitcher() {
@@ -15,6 +16,7 @@ export default function SeasonSwitcher() {
         const limitButtonStyles = `pointer-events-none cursor-not-allowed bg-black`
         const formButtonStyles = `text-white px-2 py-1 rounded-lg cursor-pointer`
         const timeContext = useContext(TimeContext)!
+        const viewContext = useContext(ViewContext)!
 
         useEffect(() => {
             if (seasonInputVisible && seasonInputRef.current) {
@@ -32,6 +34,7 @@ export default function SeasonSwitcher() {
                 timeContext.setYear(Number(seasonInputRef.current.value))
             }
             setSeasonInputVisible(false)
+            viewContext.setSidebarActive(false)
         }
 
         return (
