@@ -16,14 +16,13 @@ export default function RoundSegment({label, games}: {label: string, games: Game
             <h3 aria-hidden={true} className={`text-white self-start ${label === ROUND_SEGMENT_LIVE_LABEL ? liveStyles : dullStyles}  py-1 px-2 mb-2 rounded-md`}>{label}</h3>
             {games.map((game, i) => {
                 return (
-                    <Link to={`/game/${game.id}`} className={"group"}>
+                    <Link to={`/game/${game.id}`} className={"group"} key={game.id}>
                         <GameSummary
                         gameData={game}
                         homeTeamData={game.homeTeam}
                         awayTeamData={game.awayTeam}
                         segmentIdx={i}
                         segmentLength={games.length}
-                        key={game.id}
                     />
                     </Link>
                 )
