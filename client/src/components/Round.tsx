@@ -12,12 +12,12 @@ import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore, isTod
 import RoundSegment from "./RoundSegment.tsx";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
 
-type RoundSegment = Record<string, GameResponse[]>
+type RoundSegmentEntry = { label: string; date: Date; games: GameResponse[] }
 
 type RoundGrouping = {
     liveGames: GameResponse[],
-    pastGames: RoundSegment,
-    futureGames: RoundSegment,
+    pastGames: RoundSegmentEntry[],
+    futureGames: RoundSegmentEntry[],
 }
 
 export default function Round() {
@@ -110,15 +110,14 @@ export default function Round() {
 
     const roundSegments: RoundGrouping | null = useMemo(() => {
         if (!roundData) return null
-        const roundGrouping: RoundGrouping = {
-            liveGames: [],
-            pastGames: {},
-            futureGames: {}
+        const roundGrouping = {
+            liveGames: [] as GameResponse[],
+            pastGames: new Map<string, { date: Date; games: GameResponse[] }>(),
+            futureGames: new Map<string, { date: Date; games: GameResponse[] }>(),
         }
         const now = new Date()
         for (const gameData of roundData.games) {
             if (areGamesLive([gameData])) {
-                console.log(`game is live: ${gameData.localTime} timestr: ${gameData.timeString}`)
                 roundGrouping.liveGames.push(gameData);
                 continue;
             }
@@ -127,24 +126,31 @@ export default function Round() {
             const inPast = isBefore(gameStartTime, now)
             if (isToday(gameStartTime)) {
                 dateString = `Today`
-            }
-            else if (isThisWeek(gameStartTime, {weekStartsOn: 1})) {
+            } else if (isThisWeek(gameStartTime, {weekStartsOn: 1}) && isBefore(now, gameStartTime)) {
                 dateString = formatDate(gameStartTime, "EEEE")
-            }
-            else if (isThisYear(gameStartTime)) {
+            } else if (isThisYear(gameStartTime)) {
                 dateString = formatDate(gameStartTime, "EEEE, do LLLL")
-
             } else {
                 dateString = formatDate(gameStartTime, "PPPP")
             }
             const group = inPast ? roundGrouping.pastGames : roundGrouping.futureGames
-            if (dateString in group) {
-                group[dateString].push(gameData)
+            if (group.has(dateString)) {
+                group.get(dateString)!.games.push(gameData)
             } else {
-                group[dateString] = [gameData]
+                group.set(dateString, { date: gameStartTime, games: [gameData] })
             }
         }
-        return roundGrouping
+
+        const sortEntries = (map: typeof roundGrouping.pastGames): RoundSegmentEntry[] =>
+            [...map.entries()]
+                .map(([label, { date, games }]) => ({ label, date, games }))
+                .sort((a, b) => a.date.getTime() - b.date.getTime())
+
+        return {
+            liveGames: roundGrouping.liveGames,
+            pastGames: sortEntries(roundGrouping.pastGames),
+            futureGames: sortEntries(roundGrouping.futureGames),
+        }
     }, [roundData]);
 
     const allGamesFinished =
@@ -173,18 +179,12 @@ export default function Round() {
                     roundSegments.liveGames &&
                     <RoundSegment label={ROUND_SEGMENT_LIVE_LABEL} games={roundSegments.liveGames} key={ROUND_SEGMENT_LIVE_LABEL}/>
                 }
-                {roundSegments &&
-                    roundSegments.futureGames &&
-                    Object.entries(roundSegments.futureGames).map(([label, games], i) => {
-                        return <RoundSegment label={label} games={games} key={label}/>
-                    })
-                }
-                {roundSegments &&
-                    roundSegments.futureGames &&
-                    Object.entries(roundSegments.pastGames).map(([label, games], i) => {
-                        return <RoundSegment label={label} games={games} key={label}/>
-                    })
-                }
+                {roundSegments?.futureGames.map(({ label, games }) => (
+                    <RoundSegment label={label} games={games} key={label} />
+                ))}
+                {roundSegments?.pastGames.map(({ label, games }) => (
+                    <RoundSegment label={label} games={games} key={label} />
+                ))}
 
             </div>
         </>
