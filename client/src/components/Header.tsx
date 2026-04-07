@@ -18,8 +18,8 @@ export default function Header() {
         <header className={`${headerStyles} grid w-full py-3 px-3 justify-center items-center gap-3`}>
             <div className={"flex gap-2 items-center"}>
                 <RoundLadderSwitcher/>
-                <div className={`hidden md:block ${false && `hidden md:hidden`}`}>
-                    <SeasonSwitcher />
+                <div className={`hidden md:block ${viewContext.view === "game" && `hidden md:hidden`}`}>
+                    <SeasonSwitcher/>
                 </div>
             </div>
 
