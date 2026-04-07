@@ -32,10 +32,10 @@ export default function Header() {
             </Link>
 
             <div className={"flex gap-4 ml-auto text-white"}>
-                <button onClick={toggleSidebar} className={`${buttonStyles}`}>
                 <button onClick={prefsContext.toggleTheme} className={`${buttonStyles} hidden md:block`}>
                     {prefsContext.theme === "light" ? <MdLightMode/> : <MdDarkMode/>}
                 </button>
+                <button onClick={() => viewContext.setSidebarActive(!viewContext.sidebarActive)} className={`${buttonStyles}`}>
                     <GiHamburgerMenu/>
                 </button>
             </div>
