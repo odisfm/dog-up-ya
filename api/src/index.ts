@@ -52,7 +52,7 @@ app.get('/ladder/:year', async (c) => {
 
   const standingsRecords = await db.standing.findMany({
     where: {
-      season: seasonRecord
+      seasonId: seasonRecord.id
     },
     orderBy: {
       rank: "asc"
@@ -91,7 +91,7 @@ app.get('/round/:year/:roundNumber', async (c) => {
   const roundNumber = parseInt(c.req.param("roundNumber"))
   const roundRecord =  await db.round.findFirst({
     where: {
-      season: seasonRecord,
+      seasonId: seasonRecord.id,
       roundNumber
 
     },
