@@ -50,14 +50,15 @@ model Team {
 }
 
 model Season {
-  id            String       @id @default(uuid()) @db.Uuid
-  year          Int
-  isPremSeason  Boolean
-  rounds        Round[]
-  seasonTeams   SeasonTeam[]
-  standings     Standing[]
-  premier       Team?        @relation(fields: [premierTeamId], references: [id])
-  premierTeamId String?      @db.Uuid
+  id               String       @id @default(uuid()) @db.Uuid
+  year             Int
+  isPremSeason     Boolean
+  rounds           Round[]
+  seasonTeams      SeasonTeam[]
+  standings        Standing[]
+  premier          Team?        @relation(fields: [premierTeamId], references: [id])
+  premierTeamId    String?      @db.Uuid
+  finalsQualifiers Int[] // most years just e.g [8], years with multi-tiered finals e.g [6, 10]
 }
 
 model SeasonTeam {
