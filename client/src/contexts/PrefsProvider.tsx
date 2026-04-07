@@ -8,6 +8,7 @@ type PrefsContextType = {
     setShowSpoilersPref: (pref: boolean) => void;
     showSpoilers: boolean
     theme: Theme
+    addSpoilerIgnoredGame: (gameId: string) => void;
 }
 
 export const PrefsContext = createContext<PrefsContextType | null>(null);
@@ -21,6 +22,14 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
         }
         return pref === "true";
     });
+    const [spoilerIgnoredGames, setSpoilerIgnoredGames] = useState((): string[] => {
+        const stored = localStorage.getItem("spoilerIgnoredGames");
+        if (stored === null) {
+            return []
+        } else {
+            return JSON.parse(stored);
+        }
+    })
 
     const [theme, setTheme] = useState<Theme>(() => {
         const pref = localStorage.getItem("darkModePref");
@@ -47,8 +56,14 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
         localStorage.setItem("spoilerPref", pref ? "true" : "false");
     }
 
+    function addSpoilerIgnoredGame(gameId: string) {
+        const ignoredGames = [...spoilerIgnoredGames, gameId];
+        localStorage.setItem("spoilerIgnoredGames", JSON.stringify(ignoredGames));
+        setSpoilerIgnoredGames(ignoredGames);
+    }
+
     return (
-        <PrefsContext.Provider value={{ changeTheme, toggleTheme, setShowSpoilersPref, showSpoilers, theme }}>
+        <PrefsContext.Provider value={{ changeTheme, toggleTheme, setShowSpoilersPref, showSpoilers, theme, addSpoilerIgnoredGame }}>
             {children}
         </PrefsContext.Provider>
     )
