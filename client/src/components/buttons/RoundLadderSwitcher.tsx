@@ -3,7 +3,7 @@ import {Link, useLocation, useParams} from "react-router";
 export default function RoundLadderSwitcher() {
     const params = useParams();
     const year = params.season || new Date().getFullYear()
-    const round = params.round || 1
+    const round = params.roundNum || 1
     const location = useLocation();
     const isLadder = location.pathname.startsWith('/ladder');
     const isRound  = location.pathname.startsWith('/round');
