@@ -1,5 +1,5 @@
 import {db, Prisma, type Round, type Season} from '@footy-scores/shared'
-import {differenceInDays} from "date-fns"
+import {differenceInDays, differenceInHours} from "date-fns"
 
 export async function getSeasonForYear(year: number) {
     return db.season.findFirst({
@@ -35,7 +35,7 @@ export async function getCurrentRoundForSeason(season: Season): Promise<Round> {
         }
     }) as Prisma.GameGetPayload<{include: {round: true}}>
 
-    if(differenceInDays(nowUnixTime, Number(nearestGame.unixTime) * 1000) <= 1) {
+    if(differenceInHours(nowUnixTime, Number(nearestGame.unixTime) * 1000) <= 24) {
         return nearestGame.round
     }
 
