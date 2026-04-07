@@ -37,7 +37,7 @@ export default function Ladder() {
 
 
     const finals1bg = `bg-cyan-600`
-    const finals2bg = `bg-yellow-400`
+    const finals2bg = `bg-yellow-600`
 
     const positionFinalsBgs: string[] = useMemo(() => {
         if (!ladder || ! season) {
