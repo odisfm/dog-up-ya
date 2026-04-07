@@ -40,7 +40,7 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
         }
     };
 
-    const scrollButtonClasses = `pointer-coarse:hidden text-mist-500 dark:text-white text-xl p-1 rounded-md hover:bg-white dark:hover:bg-mist-700`
+    const scrollButtonClasses = `pointer-coarse:hidden cursor-pointer text-mist-500 dark:text-white text-xl p-1 rounded-md hover:bg-white dark:hover:bg-mist-700`
 
 
     return (
