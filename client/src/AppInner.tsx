@@ -3,10 +3,11 @@ import Sidebar from "./components/Sidebar.tsx";
 import {Outlet, useLocation, useParams, useNavigate} from "react-router";
 import {useContext, useEffect, useState} from "react";
 import {TimeContext} from "./contexts/TimeProvider.tsx";
+import {ViewContext} from "./contexts/ViewProvider.tsx";
 
 export default function AppInner() {
     const timeContext = useContext(TimeContext)!;
-    const [sidebarVisible, setSidebarVisible] = useState(false);
+    const viewContext = useContext(ViewContext)!;
     const navigate = useNavigate();
     const location = useLocation();
     const isLadder = location.pathname.startsWith('/ladder');
@@ -24,23 +25,31 @@ export default function AppInner() {
         }
     }, [timeContext.year, timeContext.round, isRound, isLadder, navigate]);
 
+    useEffect(() => {
+        if (isLadder) {
+            viewContext.setView("ladder")
+        }
+        else if (isRound) {
+            viewContext.setView("round")
+        } else if (isGame) {
+            viewContext.setView("game")
+        }
+    }, [viewContext, isLadder, isRound, isGame]);
+
 
     const headerFooterStyles = `bg-mist-500 dark:bg-mist-900`
 
-    function toggleSidebar() {
-        setSidebarVisible(!sidebarVisible);
-    }
 
     return (
         <>
 
-            <Header toggleSidebar={toggleSidebar} />
+            <Header toggleSidebar={viewContext.toggleSidebar} />
             <div
-                className={`flex flex-col overflow-x-hidden ${sidebarVisible ? 'h-screen overflow-y-hidden' : 'min-h-screen'}`}>
+                className={`flex flex-col overflow-x-hidden ${viewContext.sidebarActive ? 'h-screen overflow-y-hidden' : 'min-h-screen'}`}>
 
 
                 <div className="relative flex-1 h-full">
-                    <Sidebar visible={sidebarVisible}/>
+                    <Sidebar />
                     <main className={"bg-mist-300 dark:bg-mist-950 pt-2 pb-12 flex flex-col items-center"}>
                         <Outlet/>
                     </main>

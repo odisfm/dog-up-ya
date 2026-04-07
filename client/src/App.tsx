@@ -2,12 +2,10 @@ import {createContext, useContext, useEffect, useState} from "react";
 import {TimeContext, TimeProvider} from "./contexts/TimeProvider.tsx";
 import AppInner from "./AppInner.tsx";
 import {useParams} from "react-router";
+import {ViewContext, ViewProvider} from "./contexts/ViewProvider.tsx";
 
 export default function App() {
-    const timeContext = useContext(TimeContext)!;
     const params = useParams();
-
-
 
 
     function toggleDarkMode() {
@@ -42,7 +40,9 @@ export default function App() {
     return (
         <>
             <TimeProvider initialYear={Number(params.season) || new Date().getFullYear()} initialRound={Number(params.roundNum) || 1}>
+             <ViewProvider initialView={"round"} initialSidebarActive={false}>
                 <AppInner />
+             </ViewProvider>
             </TimeProvider>
 </>
 )}
