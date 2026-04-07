@@ -1,8 +1,8 @@
 import {createContext, type ReactNode, useState} from "react";
 
 interface TimeContextType {
-    year: number;
-    round: number;
+    year: number | null;
+    round: number | null;
     setYear: (year: number) => void;
     setRound: (round: number) => void;
 }
@@ -10,9 +10,9 @@ interface TimeContextType {
 export const TimeContext = createContext<TimeContextType | null>(null);
 
 export function TimeProvider({ children, initialYear, initialRound}:
-{children: ReactNode, initialYear: number, initialRound: number}) {
-    const [year, setYear] = useState<number>(initialYear);
-    const [round, setRound] = useState<number>(initialRound);
+{children: ReactNode, initialYear: number | null, initialRound: number | null}) {
+    const [year, setYear] = useState<number| null>(initialYear);
+    const [round, setRound] = useState<number | null>(initialRound);
 
     return (
         <TimeContext.Provider value={{ year, round, setYear, setRound }}>

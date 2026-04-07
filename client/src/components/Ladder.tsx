@@ -12,6 +12,9 @@ export default function Ladder() {
     const timeContext = useContext(TimeContext)!;
 
     useEffect(() => {
+        if (!timeContext.year) {
+            return
+        }
         (async () => {
             try {
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/ladder/${timeContext.year}`);

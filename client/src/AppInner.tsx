@@ -4,6 +4,7 @@ import {Outlet, useLocation, useNavigate} from "react-router";
 import {useContext, useEffect} from "react";
 import {TimeContext} from "./contexts/TimeProvider.tsx";
 import {ViewContext} from "./contexts/ViewProvider.tsx";
+import type {CurrentRoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 
 export default function AppInner() {
     const timeContext = useContext(TimeContext)!;
@@ -32,6 +33,22 @@ export default function AppInner() {
             viewContext.setView("game")
         }
     }, [viewContext, isLadder, isRound, isGame]);
+
+    useEffect(() => {
+        if (!timeContext.year || timeContext.round === null) {
+            (async () => {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/round/current`);
+                if (!response) {
+                    // todo: setFailed()
+                }
+                const data = await response.json();
+                const _data: CurrentRoundResponse = data.data;
+                timeContext.setYear(_data.season)
+                timeContext.setRound(_data.roundNum)
+
+            })()
+        }
+    }, [timeContext, timeContext.year, timeContext.round]);
 
 
     const headerFooterStyles = `bg-mist-500 dark:bg-mist-900`

@@ -12,7 +12,7 @@ export default function RoundLadderSwitcher() {
     const inactiveButtonStyles = `bg-mist-800 hover:bg-mist-700`
 
     return (
-            <div className={"flex gap-2 items-center"}>
+            <div className={`flex gap-2 items-center ${!timeContext.year && `hidden`}`}>
                 <Link to={`/round/${timeContext.year}/${timeContext.round}`}
                       className={`${buttonStyles} ${viewContext.view === "round" ? activeButtonStyles : inactiveButtonStyles}`}>
                     Round

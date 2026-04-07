@@ -6,10 +6,18 @@ import {PrefsProvider} from "./contexts/PrefsProvider.tsx";
 
 export default function App() {
     const params = useParams();
+    let initialYear: number | null = null;
+    if (params.season) {
+        initialYear = Number(params.season);
+    }
+    let initialRound: number | null = null;
+    if (params.roundNum) {
+        initialRound = Number(params.roundNum);
+    }
 
     return (
         <>
-            <TimeProvider initialYear={Number(params.season) || new Date().getFullYear()} initialRound={Number(params.roundNum) || 1}>
+            <TimeProvider initialYear={initialYear} initialRound={initialRound}>
              <ViewProvider initialView={"round"} initialSidebarActive={false}>
              <PrefsProvider>
                 <AppInner />

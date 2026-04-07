@@ -28,6 +28,9 @@ export default function Round() {
     const [seasonAllRoundsData, setSeasonAllRoundsData] = useState<RoundType[]>([]);
 
     const fetchThisRoundData = useCallback(async () => {
+        if (!timeContext.year || timeContext.round === null) {
+            return
+        }
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/round/${timeContext.year}/${timeContext.round}`);
             const data = await response.json();
@@ -45,6 +48,9 @@ export default function Round() {
     }, [timeContext.year, timeContext.round]);
 
     const fetchSeasonAllRoundsData = useCallback(async () => {
+        if (!timeContext.year) {
+            return
+        }
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/season/${timeContext.year}/rounds`);
             const data = await response.json();
