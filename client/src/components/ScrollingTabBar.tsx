@@ -1,12 +1,14 @@
 import {Link} from "react-router";
-import {useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
+import {TimeContext} from "../contexts/TimeProvider.tsx";
 
 
 export type TabBarItem = {
     label: string,
     accessibleLabel?: string,
     link: string,
+    roundNumber: number
 }
 
 const scrollDistance = 150
@@ -14,6 +16,7 @@ const scrollDistance = 150
 export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[], activeItem: string | undefined}) {
     const [activeTab, setActiveTab] = useState<HTMLLIElement | null>(null);
     const ulRef = useRef<HTMLUListElement>(null)
+    const timeContext = useContext(TimeContext)!;
 
     useEffect(() => {
         if (activeTab) {
@@ -52,17 +55,17 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
                         <li key={item.link}
                             ref={isActive ? setActiveTab : null}
                         >
-                            <Link
-                                to={item.link}
+                            <button
+                                onClick={() => timeContext.setRound(item.roundNumber)}
                                 aria-label={item.accessibleLabel}
-                                className={`rounded-md py-1 px-2 min-w-15 inline-block whitespace-nowrap  
+                                className={`rounded-md py-1 px-2 min-w-15 inline-block whitespace-nowrap cursor-pointer 
                                     ${!isActive ? `bg-mist-500 hover:bg-mist-600 dark:bg-mist-900 hover:dark:bg-mist-800`: 
                                     `bg-cyan-700`}`
                             }
                                 aria-current={isActive}
                             >
                                 {item.label}
-                            </Link>
+                            </button>
                         </li>
                     );
                 })}

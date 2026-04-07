@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import GameSummary from "../GameSummary/GameSummary.tsx";
 import {Link, Navigate, useParams} from "react-router";
 import type {GameDetailsPayload, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
@@ -8,10 +8,13 @@ import ScoreEvents from "./ScoreEvents.tsx";
 import GameLinks from "./GameLinks.tsx";
 import Section from "../Section.tsx";
 import GameTip from "./GameTip.tsx";
+import {TimeContext} from "../../contexts/TimeProvider.tsx";
+import * as sea from "node:sea";
 
 
 export default function GameDetail() {
     const params = useParams();
+    const timeContext = useContext(TimeContext)!;
     const [gameData, setGameData] = useState<GameDetailsPayload | null>(null);
     const [seasonData, setSeasonData] = useState<Season | null>(null);
     const [roundData, setRoundData] = useState<Round | null>(null);
@@ -47,6 +50,14 @@ export default function GameDetail() {
            await fetchGameData();
         })()
     }, [params.gameId, fetchGameData]);
+
+    useEffect(() => {
+        if (!roundData || !seasonData) {
+            return;
+        }
+        timeContext.setRound(roundData.roundNumber)
+        timeContext.setYear(seasonData.year)
+    }, [timeContext, roundData, seasonData]);
 
     const showScoreEvents = useMemo(() => {
         if (!gameData || !gameData.homeTeam || !gameData.awayTeam) {

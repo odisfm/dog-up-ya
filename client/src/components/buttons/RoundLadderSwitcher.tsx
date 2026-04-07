@@ -1,7 +1,10 @@
 import {Link, useLocation, useParams} from "react-router";
+import {useContext} from "react";
+import {TimeContext} from "../../contexts/TimeProvider.tsx";
 
 export default function RoundLadderSwitcher() {
     const params = useParams();
+    const timeContext = useContext(TimeContext)!;
     const year = params.season || new Date().getFullYear()
     const round = params.roundNum || 1
     const location = useLocation();
@@ -15,11 +18,11 @@ export default function RoundLadderSwitcher() {
 
     return (
             <div className={"flex gap-2 items-center"}>
-                <Link to={`/round/${year}/${round}`}
+                <Link to={`/round/${timeContext.year}/${timeContext.round}`}
                       className={`${buttonStyles} ${isRound ? activeButtonStyles : inactiveButtonStyles}`}>
                     Round
                 </Link>
-                <Link to={`/ladder/${year}/`}
+                <Link to={`/ladder/${timeContext.year}/`}
                     className={`${buttonStyles} ${isLadder ? activeButtonStyles : inactiveButtonStyles}`}>
                     Ladder
                 </Link>

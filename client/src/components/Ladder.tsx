@@ -1,20 +1,21 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import type {LadderResponse, LadderPayload} from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season} from "@footy-scores/shared"
 import TeamFlag from "./TeamFlag.tsx";
 import {useParams} from "react-router";
 import {FaTrophy} from "react-icons/fa";
+import {TimeContext} from "../contexts/TimeProvider.tsx";
 
 export default function Ladder() {
     const [ladder, setLadder] = useState<LadderPayload | null>(null);
     const [season, setSeason] = useState<Season | null>(null);
     const [failed, setFailed] = useState(false);
-    const params = useParams();
+    const timeContext = useContext(TimeContext)!;
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/ladder/${params.season}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/ladder/${timeContext.year}`);
                 const data = await response.json();
                 if (data.data) {
                     const _data: LadderResponse = data.data;
@@ -30,7 +31,7 @@ export default function Ladder() {
             }
 
         })()
-    }, [params.season]);
+    }, [timeContext.year]);
 
     return (
         <>

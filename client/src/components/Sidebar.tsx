@@ -16,7 +16,7 @@ export default function Sidebar({ visible }: { visible: boolean }) {
                 <fieldset className={`md:hidden flex flex-col`}>
                     <label htmlFor={"sidebarSeasonSwitcher"} className={labelStyles}>Season</label>
                     <div id={"sidebarSeasonSwitcher"}>
-                        <SeasonSwitcher current={2026} min={1897} max={2026} decrementSeason={console.log} incrementSeason={console.log}/>
+                        <SeasonSwitcher current={2026} minYear={1897} maxYear={2026} decrementSeason={console.log} incrementSeason={console.log}/>
                     </div>
                 </fieldset>
             </div>

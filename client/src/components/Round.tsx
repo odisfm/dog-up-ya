@@ -1,5 +1,4 @@
-import {Navigate, useParams} from "react-router";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import type {Round as RoundType} from "@footy-scores/shared/src"
 import type {
     GameResponse,
@@ -11,6 +10,7 @@ import {areGamesLive} from "../utils.ts";
 import {REFRESH_TIME_MS, ROUND_SEGMENT_LIVE_LABEL} from "../consts.ts";
 import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore, isToday} from "date-fns";
 import RoundSegment from "./RoundSegment.tsx";
+import {TimeContext} from "../contexts/TimeProvider.tsx";
 
 type RoundSegment = Record<string, GameResponse[]>
 
@@ -21,7 +21,7 @@ type RoundGrouping = {
 }
 
 export default function Round() {
-    const params = useParams();
+    const timeContext = useContext(TimeContext)!;
     const [failed, setFailed] = useState(false);
     const [hasLiveGames, setHasLiveGames] = useState(false);
     const [roundData, setRoundData] = useState<RoundResponse | null>(null);
@@ -29,7 +29,7 @@ export default function Round() {
 
     const fetchThisRoundData = useCallback(async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/round/${params.season}/${params.roundNum}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/round/${timeContext.year}/${timeContext.round}`);
             const data = await response.json();
             if (data.data) {
                 setRoundData(data.data);
@@ -42,11 +42,11 @@ export default function Round() {
             console.error(e);
             setFailed(true);
         }
-    }, [params.season, params.roundNum]);
+    }, [timeContext.year, timeContext.round]);
 
     const fetchSeasonAllRoundsData = useCallback(async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/season/${params.season}/rounds`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/season/${timeContext.year}/rounds`);
             const data = await response.json();
             if (data.data) {
                 const _data: SeasonAllRoundsResponse = data.data;
@@ -59,7 +59,7 @@ export default function Round() {
             console.error(e);
             setFailed(true);
         }
-    }, [params.season]);
+    }, [timeContext.year]);
 
 
     useEffect(() => {
@@ -158,14 +158,15 @@ export default function Round() {
         }
         roundItems.push({
             label,
-            link: `/round/${params.season}/${roundData.roundNumber}`
+            link: `/round/${timeContext.year}/${roundData.roundNumber}`,
+            roundNumber: roundData.roundNumber
         })
     }
 
     return (
         <>
             { seasonAllRoundsData &&
-                <ScrollingTabBar items={roundItems} activeItem={`/round/${params.season}/${params.roundNum}`} />
+                <ScrollingTabBar items={roundItems} activeItem={`/round/${timeContext.year}/${timeContext.round}`} />
             }
             <div className={"flex flex-col  w-full  md:w-2/3 p-1 md:p-0"}>
                 {roundSegments &&
