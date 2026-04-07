@@ -19,14 +19,18 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
     const timeContext = useContext(TimeContext)!;
 
     useEffect(() => {
-        if (activeTab) {
-            activeTab.scrollIntoView({
+        if (activeTab && ulRef.current) {
+            const ul = ulRef.current;
+            const tabLeft = activeTab.offsetLeft;
+            const tabWidth = activeTab.offsetWidth;
+            const ulWidth = ul.offsetWidth;
+
+            ul.scrollTo({
+                left: tabLeft - ulWidth / 2 + tabWidth / 2,
                 behavior: "smooth",
-                inline: "center",
-                block: "nearest",
-            })
+            });
         }
-    }, [activeTab, setActiveTab])
+    }, [activeTab]);
 
     const scrollLeft = () => {
         if (ulRef.current) {
