@@ -64,7 +64,7 @@ export default function Ladder() {
             }
 
             {ladder && season &&
-            <table className={"border-separate border-spacing-0 rounded-lg overflow-hidden"}>
+            <table className={"border-separate border-spacing-0 rounded-lg overflow-hidden text-xs md:text-sm"}>
                 <thead className={""}>
                 <tr className={"*:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
                     <th className={"w-1 px-0 pt-0 !p-0"}></th>
