@@ -13,7 +13,7 @@ export default function RoundSegment({label, games}: {label: string, games: Game
 
     return (
         <section className={"flex flex-col mt-6"}>
-            <h3 aria-hidden={true} className={`text-white self-start ${label === ROUND_SEGMENT_LIVE_LABEL ? liveStyles : dullStyles}  py-1 px-2 mb-2 rounded-md`}>{label}</h3>
+            <h3 aria-hidden={true} className={`text-white self-start font-bold ${label === ROUND_SEGMENT_LIVE_LABEL ? liveStyles : dullStyles}  py-1 px-2 mb-2 rounded-md`}>{label}</h3>
             {games.map((game, i) => {
                 return (
                     <Link to={`/game/${game.id}`} className={"group"} key={game.id}>

@@ -15,6 +15,10 @@
         "bot-left bot-mid bot-right"
 }
 
+.divider {
+    grid-area: mid-mid;
+}
+
 .venue-name {
     grid-area: top;
 }
