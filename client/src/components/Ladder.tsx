@@ -56,7 +56,7 @@ export default function Ladder() {
                 </thead>
                 <tbody>
                     {ladder.map((standing, i) => (
-                        <tr key={standing.team.id}
+                        <tr key={`${standing.team.id}${season.year}`}
                             className={"bg-neutral-100 odd:bg-neutral-200 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white *:p-2"}>
                             <td className={"px-3 text-right"}>
                                 {i + 1}
