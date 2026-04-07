@@ -168,7 +168,7 @@ export default function Round() {
             { seasonAllRoundsData &&
                 <ScrollingTabBar items={roundItems} activeItem={`/round/${timeContext.year}/${timeContext.round}`} />
             }
-            <div className={"flex flex-col  w-full  md:w-2/3 p-1 md:p-0"}>
+            <div className={"flex flex-col  w-full  md:w-2/3 lg:w-3/5 p-1 md:p-0"}>
                 {roundSegments &&
                     roundSegments.liveGames &&
                     <RoundSegment label={ROUND_SEGMENT_LIVE_LABEL} games={roundSegments.liveGames} key={ROUND_SEGMENT_LIVE_LABEL}/>

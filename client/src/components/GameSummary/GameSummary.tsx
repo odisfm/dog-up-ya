@@ -60,7 +60,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                                     behinds={gameData.hBehinds}
                                 />
                             </div>
-                            <div className={"divider h-5 w-1 rounded-md bg-mist-700 justify-self-center self-center"}></div>
+                            <div className={"divider h-8 w-1 rounded-md bg-mist-700 justify-self-center self-center"}></div>
                             <div className={"away-team"}>
                                 <GameSummaryScore
                                     score={gameData.aScore}
