@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import type {LadderResponse, LadderPayload} from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season} from "@footy-scores/shared"
 import TeamFlag from "./TeamFlag.tsx";
@@ -33,6 +33,27 @@ export default function Ladder() {
         })()
     }, [timeContext.year]);
 
+
+    const finals1bg = `bg-cyan-600`
+    const finals2bg = `bg-yellow-400`
+
+    const positionFinalsBgs: string[] = useMemo(() => {
+        if (!ladder || ! season) {
+            return []
+        }
+        const bgs = []
+        for (let i = 0; i < ladder.length; i++) {
+            if (!season.finalsQualifiers.length) {
+                bgs.push("")
+            } else if (i < season.finalsQualifiers[0]) {
+                bgs.push(finals1bg)
+            } else if (season.finalsQualifiers.length > 1 && i < season.finalsQualifiers[1]) {
+                bgs.push(finals2bg)
+            }
+        }
+        return bgs;
+    }, [ladder, season, finals1bg, finals2bg])
+
     return (
         <>
             {!failed  && !ladder &&
@@ -46,6 +67,7 @@ export default function Ladder() {
             <table className={"border-separate border-spacing-0 rounded-lg overflow-hidden"}>
                 <thead className={""}>
                 <tr className={"*:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
+                    <th className={"w-1 px-0 pt-0 !p-0"}></th>
                     <th className={"px-3 text-right"}>#</th>
                     <th className={"text-left"}>Team</th>
                     <th>Played</th>
@@ -58,6 +80,7 @@ export default function Ladder() {
                     {ladder.map((standing, i) => (
                         <tr key={`${standing.team.id}${season.year}`}
                             className={"bg-neutral-100 odd:bg-neutral-200 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white *:p-2"}>
+                            <td className={`!p-0 ${positionFinalsBgs[i]}`}></td>
                             <td className={"px-3 text-right"}>
                                 {i + 1}
                             </td>
