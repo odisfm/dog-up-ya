@@ -1,4 +1,4 @@
-import {Link, Outlet} from "react-router";
+import {Link, Outlet, useLocation, useNavigate, useParams} from "react-router";
 import { MdLightMode } from "react-icons/md"
 import {useEffect, useState} from "react";
 import {APP_NAME} from "./consts.ts";
@@ -10,6 +10,31 @@ import SeasonSwitcher from "./components/buttons/SeasonSwitcher.tsx";
 
 export default function App() {
     const [sidebarVisible, setSidebarVisible] = useState(false);
+    const params = useParams();
+    const year = Number(params.season) || new Date().getFullYear()
+    const round = Number(params.roundNum) || 1
+    const location = useLocation();
+    const isLadder = location.pathname.startsWith('/ladder');
+    const isRound  = location.pathname.startsWith('/round');
+    const isGame   = location.pathname.startsWith('/game');
+
+    const navigate = useNavigate();
+
+    function setYear(newYear: number) {
+        if (isLadder) {
+            navigate(`/ladder/${newYear}`);
+        } else if (isRound) {
+            navigate(`/round/${newYear}/${round}`);
+        }
+    }
+
+    function decrementYear() {
+        setYear(year - 1);
+    }
+
+    function incrementYear() {
+        setYear(year + 1);
+    }
 
     function toggleDarkMode() {
         const darkModePref = localStorage.getItem("darkModePref")
@@ -49,8 +74,8 @@ export default function App() {
             <div className={`flex flex-col overflow-x-hidden ${sidebarVisible ? 'h-screen overflow-y-hidden' : 'min-h-screen'}`}>            <header className={`${headerFooterStyles} grid w-full py-3 px-5 justify-center items-center gap-3`}>
                 <div className={"flex gap-2 items-center"}>
                     <RoundLadderSwitcher/>
-                    <div className={"hidden md:block"}>
-                        <SeasonSwitcher current={2026} min={1897} max={2026} />
+                    <div className={`hidden md:block ${isGame && `hidden md:hidden`}`}>
+                        <SeasonSwitcher current={year} min={1897} max={2026} decrementSeason={decrementYear} incrementSeason={incrementYear} setSeason={setYear}/>
                     </div>
                 </div>
 
