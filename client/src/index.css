@@ -24,11 +24,11 @@
 html {
     min-height: 100%;
     &.dark body {
-        background-color: var(--color-mist-950);
+        background-color: var(--color-mist-900);
     }
 
     &:not(.dark) body {
-        background-color: var(--color-neutral-300);
+        background-color: var(--color-mist-500);
     }
 }
 
