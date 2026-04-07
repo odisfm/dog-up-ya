@@ -59,7 +59,7 @@ export default function SeasonSwitcher() {
                         className={"w-full flex gap-1 p-1 bg-mist-800 rounded-md text-xs"}
                         onSubmit={(e) => submitSeasonInputForm(e)}
                     >
-                        <input type={"number"} min={minYear} max={maxYear} ref={seasonInputRef} className={"w-15 text-white"} placeholder={String(timeContext.year)}></input>
+                        <input type={"number"} min={minYear} max={maxYear} defaultValue={timeContext.year || maxYear} ref={seasonInputRef} className={"w-15 text-white"} placeholder={String(timeContext.year)}></input>
                         <button className={`${formButtonStyles} bg-lime-600 hover:bg-lime-700`} type={"submit"}><GrReturn /></button>
                         <button className={`${formButtonStyles} bg-red-950 hover:bg-red-900`} type={"button"} onClick={() => setSeasonInputVisible(false)}><MdCancel /></button>
                     </form>
