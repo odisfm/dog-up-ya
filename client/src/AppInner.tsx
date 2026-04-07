@@ -46,9 +46,8 @@ export default function AppInner() {
                     </main>
                 </div>
 
-                <footer className={`${headerFooterStyles} py-3 text-white font-light`}>
-                    <span>Data from <a href={"https://squiggle.com.au/"} target={"_blank"}>Squiggle</a>, site by
-                        <a href={"https://odis.fm"} target={"_blank"}>odis</a></span>
+                <footer className={`${headerFooterStyles} py-3 text-white font-light text-xs`}>
+                    <span>data from <a href={"https://squiggle.com.au/"} target={"_blank"}>Squiggle</a>, site by <a href={"https://odis.fm"} target={"_blank"}>odis</a></span>
                 </footer>
             </div>
         </>
