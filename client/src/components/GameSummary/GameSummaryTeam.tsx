@@ -13,7 +13,7 @@ export default function GameSummaryTeam({teamData, homeTeam}: {
                     </div>
 
                     <span
-                    className={`${homeTeam ? 'text-left' : 'text-right'} mt-2 text-sm md:text-md`}>
+                    className={`${homeTeam ? 'text-left' : 'text-right'} mt-2 text-xs md:text-lg`}>
                     {teamData?.name || "TBD"}
                     </span>
             </div>
