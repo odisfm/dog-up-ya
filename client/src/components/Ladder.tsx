@@ -66,7 +66,7 @@ export default function Ladder() {
             }
 
             {ladder && season &&
-            <table className={"border-separate border-spacing-0 rounded-lg overflow-hidden text-xs md:text-sm"}>
+            <table className={"border-separate border-spacing-0 rounded-lg text-xs md:text-sm w-full"}>
                 <thead className={""}>
                 <tr className={"*:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
                     <th className={"w-1 px-0 pt-0 !p-0"}></th>
@@ -86,7 +86,7 @@ export default function Ladder() {
                             <td className={"px-3 text-right"}>
                                 {i + 1}
                             </td>
-                            <td className={"text-left flex gap-2 items-center"}>
+                            <td className={"text-left flex gap-2 items-center font-bold"}>
                                 <TeamFlag teamName={standing.team.name} size={"xs"} />
                                 {standing.team.name.length < 17 ? standing.team.name : standing.team.abbreviation}
                                 {season.premierTeamId === standing.teamId &&
