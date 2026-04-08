@@ -1,10 +1,11 @@
 import Header from "./components/Header.tsx";
 import Sidebar from "./components/Sidebar.tsx";
-import {Outlet, useLocation, useNavigate} from "react-router";
+import {Link, Outlet, useLocation, useNavigate} from "react-router";
 import {useContext, useEffect} from "react";
 import {TimeContext} from "./contexts/TimeProvider.tsx";
 import {ViewContext} from "./contexts/ViewProvider.tsx";
 import type {CurrentRoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import Footer from "./components/Footer.tsx";
 
 export default function AppInner() {
     const timeContext = useContext(TimeContext)!;
@@ -50,10 +51,6 @@ export default function AppInner() {
         }
     }, [timeContext, timeContext.year, timeContext.round]);
 
-
-    const headerFooterStyles = `bg-mist-500 dark:bg-mist-900`
-
-
     return (
         <>
 
@@ -71,9 +68,7 @@ export default function AppInner() {
                     </main>
                 </div>
 
-                <footer className={`${headerFooterStyles} py-3 md:p-6 text-white font-light text-xs`}>
-                    <span>data from <a href={"https://squiggle.com.au/"} target={"_blank"}>Squiggle</a>, site by <a href={"https://odis.fm"} target={"_blank"}>odis</a></span>
-                </footer>
+                <Footer />
             </div>
         </>
     )
