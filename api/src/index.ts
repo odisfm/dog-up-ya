@@ -127,7 +127,11 @@ app.get(`/season/:year/rounds`, async (c) => {
       year: year
     },
     include: {
-      rounds: true,
+      rounds: {
+        orderBy: {
+          roundNumber: "asc"
+        }
+      },
       seasonTeams: {
         include: {
           team: true
