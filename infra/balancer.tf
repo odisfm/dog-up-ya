@@ -71,8 +71,8 @@ resource "aws_lb_target_group" "blue" {
   vpc_id   = aws_vpc.main.id
 
   health_check {
-    path    = "/index"
-    matcher = "200-499"
+    path    = "/health"
+    matcher = "200"
   }
 }
 
@@ -83,8 +83,8 @@ resource "aws_lb_target_group" "green" {
   vpc_id   = aws_vpc.main.id
 
   health_check {
-    path    = "/index"
-    matcher = "200-499"
+    path    = "/health"
+    matcher = "200"
   }
 }
 
@@ -103,6 +103,7 @@ resource "aws_autoscaling_group" "blue" {
   desired_capacity   = 2
   max_size           = 3
   min_size           = 0
+  health_check_grace_period = 120
 
   launch_template {
     id      = aws_launch_template.main.id
@@ -115,6 +116,7 @@ resource "aws_autoscaling_group" "green" {
   desired_capacity   = 2
   max_size           = 3
   min_size           = 0
+  health_check_grace_period = 120
 
   launch_template {
     id      = aws_launch_template.main.id
