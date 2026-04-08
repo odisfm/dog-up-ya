@@ -21,6 +21,8 @@ import universityFlag from "../assets/flags/university.png?url"
 import westCoastFlag from "../assets/flags/west-coast.png?url"
 import westernBulldogsFlag from "../assets/flags/western-bulldogs.png?url"
 
+import tbdFlag from "../assets/flags/tbd.png?url"
+
 import flagTexture from "../assets/flag-texture.png"
 
 const FLAGS: Record<string, string> = {
@@ -47,6 +49,7 @@ const FLAGS: Record<string, string> = {
     university: universityFlag,
     "west-coast": westCoastFlag,
     "western-bulldogs": westernBulldogsFlag,
+    "tbd": tbdFlag
 }
 
 export default function TeamFlag({teamName, size}: {teamName: keyof typeof FLAGS, size: "xs" | "sm" | "md" | "lg" | "xl"}) {
