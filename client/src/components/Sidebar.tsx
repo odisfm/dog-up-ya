@@ -8,7 +8,7 @@ export default function Sidebar() {
     const prefsContext = useContext(PrefsContext)!;
 
     const labelStyles = `text-left font-bold mb-2`
-    const buttonStyles = `rounded-md px-2 py-1 font-bold cursor-pointer`
+    const buttonStyles = `rounded-md px-4 py-1 font-bold cursor-pointer`
     const inactiveButtonStyles = `bg-mist-700 hover:bg-mist-600`
     const activeButtonStyles = `bg-cyan-700 hover:bg-cyan-700`
 
@@ -33,8 +33,8 @@ export default function Sidebar() {
             }}
             className="absolute top-0 right-0 h-full w-screen md:w-1/3 lg:w-1/5 z-50 bg-mist-900 dark:bg-black text-white flex flex-col"
         >
-            <div className="flex flex-col items-start flex-1 w-full p-3 overflow-y-scroll pb-12">
-                <h3 className={"text-xl font-bold mb-4"}>Options</h3>
+            <div className="flex flex-col gap-6 items-start flex-1 w-full p-3 overflow-y-scroll pb-12">
+                <h3 className={"text-xl font-bold"}>Options</h3>
                 <fieldset className={`md:hidden flex flex-col`}>
                     <label htmlFor={"sidebarSeasonSwitcher"} className={labelStyles}>Season</label>
                     <div id={"sidebarSeasonSwitcher"}>
