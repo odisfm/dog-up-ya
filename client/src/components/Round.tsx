@@ -51,7 +51,7 @@ useState<RoundType[]>([]);
         }
     }, [timeContext.year, timeContext.round]);
 
-    const fetchSeasonAllRoundsData = useCallback(async () => {
+    const fetchSeasonData = useCallback(async () => {
         if (!timeContext.year) {
             return
         }
@@ -75,9 +75,9 @@ useState<RoundType[]>([]);
     useEffect(() => {
         (async () => {
             await fetchThisRoundData();
-            await fetchSeasonAllRoundsData();
+            await fetchSeasonData();
         })()
-    }, [fetchThisRoundData, fetchSeasonAllRoundsData]);
+    }, [fetchThisRoundData, fetchSeasonData]);
 
     useEffect(() => {
         if (hasLiveGames) return;
