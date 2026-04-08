@@ -34,7 +34,7 @@ resource "aws_lb" "main" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = [aws_subnet.blue.id, aws_subnet.green.id]
+  subnets            = [aws_subnet.a.id, aws_subnet.b.id]
 
 
   tags = {
@@ -99,7 +99,7 @@ resource "aws_autoscaling_attachment" "green" {
 }
 
 resource "aws_autoscaling_group" "blue" {
-  vpc_zone_identifier = [aws_subnet.blue.id]
+  vpc_zone_identifier = [aws_subnet.a.id, aws_subnet.b.id]
   desired_capacity   = 2
   max_size           = 3
   min_size           = 0
@@ -111,7 +111,7 @@ resource "aws_autoscaling_group" "blue" {
 }
 
 resource "aws_autoscaling_group" "green" {
-  vpc_zone_identifier = [aws_subnet.green.id]
+  vpc_zone_identifier = [aws_subnet.a.id, aws_subnet.b.id]
   desired_capacity   = 2
   max_size           = 3
   min_size           = 0
