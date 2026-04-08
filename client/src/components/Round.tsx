@@ -31,7 +31,6 @@ export default function Round() {
     const [roundData, setRoundData] = useState<RoundResponse | null>(null);
     const [seasonData, setSeasonData] = useState<SeasonResponse | null>(null);
     const navigate = useNavigate();
-useState<RoundType[]>([]);
 
     const fetchThisRoundData = useCallback(async () => {
         if (!timeContext.year || timeContext.round === null) {
