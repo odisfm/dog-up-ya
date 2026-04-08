@@ -81,7 +81,7 @@ export default function Ladder() {
                 <tbody>
                     {ladder.map((standing, i) => (
                         <tr key={`${standing.team.id}${season.year}`}
-                            className={"bg-neutral-100 odd:bg-neutral-200 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white *:p-2"}>
+                            className={"bg-neutral-200 odd:bg-neutral-300 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white *:p-2"}>
                             <td className={`!p-0 ${positionFinalsBgs[i]}`}></td>
                             <td className={"px-3 text-right"}>
                                 {i + 1}
@@ -90,7 +90,7 @@ export default function Ladder() {
                                 <TeamFlag teamName={standing.team.name} size={"xs"} />
                                 {standing.team.name.length < 17 ? standing.team.name : standing.team.abbreviation}
                                 {season.premierTeamId === standing.teamId &&
-                                    <FaTrophy/>
+                                    <FaTrophy className={"text-yellow-600"}/>
                                 }
                             </td>
                             <td>
