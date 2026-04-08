@@ -9,7 +9,7 @@ import type {
 import ScrollingTabBar, {type TabBarItem} from "./ScrollingTabBar.tsx";
 import {areGamesLive} from "../utils.ts";
 import {REFRESH_TIME_MS, ROUND_SEGMENT_LIVE_LABEL} from "../consts.ts";
-import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore, isToday} from "date-fns";
+import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore, isToday, isSameDay} from "date-fns";
 import RoundSegment from "./RoundSegment.tsx";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
 import Section from "./Section.tsx";
@@ -138,6 +138,19 @@ export default function Round() {
 
     const roundSegments: RoundGrouping | null = useMemo(() => {
         if (!roundData) return null
+        let allGamesSameDay = true;
+        const firstGameDate = roundData.games[0].localTime
+        if (roundData.finalType === "NOT_FINAL") {
+            for (const gameData of roundData.games) {
+                if (!isSameDay(gameData.localTime, firstGameDate) || gameData.timeString !== null) {
+                    allGamesSameDay = false;
+                    break;
+                }
+            }
+        } else {
+            allGamesSameDay = false;
+        }
+
         const roundGrouping = {
             liveGames: [] as GameResponse[],
             pastGames: new Map<string, { date: Date; games: GameResponse[] }>(),
@@ -152,7 +165,9 @@ export default function Round() {
             let dateString: string;
             const gameStartTime = new Date(gameData.unixTime * 1000);
             const inPast = isBefore(gameStartTime, now)
-            if (isToday(gameStartTime)) {
+            if (allGamesSameDay) {
+                dateString = `Schedule TBA`
+            } else if (isToday(gameStartTime)) {
                 dateString = `Today`
             } else if (isThisWeek(gameStartTime, {weekStartsOn: 1}) && isBefore(now, gameStartTime)) {
                 dateString = formatDate(gameStartTime, "EEEE")
