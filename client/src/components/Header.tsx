@@ -8,10 +8,12 @@ import {Link} from "react-router";
 import {PrefsContext} from "../contexts/PrefsProvider.tsx";
 import {useContext} from "react";
 import {ViewContext} from "../contexts/ViewProvider.tsx";
+import { TimeContext } from "../contexts/TimeProvider.tsx";
 
 export default function Header() {
     const prefsContext = useContext(PrefsContext)!;
     const viewContext = useContext(ViewContext)!;
+    const timeContext = useContext(TimeContext)!;
     const headerStyles = `bg-mist-500 dark:bg-mist-900`
     const buttonStyles = `rounded-lg px-3 py-2 bg-mist-800 hover:bg-mist-700 cursor-pointer`
     return (
@@ -24,6 +26,7 @@ export default function Header() {
             </div>
 
             <Link to={"/"}
+                  onClick={() => {timeContext.setYear(null) ; timeContext.setRound(null)}}
                   className={"rounded-lg py-1 px-3 hover:bg-mist-700 dark:hover:bg-mist-950 " +
                       "cursor-pointer flex gap-1 md:gap-2 justify-self-center items-center " +
                       "text-white no-underline"}>
