@@ -1,4 +1,3 @@
-import {Link} from "react-router";
 import {useContext, useEffect, useRef, useState} from "react";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
