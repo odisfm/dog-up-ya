@@ -256,11 +256,11 @@ export default function Round() {
             { byeTeams.length > 0 &&
                 <div className={"mt-8"}>
                     <Section title={"Byes"} headingLevel={3} collapsible={false}>
-                    <div className={"flex flex-wrap gap-4 mt-2"}>
+                    <div className={"px-2 md:px-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2"}>
                         {byeTeams.map((team) => {
                             return (
-                                <div key={team.id} className={"flex gap-2"}>
-                                    <TeamFlag teamName={team.name} size={"sm"}></TeamFlag>
+                                <div key={team.id} className={"flex gap-2 items-center text-left"}>
+                                    <TeamFlag teamName={team.name} size={"xs-sm"}></TeamFlag>
                                     <span className={"text-black dark:text-white"}>{team.name}</span>
                                 </div>
                             )
