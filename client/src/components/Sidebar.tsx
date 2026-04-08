@@ -8,7 +8,7 @@ export default function Sidebar() {
     const prefsContext = useContext(PrefsContext)!;
 
     const labelStyles = `text-left font-bold mb-2`
-    const buttonStyles = `rounded-md px-4 py-1 font-bold cursor-pointer`
+    const buttonStyles = `rounded-md px-4 py-1 font-bold cursor-pointer flex gap-2 items-center`
     const inactiveButtonStyles = `bg-mist-700 hover:bg-mist-600`
     const activeButtonStyles = `bg-cyan-700 hover:bg-cyan-700`
 
