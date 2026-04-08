@@ -1,5 +1,5 @@
 import {useCallback, useContext, useEffect, useMemo, useState} from "react";
-import type {Round as RoundType} from "@footy-scores/shared/src"
+import type {Round as RoundType, Team} from "@footy-scores/shared/src"
 import type {
     GameResponse,
     RoundResponse,
@@ -11,6 +11,9 @@ import {REFRESH_TIME_MS, ROUND_SEGMENT_LIVE_LABEL} from "../consts.ts";
 import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore, isToday} from "date-fns";
 import RoundSegment from "./RoundSegment.tsx";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
+import Section from "./Section.tsx";
+import TeamFlag from "./TeamFlag.tsx";
+import type {FinalType} from "@footy-scores/shared/src/generated/prisma/enums.ts";
 
 type RoundSegmentEntry = { label: string; date: Date; games: GameResponse[] }
 
@@ -175,6 +178,31 @@ useState<RoundType[]>([]);
         }
     }
 
+    const byeTeams: Team[] = useMemo(() => {
+        if (!roundData || !seasonData) return [];
+        const finalType: FinalType = roundData.finalType
+        if (finalType !== "NOT_FINAL") {
+            return []
+        }
+        const teams: Team[] = []
+        for (const seasonTeam of seasonData.seasonTeams) {
+            const team = seasonTeam.team
+            let hasGame = false
+            for (const gameData of roundData.games!) {
+                if (gameData.homeTeam?.id === team.id || gameData.awayTeam?.id === team.id) {
+                    hasGame = true
+                    break
+                }
+            }
+            if (!hasGame) {
+                teams.push(team)
+            }
+        }
+        return teams
+    }, [seasonData, roundData])
+
+    console.log({byeTeams})
+
     return (
         <>
             { roundItems.length &&
@@ -193,6 +221,20 @@ useState<RoundType[]>([]);
                 ))}
 
             </div>
+            { byeTeams.length > 0 &&
+                <Section title={"Byes"} headingLevel={3} collapsible={false}>
+                <div className={"flex flex-wrap gap-2"}>
+                    {byeTeams.map((team) => {
+                        return (
+                            <div key={team.id} className={"flex gap-2"}>
+                                <TeamFlag teamName={team.name} size={"sm"}></TeamFlag>
+                                <span>{team.name}</span>
+                            </div>
+                        )
+                    })}
+                </div>
+            </Section>
+            }
         </>
     )
 }
