@@ -10,7 +10,6 @@ import type {
   GameResponse,
   RoundResponse,
   CurrentRoundResponse,
-  SeasonAllRoundsResponse,
   GameDetailsResponse,
   GameDetailsGetPayload,
   GameDetailsPayload,
@@ -128,13 +127,18 @@ app.get(`/season/:year/rounds`, async (c) => {
       year: year
     },
     include: {
-      rounds: true
+      rounds: true,
+      seasonTeams: {
+        include: {
+          team: true
+        }
+      }
     }
   })
   if (!seasonRecord) {
     return c.json({ error: `No data for year "${year}"` }, 500)
   }
-  const data = seasonRecord.rounds satisfies SeasonAllRoundsResponse
+  const data = seasonRecord satisfies SeasonResponse
   return c.json({data}, 200)
 })
 

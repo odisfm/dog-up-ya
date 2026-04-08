@@ -3,7 +3,7 @@ import type {Round as RoundType} from "@footy-scores/shared/src"
 import type {
     GameResponse,
     RoundResponse,
-    SeasonAllRoundsResponse
+    SeasonResponse
 } from "@footy-scores/shared/src/types/apiResponses.ts";
 import ScrollingTabBar, {type TabBarItem} from "./ScrollingTabBar.tsx";
 import {areGamesLive} from "../utils.ts";
@@ -25,7 +25,8 @@ export default function Round() {
     const [failed, setFailed] = useState(false);
     const [hasLiveGames, setHasLiveGames] = useState(false);
     const [roundData, setRoundData] = useState<RoundResponse | null>(null);
-    const [seasonAllRoundsData, setSeasonAllRoundsData] = useState<RoundType[]>([]);
+    const [seasonData, setSeasonData] = useState<SeasonResponse | null>(null);
+useState<RoundType[]>([]);
 
     const fetchThisRoundData = useCallback(async () => {
         if (!timeContext.year || timeContext.round === null) {
@@ -55,8 +56,8 @@ export default function Round() {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/season/${timeContext.year}/rounds`);
             const data = await response.json();
             if (data.data) {
-                const _data: SeasonAllRoundsResponse = data.data;
-                setSeasonAllRoundsData(_data)
+                const _data: SeasonResponse = data.data;
+                setSeasonData(_data)
             }
             else {
                 console.error(`All seasons round data missing`)
@@ -160,21 +161,23 @@ export default function Round() {
     }, [roundData]);
 
     const roundItems: TabBarItem[] = []
-    for (const roundData of seasonAllRoundsData) {
-        let label = roundData.name as string;
-        if (label.startsWith("Round")) {
-            label = `R${roundData.roundNumber}`
+    if (seasonData) {
+        for (const roundData of seasonData.rounds) {
+            let label = roundData.name as string;
+            if (label.startsWith("Round")) {
+                label = `R${roundData.roundNumber}`
+            }
+            roundItems.push({
+                label,
+                link: `/round/${timeContext.year}/${roundData.roundNumber}`,
+                roundNumber: roundData.roundNumber
+            })
         }
-        roundItems.push({
-            label,
-            link: `/round/${timeContext.year}/${roundData.roundNumber}`,
-            roundNumber: roundData.roundNumber
-        })
     }
 
     return (
         <>
-            { seasonAllRoundsData &&
+            { roundItems.length &&
                 <ScrollingTabBar items={roundItems} activeItem={`/round/${timeContext.year}/${timeContext.round}`} />
             }
             <div className={"flex flex-col  w-full  md:w-2/3 lg:w-3/5 p-1 md:p-0"}>

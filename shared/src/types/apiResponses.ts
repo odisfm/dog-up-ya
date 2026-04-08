@@ -37,16 +37,22 @@ export type RoundResponse = Round & {
     games: GameResponse[]
 }
 
-export type SeasonResponse = Season & {
-    games: Game[]
-}
 
 export type CurrentRoundResponse = {
     season: number,
     roundNum: number,
 }
 
-export type SeasonAllRoundsResponse = Round[]
+export type SeasonResponse = Prisma.SeasonGetPayload<{
+    include: {
+        rounds: true
+        seasonTeams: {
+            include: {
+                team: true
+            }
+        }
+    }
+}>
 
 export type GameDetailsResponse = {
     game: GameDetailsPayload;
