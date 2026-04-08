@@ -208,7 +208,6 @@ useState<RoundType[]>([]);
         return teams
     }, [seasonData, roundData])
 
-    console.log({byeTeams})
 
     return (
         <>
