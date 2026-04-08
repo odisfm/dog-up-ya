@@ -3,8 +3,8 @@ import {createContext, type ReactNode, useState} from "react";
 interface TimeContextType {
     year: number | null;
     round: number | null;
-    setYear: (year: number) => void;
-    setRound: (round: number) => void;
+    setYear: (year: number | null) => void;
+    setRound: (round: number | null) => void;
 }
 
 export const TimeContext = createContext<TimeContextType | null>(null);
