@@ -26,3 +26,8 @@ variable "aws_region" {
   description = "AWS region"
   default     = "ap-southeast-4"
 }
+
+variable "terraform_state_bucket_name" {
+  type = string
+  description = "Terraform state bucket"
+}
