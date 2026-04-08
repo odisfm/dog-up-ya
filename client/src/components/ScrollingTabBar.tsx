@@ -21,9 +21,9 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
     useEffect(() => {
         if (activeTab && ulRef.current) {
             const ul = ulRef.current;
-            const tabLeft = activeTab.offsetLeft;
+            const tabLeft = activeTab.offsetLeft - ul.offsetLeft;
             const tabWidth = activeTab.offsetWidth;
-            const ulWidth = ul.offsetWidth;
+            const ulWidth = ul.clientWidth;
 
             ul.scrollTo({
                 left: tabLeft - ulWidth / 2 + tabWidth / 2,
