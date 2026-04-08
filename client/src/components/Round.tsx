@@ -75,9 +75,16 @@ useState<RoundType[]>([]);
     useEffect(() => {
         (async () => {
             await fetchThisRoundData();
+        })()
+    }, [fetchThisRoundData]);
+
+    useEffect(() => {
+        (async () => {
             await fetchSeasonData();
         })()
-    }, [fetchThisRoundData, fetchSeasonData]);
+    }, [fetchSeasonData]);
+
+
 
     useEffect(() => {
         if (hasLiveGames) return;
