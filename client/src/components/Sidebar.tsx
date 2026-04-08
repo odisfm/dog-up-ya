@@ -2,6 +2,7 @@ import SeasonSwitcher from "./buttons/SeasonSwitcher.tsx";
 import {ViewContext} from "../contexts/ViewProvider.tsx";
 import {useContext, useEffect} from "react";
 import {PrefsContext} from "../contexts/PrefsProvider.tsx";
+import {MdLightMode, MdDarkMode} from "react-icons/md";
 
 export default function Sidebar() {
     const viewContext = useContext(ViewContext)!;
@@ -39,6 +40,25 @@ export default function Sidebar() {
                     <label htmlFor={"sidebarSeasonSwitcher"} className={labelStyles}>Season</label>
                     <div id={"sidebarSeasonSwitcher"}>
                         <SeasonSwitcher />
+                    </div>
+                </fieldset>
+                <fieldset className={`md:hidden flex flex-col`}>
+                    <label htmlFor={"themeSwitcher"} className={labelStyles}>Theme</label>
+                    <div id={"themeSwitcher"} className={"flex gap-1"}>
+                        <button
+                            className={`${buttonStyles} ${prefsContext.theme === "light" ? activeButtonStyles : inactiveButtonStyles}`}
+                            onClick={() => prefsContext.changeTheme("light")}
+                        >
+                            <MdLightMode />
+                            <span>Light</span>
+                        </button>
+                        <button
+                            className={`${buttonStyles} ${prefsContext.theme === "dark" ? activeButtonStyles : inactiveButtonStyles}`}
+                            onClick={() => prefsContext.changeTheme("dark")}
+                        >
+                            <MdDarkMode />
+                            <span>Dark</span>
+                        </button>
                     </div>
                 </fieldset>
                 <fieldset className={`flex flex-col`}>
