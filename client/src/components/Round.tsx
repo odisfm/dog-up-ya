@@ -1,4 +1,5 @@
 import {useCallback, useContext, useEffect, useMemo, useState} from "react";
+import {useNavigate} from "react-router";
 import type {Round as RoundType, Team} from "@footy-scores/shared/src"
 import type {
     GameResponse,
@@ -29,6 +30,7 @@ export default function Round() {
     const [hasLiveGames, setHasLiveGames] = useState(false);
     const [roundData, setRoundData] = useState<RoundResponse | null>(null);
     const [seasonData, setSeasonData] = useState<SeasonResponse | null>(null);
+    const navigate = useNavigate();
 useState<RoundType[]>([]);
 
     const fetchThisRoundData = useCallback(async () => {
@@ -43,13 +45,23 @@ useState<RoundType[]>([]);
                 setHasLiveGames(areGamesLive(data.data.games))
             }
             else {
+                if (data.error) {
+                    console.error(data.error);
+                    if (data.error.startsWith("No data for season")) { // No data for season x round y
+                        if (timeContext.round === 0 || timeContext.round > 4) {
+                            timeContext.setRound(1)
+                        }
+                    } else if (data.error.startsWith("No data for year")) { // No data for year "x"
+                        navigate(`/round`)
+                    }
+                }
                 setFailed(true);
             }
         } catch (e) {
             console.error(e);
             setFailed(true);
         }
-    }, [timeContext.year, timeContext.round]);
+    }, [timeContext, navigate]);
 
     const fetchSeasonData = useCallback(async () => {
         if (!timeContext.year) {
