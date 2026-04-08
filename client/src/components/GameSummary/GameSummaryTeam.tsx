@@ -9,7 +9,7 @@ export default function GameSummaryTeam({teamData, homeTeam}: {
         <div className={`flex w-full ${homeTeam ? 'justify-start' : 'justify-end'}`}>
             <div className={`grid grid-rows-2 ${homeTeam ? 'justify-items-start' : 'justify-items-end'}`}>
                     <div className={"self-end"}>
-                        <TeamFlag teamName={teamData?.name || "tbd"} size={"md"}/>
+                        <TeamFlag teamName={teamData?.name || "tbd"} size={"sm-md"}/>
                     </div>
 
                     <span

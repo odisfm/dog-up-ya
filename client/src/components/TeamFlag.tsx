@@ -52,7 +52,7 @@ const FLAGS: Record<string, string> = {
     "tbd": tbdFlag
 }
 
-export default function TeamFlag({teamName, size}: {teamName: keyof typeof FLAGS, size: "xs" | "sm" | "md" | "lg" | "xl"}) {
+export default function TeamFlag({teamName, size}: {teamName: keyof typeof FLAGS, size: "xs" | "sm" | "md" | "lg" | "xl" | "sm-md" | "xs-sm"}) {
     const src = FLAGS[teamName.toLowerCase().replace(/ /g, '-')]
     let height;
     let width;
@@ -63,8 +63,8 @@ export default function TeamFlag({teamName, size}: {teamName: keyof typeof FLAGS
             width = "w-[18px]";
             break;
         case "sm":
-            height = "h-[24px]";
-            width = "w-[36px]";
+            height = "h-[36px]";
+            width = "w-[48px]";
             break;
         case "md":
             height = "h-[54px]";
@@ -77,6 +77,18 @@ export default function TeamFlag({teamName, size}: {teamName: keyof typeof FLAGS
         case "xl":
             height = "h-[200px]";
             width = "w-[300px]";
+            break;
+        case "sm-md":
+            height = "h-[36px] md:h-[48px]";
+            width = "w-[54px] md:w-[72px]";
+            break;
+        case "xs-sm":
+            height = "h-[12px] md:h-[36px]";
+            width = "w-[18px] md:w-[48px]";
+            break;
+
+
+
     }
 
     const altText = `Flag of ${teamName} football club`
