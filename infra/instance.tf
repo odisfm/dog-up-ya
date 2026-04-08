@@ -15,7 +15,7 @@ resource "aws_vpc_security_group_egress_rule" "server_allow_all_traffic_ipv4" {
 
 resource "aws_vpc_security_group_ingress_rule" "server_allow_http_ipv4" {
   security_group_id = aws_security_group.server_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
+  referenced_security_group_id = aws_security_group.lb_sg.id
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80
@@ -23,7 +23,7 @@ resource "aws_vpc_security_group_ingress_rule" "server_allow_http_ipv4" {
 
 resource "aws_vpc_security_group_ingress_rule" "server_allow_tls_ipv4" {
   security_group_id = aws_security_group.server_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
+  referenced_security_group_id = aws_security_group.lb_sg.id
   from_port         = 443
   ip_protocol       = "tcp"
   to_port           = 443
