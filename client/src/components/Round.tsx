@@ -211,7 +211,7 @@ useState<RoundType[]>([]);
 
     return (
         <>
-            { roundItems.length &&
+            { roundItems.length > 0 &&
                 <ScrollingTabBar items={roundItems} activeItem={`/round/${timeContext.year}/${timeContext.round}`} />
             }
             <div className={"flex flex-col w-full"}>
