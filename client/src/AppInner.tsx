@@ -64,8 +64,10 @@ export default function AppInner() {
 
                 <div className="relative flex-1 h-full">
                     <Sidebar />
-                    <main className={"bg-mist-300 dark:bg-mist-950 pt-2 pb-12 flex flex-col items-center min-h-[100vh]"}>
-                        <Outlet/>
+                    <main className={"bg-mist-300 dark:bg-mist-950 pt-2 pb-12 flex flex-col items-center min-h-[100vh] "}>
+                        <div className={"w-full md:w-2/3 lg:w-3/5 p-1 md:p-0"}>
+                            <Outlet/>
+                        </div>
                     </main>
                 </div>
 

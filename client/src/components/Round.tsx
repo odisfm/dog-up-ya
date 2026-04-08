@@ -208,7 +208,7 @@ useState<RoundType[]>([]);
             { roundItems.length &&
                 <ScrollingTabBar items={roundItems} activeItem={`/round/${timeContext.year}/${timeContext.round}`} />
             }
-            <div className={"flex flex-col  w-full  md:w-2/3 lg:w-3/5 p-1 md:p-0"}>
+            <div className={"flex flex-col w-full"}>
                 {roundSegments &&
                     roundSegments.liveGames &&
                     <RoundSegment label={ROUND_SEGMENT_LIVE_LABEL} games={roundSegments.liveGames} key={ROUND_SEGMENT_LIVE_LABEL}/>
@@ -222,18 +222,20 @@ useState<RoundType[]>([]);
 
             </div>
             { byeTeams.length > 0 &&
-                <Section title={"Byes"} headingLevel={3} collapsible={false}>
-                <div className={"flex flex-wrap gap-2"}>
-                    {byeTeams.map((team) => {
-                        return (
-                            <div key={team.id} className={"flex gap-2"}>
-                                <TeamFlag teamName={team.name} size={"sm"}></TeamFlag>
-                                <span>{team.name}</span>
-                            </div>
-                        )
-                    })}
+                <div className={"mt-8"}>
+                    <Section title={"Byes"} headingLevel={3} collapsible={false}>
+                    <div className={"flex flex-wrap gap-4 mt-2"}>
+                        {byeTeams.map((team) => {
+                            return (
+                                <div key={team.id} className={"flex gap-2"}>
+                                    <TeamFlag teamName={team.name} size={"sm"}></TeamFlag>
+                                    <span className={"text-black dark:text-white"}>{team.name}</span>
+                                </div>
+                            )
+                        })}
+                        </div>
+                    </Section>
                 </div>
-            </Section>
             }
         </>
     )
