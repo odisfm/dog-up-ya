@@ -74,6 +74,26 @@ header {
     grid-template-rows: 1fr;
 }
 
+footer {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr;
+    @media (width >= 48rem) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .attr-text {
+        grid-column: 1 / 2;
+        justify-self:  center;
+        @media (width >= 48rem) {
+            grid-column: 2;
+        }
+    }
+
+    .icons {
+        grid-column: 3;
+    }
+}
+
 span {
     a {
         font-weight: bold;
