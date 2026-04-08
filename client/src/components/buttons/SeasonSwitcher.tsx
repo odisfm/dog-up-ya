@@ -40,8 +40,8 @@ export default function SeasonSwitcher() {
 
         return (
             <div className={"flex gap-1 items-center"}>
-                { !seasonInputVisible &&
-                    <button className={`${timeContext.year <= minYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `} onClick={() => timeContext.setYear(timeContext.year - 1)}>
+                { !seasonInputVisible && timeContext.year &&
+                    <button className={`${timeContext.year <= minYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `} onClick={() => timeContext.setYear(timeContext.year! - 1)}>
                         <MdNavigateBefore />
                     </button>
                 }
@@ -65,8 +65,8 @@ export default function SeasonSwitcher() {
                     </form>
                     </>
                 }
-                { !seasonInputVisible &&
-                    <button className={`${timeContext.year >= maxYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `} onClick={() => timeContext.setYear(timeContext.year + 1)}>
+                { !seasonInputVisible && timeContext.year &&
+                    <button className={`${timeContext.year >= maxYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `} onClick={() => timeContext.setYear(timeContext.year! + 1)}>
                         <MdNavigateNext />
                     </button>
                 }
