@@ -12,22 +12,11 @@ variable "active_deployment_target" {
   }
 }
 
-variable "aws_access_key" {
-  description = "AWS IAM access key"
-  sensitive   = true
+variable "blue_desired_capacity" {
+  type    = number
+  default = 0
 }
-
-variable "aws_secret_key" {
-  description = "AWS IAM secret key"
-  sensitive   = true
-}
-
-variable "aws_region" {
-  description = "AWS region"
-  default     = "ap-southeast-4"
-}
-
-variable "terraform_state_bucket_name" {
-  type = string
-  description = "Terraform state bucket"
+variable "green_desired_capacity" {
+  type    = number
+  default = 0
 }

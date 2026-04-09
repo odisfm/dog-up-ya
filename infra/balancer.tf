@@ -5,28 +5,20 @@ resource "aws_security_group" "lb_sg" {
   tags = {
     app = var.app_name
   }
-}
 
-resource "aws_vpc_security_group_egress_rule" "lb_allow_all_traffic_ipv4" {
-  security_group_id = aws_security_group.lb_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
-  ip_protocol       = "-1" # semantically equivalent to all ports
-}
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+  }
 
-resource "aws_vpc_security_group_ingress_rule" "lb_allow_http_ipv4" {
-  security_group_id = aws_security_group.lb_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 80
-  ip_protocol       = "tcp"
-  to_port           = 80
-}
-
-resource "aws_vpc_security_group_ingress_rule" "lb_allow_tls_ipv4" {
-  security_group_id = aws_security_group.lb_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 443
-  ip_protocol       = "tcp"
-  to_port           = 443
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+  }
 }
 
 resource "aws_lb" "main" {
@@ -66,24 +58,24 @@ resource "aws_lb_listener" "main" {
 
 resource "aws_lb_target_group" "blue" {
   name     = "lb-tg-${var.app_name}-blue"
-  port     = 80
+  port     = 3000
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
 
   health_check {
-    path    = "/health"
+    path    = "/"
     matcher = "200"
   }
 }
 
 resource "aws_lb_target_group" "green" {
   name     = "lb-tg-${var.app_name}-green"
-  port     = 80
+  port     = 3000
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
 
   health_check {
-    path    = "/health"
+    path    = "/"
     matcher = "200"
   }
 }
@@ -100,7 +92,7 @@ resource "aws_autoscaling_attachment" "green" {
 
 resource "aws_autoscaling_group" "blue" {
   vpc_zone_identifier = [aws_subnet.a.id, aws_subnet.b.id]
-  desired_capacity   = 2
+  desired_capacity   = var.blue_desired_capacity
   max_size           = 3
   min_size           = 0
   health_check_grace_period = 120
@@ -113,7 +105,7 @@ resource "aws_autoscaling_group" "blue" {
 
 resource "aws_autoscaling_group" "green" {
   vpc_zone_identifier = [aws_subnet.a.id, aws_subnet.b.id]
-  desired_capacity   = 2
+  desired_capacity   = var.green_desired_capacity
   max_size           = 3
   min_size           = 0
   health_check_grace_period = 120
