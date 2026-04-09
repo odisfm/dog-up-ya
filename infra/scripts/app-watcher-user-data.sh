@@ -42,7 +42,6 @@ echo "DATABASE_URL=$(echo "$SECRET" | jq -r '.DATABASE_URL')" >> shared/.env
 
 cd shared
 npx prisma generate
-npx prisma migrate deploy
 cd ..
 
 chown -R ec2-user:ec2-user /home/ec2-user/.nvm
