@@ -2,13 +2,17 @@ provider "aws" {
   region = "ap-southeast-4"
 }
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
+terraform {
+  backend "s3" {
+    key          = "env/production/terraform.tfstate"
+    encrypt      = true
+    use_lockfile = true
   }
+}
 
-  owners = ["099720109477"]
+data "aws_ami" "amazon_linux" {
+  filter {
+    name = "image-id"
+    values = ["ami-07b24db0d2671f1da"]
+  }
 }

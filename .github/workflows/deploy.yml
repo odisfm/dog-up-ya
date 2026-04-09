@@ -1,0 +1,119 @@
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: opentofu/setup-opentofu@v1
+
+      - name: tofu vars
+        working-directory: infra
+        run: |                    
+          REPO_NAME=${GITHUB_REPOSITORY##*/}
+          
+          touch terraform.tfvars
+          echo "app_name = \"$REPO_NAME\"" >> terraform.tfvars
+          
+
+      - name: tofu init
+        working-directory: infra
+        run: |
+          
+          tofu init \
+            -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
+            -backend-config="region=${{ vars.AWS_REGION }}"
+          
+          
+
+      - name: read state
+        id: read_state
+        working-directory: infra
+        run: |
+          
+          old_target=$(tofu output -json | jq -r '.active_deployment_target.value // "blue"')
+          if [[ $old_target == "green" ]]; then
+            new_target="blue"
+          else
+            new_target="green"
+          fi
+          
+          echo "Deploying to $new_target"
+          echo "new_target=$new_target" >> "$GITHUB_OUTPUT"
+          echo "old_target=$old_target" >> "$GITHUB_OUTPUT"
+
+      - name: scale out new group
+        working-directory: infra
+        run: |
+          old_target="${{ steps.read_state.outputs.old_target }}"
+          new_target="${{ steps.read_state.outputs.new_target }}"
+          tofu apply -auto-approve \
+          -var="blue_desired_capacity=2" -var="green_desired_capacity=2" \
+          -var="active_deployment_target=$old_target"
+
+      - name: install aws cli   # when testing workflow locally
+        if: ${{ env.ACT }}
+        run: |
+          ARCH=$(uname -m)
+          if [[ "$ARCH" == "aarch64" || "$ARCH" == "arm64" ]]; then
+            AWS_ARCH="aarch64"
+          else
+            AWS_ARCH="x86_64"
+          fi
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_ARCH}.zip" -o "awscliv2.zip"
+          unzip -q awscliv2.zip
+          sudo ./aws/install --update
+
+      - name: wait for new group health
+        working-directory: infra
+        timeout-minutes: 10
+        run: |
+          new_target="${{ steps.read_state.outputs.new_target }}"
+          asg_name=$(tofu output -json | jq -r ".${new_target}_asg_name.value")
+          
+          echo "Waiting for all instances in $asg_name to be healthy..."
+          
+          while true; do
+            total=$(aws autoscaling describe-auto-scaling-groups \
+              --auto-scaling-group-names "$asg_name" \
+              --query 'AutoScalingGroups[0].DesiredCapacity' \
+              --output text)
+          
+            healthy=$(aws autoscaling describe-auto-scaling-groups \
+              --auto-scaling-group-names "$asg_name" \
+              --query 'length(AutoScalingGroups[0].Instances[?HealthStatus==`Healthy` && LifecycleState==`InService`])' \
+              --output text)
+          
+            echo "Healthy instances: $healthy / $total"
+          
+            if [[ "$healthy" -eq "$total" && "$total" -gt 0 ]]; then
+              echo "All instances healthy!"
+              break
+            fi
+          
+            sleep 10
+          done
+
+      - name: scale old group to zero
+        working-directory: infra
+        run: |
+          old_target="${{ steps.read_state.outputs.old_target }}"
+          new_target="${{ steps.read_state.outputs.new_target }}"
+          if [[ $new_target == "green" ]]; then
+            blue_capacity=0
+            green_capacity=2  
+          else
+            blue_capacity=2
+            green_capacity=0
+          fi
+          tofu apply -auto-approve \
+          -var="blue_desired_capacity=$blue_capacity" -var="green_desired_capacity=$green_capacity" \
+          -var="active_deployment_target=$new_target"

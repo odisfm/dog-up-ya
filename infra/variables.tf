@@ -11,3 +11,12 @@ variable "active_deployment_target" {
     error_message = "target_group must be either 'blue' or 'green'."
   }
 }
+
+variable "blue_desired_capacity" {
+  type    = number
+  default = 0
+}
+variable "green_desired_capacity" {
+  type    = number
+  default = 0
+}

@@ -25,17 +25,17 @@ resource "aws_route_table" "main" {
   }
 }
 
-resource "aws_route_table_association" "blue" {
-  subnet_id      = aws_subnet.blue.id
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.a.id
   route_table_id = aws_route_table.main.id
 }
 
-resource "aws_route_table_association" "green" {
-  subnet_id      = aws_subnet.green.id
+resource "aws_route_table_association" "b" {
+  subnet_id      = aws_subnet.b.id
   route_table_id = aws_route_table.main.id
 }
 
-resource "aws_subnet" "blue" {
+resource "aws_subnet" "a" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.1.0/24"
   availability_zone = "ap-southeast-4a"
@@ -46,7 +46,7 @@ resource "aws_subnet" "blue" {
   }
 }
 
-resource "aws_subnet" "green" {
+resource "aws_subnet" "b" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.2.0/24"
   availability_zone = "ap-southeast-4b"

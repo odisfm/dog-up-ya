@@ -5,28 +5,22 @@ resource "aws_security_group" "server_sg" {
   tags = {
     app = var.app_name
   }
-}
 
-resource "aws_vpc_security_group_egress_rule" "server_allow_all_traffic_ipv4" {
-  security_group_id = aws_security_group.server_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
-  ip_protocol       = "-1" # semantically equivalent to all ports
-}
+  ingress {
+    security_groups = [aws_security_group.lb_sg.id]
+    from_port       = 3000
+    to_port         = 3000
+    protocol        = "tcp"
+    description     = "Allow app traffic from ALB"
+  }
 
-resource "aws_vpc_security_group_ingress_rule" "server_allow_http_ipv4" {
-  security_group_id = aws_security_group.server_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 80
-  ip_protocol       = "tcp"
-  to_port           = 80
-}
-
-resource "aws_vpc_security_group_ingress_rule" "server_allow_tls_ipv4" {
-  security_group_id = aws_security_group.server_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 443
-  ip_protocol       = "tcp"
-  to_port           = 443
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound traffic"
+  }
 }
 
 resource "aws_launch_template" "main" {
@@ -40,7 +34,11 @@ resource "aws_launch_template" "main" {
     }
   }
 
-  image_id = data.aws_ami.ubuntu.id
+  iam_instance_profile {
+    arn = "arn:aws:iam::613232991568:instance-profile/dog-up-ya-app-server"
+  }
+
+  image_id = data.aws_ami.amazon_linux.id
 
   instance_initiated_shutdown_behavior = "terminate"
 
@@ -58,7 +56,7 @@ resource "aws_launch_template" "main" {
   }
 
   network_interfaces {
-    associate_public_ip_address = false
+    associate_public_ip_address = true
     security_groups = [aws_security_group.server_sg.id]
   }
 
@@ -73,14 +71,5 @@ resource "aws_launch_template" "main" {
     }
   }
 
-  user_data = base64encode(<<-EOF
-      #!/bin/bash
-      TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" \
-        -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
-      INSTANCE_ID=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" \
-        http://169.254.169.254/latest/meta-data/instance-id)
-      echo $INSTANCE_ID > index.html
-      python3 -m http.server 80 &
-      EOF
-  )
+  user_data = filebase64("${path.module}/scripts/app-server-user-data.sh")
 }
