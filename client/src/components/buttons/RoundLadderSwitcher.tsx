@@ -9,7 +9,7 @@ export default function RoundLadderSwitcher() {
 
     const buttonStyles = `rounded-md px-2 py-1 text-white text-xs md:text-sm`
     const activeButtonStyles = `bg-cyan-700 font-bold hidden md:block`
-    const inactiveButtonStyles = `bg-mist-800 hover:bg-mist-700`
+    const inactiveButtonStyles = `bg-mist-700 hover:bg-mist-700`
 
     return (
             <div className={`flex gap-2 items-center ${!timeContext.year && `hidden`}`}>

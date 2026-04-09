@@ -49,7 +49,7 @@ export default function ScoreEvents({scoreEvents, homeTeam, awayTeam}:
     return (
         <div className={"flex flex-col gap-1 w-full"}>
             { scoreEvents.length === 0 &&
-                <span>Both teams yet to score</span>
+                <span className={"self-start mb-2 text-black dark:text-white"}>Both teams yet to score</span>
             }
 
             { !scoreEventIntegrity &&
