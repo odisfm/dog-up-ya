@@ -62,5 +62,6 @@ export function createScreenreaderGameDescription(game: Game, homeTeam: Team | n
 }
 
 export function isInSpoilerWindow(gameStart: Date) {
-    return differenceInHours(new Date(), gameStart) < SPOILER_WINDOW_HOURS
+    const hoursSinceStart = differenceInHours(new Date(), gameStart)
+    return hoursSinceStart > 0 && hoursSinceStart < SPOILER_WINDOW_HOURS
 }
