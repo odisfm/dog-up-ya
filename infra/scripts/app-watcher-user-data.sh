@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-
+sudo timedatectl set-timezone Australia/Melbourne
 export PATH=$PATH:/usr/bin:/usr/sbin:/usr/local/bin
 
 cd /home/ec2-user
@@ -10,6 +10,9 @@ yum install -y git jq cronie
 
 systemctl enable crond
 systemctl start crond
+
+touch /var/log/cron-pull.log
+chown ec2-user:ec2-user /var/log/cron-pull.log
 
 mkdir -p /home/ec2-user/.nvm
 
@@ -47,27 +50,34 @@ sudo -u ec2-user -i bash << 'EOSU'
   export NVM_DIR="/home/ec2-user/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 
-  NODE_BIN=$(which node)
-  TSX_BIN=$(which tsx)
-  CURRENT_YEAR=$(date +%Y)
+  if ! grep -q 'NVM_DIR' /home/ec2-user/.bashrc; then
+    echo 'export NVM_DIR="$HOME/.nvm"' >> /home/ec2-user/.bashrc
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"' >> /home/ec2-user/.bashrc
+  fi
+
+  NODE_VERSION=$(nvm current)
+  NVM_BIN="$NVM_DIR/versions/node/$NODE_VERSION/bin"
+  TSX_BIN="$NVM_BIN/tsx"
 
   cd /home/ec2-user/dog-up-ya
 
-  pm2 start --name "watch-server" -- tsx consumers/watchSquiggleEvents.ts
-  pm2 save
+  pm2 start $TSX_BIN --name "watch-server" --interpreter node -- consumers/watchSquiggleEvents.ts
+  pm2 list
+  pm2 save --force
 
-  # Write all cron jobs at once (avoids repeated crontab reads)
-  crontab -l 2>/dev/null > /tmp/ec2cron || true
+  crontab -l 2>/dev/null > /tmp/ec2cron; true
   cat >> /tmp/ec2cron << EOF
-0 5 * * 1,4 cd /home/ec2-user/dog-up-ya && $NODE_BIN $TSX_BIN consumers/pullSquiggleData.ts games year=$CURRENT_YEAR >> /var/log/cron-pull.log 2>&1
-0 16 * * 3,4,5 cd /home/ec2-user/dog-up-ya && $NODE_BIN $TSX_BIN consumers/pullSquiggleData.ts tips year=$CURRENT_YEAR >> /var/log/cron-pull.log 2>&1
-30 19-23 * * 4,5 cd /home/ec2-user/dog-up-ya && $NODE_BIN $TSX_BIN consumers/pullSquiggleData.ts standings year=$CURRENT_YEAR >> /var/log/cron-pull.log 2>&1
-30 12-23 * * 6,0 cd /home/ec2-user/dog-up-ya && $NODE_BIN $TSX_BIN consumers/pullSquiggleData.ts standings year=$CURRENT_YEAR >> /var/log/cron-pull.log 2>&1
-0 */6 * * 1,2,3 cd /home/ec2-user/dog-up-ya && $NODE_BIN $TSX_BIN consumers/pullSquiggleData.ts standings year=$CURRENT_YEAR >> /var/log/cron-pull.log 2>&1
-0 5 * * 1 cd /home/ec2-user/dog-up-ya && $NODE_BIN $TSX_BIN consumers/reddit/matchThreads.ts >> /var/log/weekly.log 2>&1
+SHELL=/bin/bash
+PATH=$NVM_BIN:/usr/local/bin:/usr/bin:/bin
+
+0 5 * * 1,4 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts games year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
+0 16 * * 3,4,5 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts tips year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
+30 19-23 * * 4,5 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts standings year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
+30 12-23 * * 6,0 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts standings year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
+0 */6 * * 1,2,3 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts standings year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
 EOF
   crontab /tmp/ec2cron
   rm /tmp/ec2cron
 EOSU
 
-env HOME=/home/ec2-user pm2 startup systemd -u ec2-user --hp /home/ec2-user
+env HOME=/home/ec2-user pm2 startup systemd -u ec2-user --hp /home/ec2-user | grep "sudo" | bash
