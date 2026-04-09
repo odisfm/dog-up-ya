@@ -19,3 +19,7 @@ data "aws_ami" "amazon_linux" {
     values = ["ami-07b24db0d2671f1da"]
   }
 }
+
+resource "terraform_data" "always_replace" {
+  input = timestamp()
+}
