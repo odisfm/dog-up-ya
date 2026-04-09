@@ -37,6 +37,7 @@ export default async function pullStandings(season: PrismaExports.Season) {
         }
 
         const teamRecord = seasonTeamRecord.team
+        const updateDate = new Date().toISOString()
 
         const standingRecord = await db.standing.upsert({
             where: {
@@ -60,7 +61,8 @@ export default async function pullStandings(season: PrismaExports.Season) {
                 draws: standing.draws,
                 premPoints: standing.pts,
                 percentage: standing.percentage,
-                played: standing.played
+                played: standing.played,
+                updated: updateDate,
             },
             update: {
                 rank: standing.rank,
@@ -75,7 +77,8 @@ export default async function pullStandings(season: PrismaExports.Season) {
                 draws: standing.draws,
                 premPoints: standing.pts,
                 percentage: standing.percentage,
-                played: standing.played
+                played: standing.played,
+                updated: updateDate,
             }
         })
 

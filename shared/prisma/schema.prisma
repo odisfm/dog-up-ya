@@ -84,8 +84,8 @@ model Round {
 }
 
 model Standing {
-  teamId         String @db.Uuid
-  seasonId       String @db.Uuid
+  teamId         String    @db.Uuid
+  seasonId       String    @db.Uuid
   rank           Int
   pointsFor      Int
   goalsFor       Int
@@ -99,8 +99,9 @@ model Standing {
   premPoints     Int
   percentage     Float
   played         Int
-  season         Season @relation(fields: [seasonId], references: [id])
-  team           Team   @relation(fields: [teamId], references: [id])
+  season         Season    @relation(fields: [seasonId], references: [id])
+  team           Team      @relation(fields: [teamId], references: [id])
+  updated        DateTime?
 
   @@id([teamId, seasonId])
 }
