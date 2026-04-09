@@ -68,6 +68,7 @@ resource "aws_launch_template" "main" {
 
     tags = {
       app = var.app_name
+      Name = "${var.app_name}-api-server-${count.index}"
     }
   }
 
