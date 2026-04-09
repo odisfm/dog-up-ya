@@ -2,6 +2,10 @@ provider "aws" {
   region = "ap-southeast-4"
 }
 
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
+}
+
 terraform {
   backend "s3" {
     key          = "env/production/terraform.tfstate"
