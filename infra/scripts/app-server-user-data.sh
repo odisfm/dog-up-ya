@@ -22,10 +22,6 @@ SECRET=$(aws secretsmanager get-secret-value \
 echo "$SECRET" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > .env
 echo "DATABASE_URL=$(echo "$SECRET" | jq -r '.DATABASE_URL')" >> shared/.env
 
-cd client
-npx vite build
-cd ..
-
 cd shared
 npx prisma generate
 cd ..
