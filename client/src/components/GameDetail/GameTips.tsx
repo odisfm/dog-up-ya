@@ -81,26 +81,25 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
     const wasDraw = gameOver && gameData.winnerTeamId === null
 
     return (
-        <div className={"text-left"}>
-            <div>
+        <div className={"text-left flex flex-col"}>
                 {
                     aFor > bFor &&
-                    <div className={"text-black dark:text-white"}>
-                    <h4 className={"font-bold mb-2"}>Tipster's choice</h4>
-                    <div className={"flex gap-2 items-center"}>
-                        <TeamFlag teamName={aTeam!.name} size={"sm-md"}/>
-                        <span className={"text-lg font-bold"}>{aTeam!.name}</span>
-                        { gameOver && !wasDraw &&
-                            <>
-                            {
-                                aTeam!.id === gameData.winnerTeamId ?
-                                    <IoMdCheckmarkCircle />
-                                    :
-                                    <ImCross />
+                    <div className={"self-start text-black dark:text-white"}>
+                        <h4 className={"font-bold mb-2"}>Tipster's choice</h4>
+                        <div className={"flex gap-2 items-center"}>
+                            <TeamFlag teamName={aTeam!.name} size={"sm-md"}/>
+                            <span className={"text-lg font-bold"}>{aTeam!.name}</span>
+                            { gameOver && !wasDraw &&
+                                <>
+                                {
+                                    aTeam!.id === gameData.winnerTeamId ?
+                                        <IoMdCheckmarkCircle />
+                                        :
+                                        <ImCross />
+                                }
+                                </>
                             }
-                            </>
-                        }
-                    </div>
+                        </div>
                     </div>
                 }
                 <p className={"flex flex-col gap-1 mt-4 rounded-md bg-mist-600 dark:bg-mist-800 self-start p-4"}>
@@ -112,7 +111,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                 <table className={"text-black dark:text-white mt-4 border-separate border-spacing-0 overflow-hidden rounded-md"}>
                     <thead>
                         <tr className={"*:px-2 *:pt-4 text-white bg-mist-700 dark:bg-mist-900"}>
-                            <th>
+                            <th className={"text-right"}>
                                 {"Tipster"}
                             </th>
                             <th>
@@ -172,8 +171,6 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                     }
                     </tbody>
                 </table>
-            </div>
-
         </div>
     )
 }
