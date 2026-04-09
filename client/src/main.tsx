@@ -16,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="ladder/:season?" element={<Ladder />} />
                     <Route path="round/:season?/:roundNum?" element={<Round />} />
                     <Route path="game/:gameId?" element={<GameDetail />} />
+                    <Route path="*" element={<Navigate to="/round" replace />} />
                 </Route>
             </Routes>
         </BrowserRouter>
