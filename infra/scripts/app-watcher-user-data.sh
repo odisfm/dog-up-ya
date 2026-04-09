@@ -62,6 +62,10 @@ sudo -u ec2-user -i bash << 'EOSU'
 
   cd /home/ec2-user/dog-up-ya
 
+  $TSX_BIN consumers/pullSquiggleData.ts games "year=$(date +%Y)"
+  $TSX_BIN consumers/pullSquiggleData.ts standings "year=$(date +%Y)"
+  $TSX_BIN consumers/pullSquiggleData.ts tips "year=$(date +%Y)"
+
   pm2 start $TSX_BIN --name "watch-server" --interpreter node -- consumers/watchSquiggleEvents.ts
   pm2 list
   pm2 save --force
