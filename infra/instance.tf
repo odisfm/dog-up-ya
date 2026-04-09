@@ -46,7 +46,7 @@ resource "aws_launch_template" "main" {
     market_type = "spot"
   }
 
-  instance_type = "t3.nano"
+  instance_type = "t3.micro"
 
   metadata_options {
   }
