@@ -41,7 +41,7 @@ echo "$SECRET" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > .env
 
 cd shared
 npx prisma generate
-npx prisma deploy
+npx prisma migrate deploy
 cd ..
 
 chown -R ec2-user:ec2-user /home/ec2-user/.nvm
