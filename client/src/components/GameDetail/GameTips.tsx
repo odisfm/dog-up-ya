@@ -85,7 +85,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
             <div className={"flex flex-col gap-2 mt-4 rounded-md bg-mist-500 dark:bg-mist-800 self-start p-4"}>
                 {
                     aFor > bFor &&
-                    <div className={"self-start "}>
+                    <div className={"self-start mb-2"}>
                         <h4 className={"font-bold mb-4"}>Tipster's choice</h4>
                         <div className={"flex gap-2 items-center"}>
                             <TeamFlag teamName={aTeam!.name} size={"sm-md"}/>
@@ -118,7 +118,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                                 {"Tip"}
                             </th>
                             {
-                                gameOver &&
+                                gameOver && gameData.winnerTeamId &&
                                 <th>
                                     <IoMdCheckmarkCircle />
                                 </th>
@@ -146,7 +146,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                                         <span className={"font-bold"}>{tip.tipTeamId === gameData.homeTeam!.id ? gameData.homeTeam!.name : gameData.awayTeam!.name}</span>
                                     </td>
                                     {
-                                        gameOver &&
+                                        gameOver && gameData.winnerTeamId &&
                                         <td className={""}>
                                             {
                                                 !wasDraw && tip.tipTeamId === gameData.winnerTeamId &&
