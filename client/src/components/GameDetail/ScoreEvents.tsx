@@ -53,7 +53,7 @@ export default function ScoreEvents({scoreEvents, homeTeam, awayTeam}:
             }
 
             { !scoreEventIntegrity &&
-                <span className={"mt-2 mb-3 px-4 py-1 self-center rounded-md bg-mist-700 dark:bg-mist-900"}>Some scoring shots are missing!</span>
+                <span className={"self-start mt-2 mb-3 px-4 py-1 rounded-md bg-mist-700 dark:bg-mist-900"}>Some scoring shots are missing!</span>
             }
 
             { scoreEvents.map((event: ScoreEvent, i)=> {
