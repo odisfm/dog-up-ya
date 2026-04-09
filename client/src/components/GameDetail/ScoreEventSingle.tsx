@@ -27,9 +27,9 @@ export default function ScoreEventSingle({scoringTeam, homeTeam, awayTeam, event
             <div className={"hidden lg:block"}><TeamFlag teamName={scoringTeam.name} size={"xs-sm"}/></div>
             <span className={`font-bold ml-2`}>
                 <span className={"inline lg:hidden"}>{scoringTeam.abbreviation}</span>
-                <span className={"hidden lg:inline"}>{scoringTeam.name}</span> {isGoal ? "goal" : "behind"}
+                <span className={"hidden lg:inline"}>{scoringTeam.name.length < 15 ? scoringTeam.name : scoringTeam.abbreviation}</span> {isGoal ? "goal" : "behind"}
             </span>
-            <div className={"ml-auto grid grid-cols-2 gap-2 w-2/5 lg:w-3/10"}>
+            <div className={"ml-auto grid grid-cols-2 gap-2 w-2/5 lg:w-4/10"}>
                 <div className={`${scoreStyles} ${homeWinning ? scoreBgWinning : scoreBgLosing}`}>
                     <TeamFlag teamName={homeTeam.name} size={"xs"}/>
                     <div className={""}><span className={"hidden lg:inline"}>{event.hGoals}.{event.hBehinds}.</span><strong>{event.hScore}</strong></div>
