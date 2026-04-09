@@ -22,6 +22,7 @@ jobs:
           
           touch terraform.tfvars
           echo "app_name = \"$REPO_NAME\"" >> terraform.tfvars
+          echo "cloudflare_zone_id = ${{ secrets.CLOUDFLARE_ZONE_ID }}
           
 
       - name: tofu init

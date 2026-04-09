@@ -20,3 +20,7 @@ variable "green_desired_capacity" {
   type    = number
   default = 0
 }
+
+variable "cloudflare_zone_id" {
+  type = string
+}
