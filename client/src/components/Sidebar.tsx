@@ -81,6 +81,8 @@ export default function Sidebar() {
                     </div>
                 </fieldset>
             </div>
+
+            <span className={"mt-auto wrap-break-word text-xs text-neutral-700 text-left p-2"}>app version: {__COMMIT_HASH__}</span>
         </div>
     );
 }
