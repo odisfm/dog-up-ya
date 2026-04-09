@@ -42,7 +42,7 @@ export default async function pullGames(season: PrismaExports.Season) {
         if (gameData.hteamid) {
             const homeSeasonTeam = await db.seasonTeam.findFirst({
                 where: {
-                    season: season,
+                    seasonId: season.id,
                     squiggleTeamId: gameData.hteamid
                 },
                 include: {
@@ -58,7 +58,7 @@ export default async function pullGames(season: PrismaExports.Season) {
 
             const awaySeasonTeam = await db.seasonTeam.findFirst({
                 where: {
-                    season: season,
+                    seasonId: season.id,
                     squiggleTeamId: gameData.ateamid
                 },
                 include: {
@@ -77,7 +77,7 @@ export default async function pullGames(season: PrismaExports.Season) {
         if (gameData.winnerteamid) {
             const winnerSeasonTeam = await db.seasonTeam.findFirst({
                 where: {
-                    season: season,
+                    seasonId: season.id,
                     squiggleTeamId: gameData.winnerteamid
                 },
                 include: {

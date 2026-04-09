@@ -24,7 +24,7 @@ export default async function pullStandings(season: PrismaExports.Season) {
 
         const seasonTeamRecord = await db.seasonTeam.findFirst({
             where: {
-                season: season,
+                seasonId: season.id,
                 squiggleTeamId: standing.id,
             },
             include: {
