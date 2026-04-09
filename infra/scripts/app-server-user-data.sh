@@ -26,5 +26,7 @@ cd shared
 npx prisma generate
 cd ..
 
+export COMMIT_ID=$(git rev-parse HEAD)
+
 ./node_modules/.bin/tsx api/src/index.ts
 wait

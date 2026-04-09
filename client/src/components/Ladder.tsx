@@ -5,6 +5,7 @@ import TeamFlag from "./TeamFlag.tsx";
 import {FaTrophy} from "react-icons/fa";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
 import {formatDistance, isAfter} from "date-fns";
+import {checkApiHeadersVersionMismatch} from "../utils.ts";
 
 export default function Ladder() {
     const [ladder, setLadder] = useState<LadderPayload | null>(null);
@@ -19,6 +20,7 @@ export default function Ladder() {
         (async () => {
             try {
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/ladder/${timeContext.year}`);
+                checkApiHeadersVersionMismatch(response)
                 const data = await response.json();
                 if (data.data) {
                     const _data: LadderResponse = data.data;

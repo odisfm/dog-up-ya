@@ -65,3 +65,15 @@ export function isInSpoilerWindow(gameStart: Date) {
     const hoursSinceStart = differenceInHours(new Date(), gameStart)
     return hoursSinceStart > 0 && hoursSinceStart < SPOILER_WINDOW_HOURS
 }
+
+export function checkApiHeadersVersionMismatch(response: Response) {
+    if (response.headers.has("X-App-Version")) {
+        const versionHeader = response.headers.get("X-App-Version");
+        if (versionHeader === "null") { // returns literal "null" in dev
+            return
+        }
+        if (versionHeader !== __COMMIT_HASH__) {
+            window.location.reload()
+        }
+    }
+}

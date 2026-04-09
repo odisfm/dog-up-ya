@@ -7,7 +7,7 @@ import type {
     SeasonResponse
 } from "@footy-scores/shared/src/types/apiResponses.ts";
 import ScrollingTabBar, {type TabBarItem} from "./ScrollingTabBar.tsx";
-import {areGamesLive} from "../utils.ts";
+import {areGamesLive, checkApiHeadersVersionMismatch} from "../utils.ts";
 import {REFRESH_TIME_MS, ROUND_SEGMENT_LIVE_LABEL} from "../consts.ts";
 import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore, isToday, isSameDay} from "date-fns";
 import RoundSegment from "./RoundSegment.tsx";
@@ -38,6 +38,7 @@ export default function Round() {
         }
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/round/${timeContext.year}/${timeContext.round}`);
+            checkApiHeadersVersionMismatch(response)
             const data = await response.json();
             if (data.data) {
                 setRoundData(data.data);
@@ -68,6 +69,7 @@ export default function Round() {
         }
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/season/${timeContext.year}/rounds`);
+            checkApiHeadersVersionMismatch(response)
             const data = await response.json();
             if (data.data) {
                 const _data: SeasonResponse = data.data;

@@ -18,12 +18,19 @@ import type {
 import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
 import {serialiseGames} from "./utils.js";
 
+const APP_VERSION = process.env.COMMIT_ID || null
+
 const app = new Hono()
 app.use(
     cors({
       origin: process.env.ALLOWED_CORS ? process.env.ALLOWED_CORS.split(" ") : []
     })
 )
+
+app.use('*', async (c, next) => {
+  await next()
+  c.res.headers.set('X-App-Version', String(APP_VERSION))
+})
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')

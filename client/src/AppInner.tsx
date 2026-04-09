@@ -6,6 +6,7 @@ import {TimeContext} from "./contexts/TimeProvider.tsx";
 import {ViewContext} from "./contexts/ViewProvider.tsx";
 import type {CurrentRoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import Footer from "./components/Footer.tsx";
+import {checkApiHeadersVersionMismatch} from "./utils.ts";
 
 export default function AppInner() {
     const timeContext = useContext(TimeContext)!;
@@ -39,6 +40,8 @@ export default function AppInner() {
         if (!timeContext.year || timeContext.round === null) {
             (async () => {
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/round/current`);
+                checkApiHeadersVersionMismatch(response)
+
                 if (!response) {
                     // todo: setFailed()
                 }
