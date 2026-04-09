@@ -7,7 +7,7 @@ import { formatDate } from "date-fns";
 import ScoreEvents from "./ScoreEvents.tsx";
 import GameLinks from "./GameLinks.tsx";
 import Section from "../Section.tsx";
-import GameTip from "./GameTip.tsx";
+import GameTips from "./GameTips.tsx";
 import {TimeContext} from "../../contexts/TimeProvider.tsx";
 import {PrefsContext} from "../../contexts/PrefsProvider.tsx";
 import {isInSpoilerWindow} from "../../utils.ts";
@@ -131,16 +131,10 @@ export default function GameDetail() {
                 </>
             }
 
-            { showTips && gameData.homeTeam && gameData.awayTeam &&
+            { showTips && gameData.homeTeam && gameData.awayTeam && gameData.tips.length &&
                 <>
                     <Section title={"Tips"} headingLevel={3} collapsible={true} collapsedDefault={true} prefName={"tips"}>
-                        <div className={"grid grid-cols-3 auto-rows-auto gap-2"}>
-                            {gameData && gameData.homeTeam && gameData.awayTeam &&
-                            gameData.tips.map((tip) => {
-                                return <GameTip tipData={tip} homeTeam={gameData.homeTeam!} awayTeam={gameData.awayTeam!}/>
-                            })
-                        }
-                        </div>
+                        <GameTips gameData={gameData}/>
                     </Section>
                 </>
             }
