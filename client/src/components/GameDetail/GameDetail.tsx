@@ -109,7 +109,7 @@ export default function GameDetail() {
             <GameSummary gameData={gameData} homeTeamData={gameData.homeTeam} awayTeamData={gameData.awayTeam}
                         segmentIdx={0} segmentLength={1}/>
 
-            { showScoreEvents && gameData.homeTeam && gameData.awayTeam &&
+            { showScoreEvents && gameData.homeTeam && gameData.awayTeam && gameData.timeString !== null &&
                 <>
                     <Section title={"Scoring shots"} headingLevel={3} collapsible={true} prefName={"scoreEvents"} collapsedDefault={true} role={null}>
                         <ScoreEvents scoreEvents={gameData.scoreEvents} homeTeam={gameData.homeTeam}
