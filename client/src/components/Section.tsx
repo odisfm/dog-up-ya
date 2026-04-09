@@ -41,7 +41,7 @@ export default function Section({
                 {
                     collapsible &&
                     <button onClick={toggleCollapsed}
-                         className={"cursor-pointer self-center px-3 py-2 rounded-lg bg-mist-700 dark-bg-mist-800 hover:bg-mist-500 dark:hover:bg-mist-500"}>
+                         className={"cursor-pointer self-center px-3 py-2 rounded-lg bg-mist-600 dark:bg-mist-800 hover:bg-mist-500 dark:hover:bg-mist-500"}>
                     {collapsed ? <FaEye/> : <FaEyeSlash/>}
                 </button>
                 }

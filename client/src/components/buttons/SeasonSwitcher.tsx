@@ -12,7 +12,7 @@ export default function SeasonSwitcher() {
         const maxYear = new Date().getFullYear()
         const [seasonInputVisible, setSeasonInputVisible] = useState(false)
         const seasonInputRef = useRef<HTMLInputElement>(null)
-        const incrementButtonStyles = `cursor-pointer py-1 px-2 font-bold text-white rounded-lg text-xs`
+        const incrementButtonStyles = `cursor-pointer py-1 px-2 font-bold text-white rounded-lg text-sm`
         const incrementButtonBg = `bg-mist-700 hover:bg-mist-600`
         const limitButtonStyles = `pointer-events-none cursor-not-allowed bg-black`
         const formButtonStyles = `text-white px-2 py-1 rounded-lg cursor-pointer`

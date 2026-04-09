@@ -82,10 +82,11 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
 
     return (
         <div className={"text-left flex flex-col"}>
+            <div className={"flex flex-col gap-2 mt-4 rounded-md bg-mist-500 dark:bg-mist-800 self-start p-4"}>
                 {
                     aFor > bFor &&
-                    <div className={"self-start text-black dark:text-white"}>
-                        <h4 className={"font-bold mb-2"}>Tipster's choice</h4>
+                    <div className={"self-start "}>
+                        <h4 className={"font-bold mb-4"}>Tipster's choice</h4>
                         <div className={"flex gap-2 items-center"}>
                             <TeamFlag teamName={aTeam!.name} size={"sm-md"}/>
                             <span className={"text-lg font-bold"}>{aTeam!.name}</span>
@@ -102,15 +103,14 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                         </div>
                     </div>
                 }
-                <p className={"flex flex-col gap-1 mt-4 rounded-md bg-mist-600 dark:bg-mist-800 self-start p-4"}>
                     <span>{aFor}/{numTipsters} tipped <strong>{aTeam!.name}</strong>, with an average margin of {aMarginAvg.toFixed(1)}.</span>
                     { bFor > 0 &&
                         <span>{bFor}/{numTipsters} tipped <strong>{bTeam!.name}</strong>, with an average margin of {bMarginAvg.toFixed(1)}.</span>
                     }
-                </p>
+                </div>
                 <table className={"text-black dark:text-white mt-4 border-separate border-spacing-0 overflow-hidden rounded-md"}>
                     <thead>
-                        <tr className={"*:px-2 *:pt-4 text-white bg-mist-700 dark:bg-mist-900"}>
+                        <tr className={"*:px-2 *:pt-4 text-white bg-mist-500 dark:bg-mist-900"}>
                             <th className={"text-right"}>
                                 {"Tipster"}
                             </th>
@@ -126,7 +126,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                             <th>
                                 {"Margin"}
                             </th>
-                            <th>
+                            <th className={"hidden md:block"}>
                                 {"Confidence"}
                             </th>
                         </tr>
@@ -135,7 +135,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                     {
                         gameData.tips.map((tip, index) => {
                             return (
-                                <tr className={"*:px-2 *:pt-2 odd:bg-mist-200 even:bg-mist-300 dark:odd:bg-mist-800 even:dark:bg-mist-900"}>
+                                <tr className={"*:px-2 *:pt-2 odd:bg-mist-300 even:bg-mist-200 dark:odd:bg-mist-800 even:dark:bg-mist-900"}>
                                     <td className={"text-right"}>
                                         {tip.sourceName}
                                     </td>
@@ -161,7 +161,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                                     <td className={"font-bold"}>
                                         {tip.margin.toFixed(1)}
                                     </td>
-                                    <td>
+                                    <td className={"hidden md:block"}>
                                         {Math.round(tip.confidence)}%
                                     </td>
                                 </tr>

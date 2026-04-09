@@ -1,5 +1,5 @@
 export default function SectionHeading({ title, level }: { title: string; level: 1 | 2 | 3 | 4 | 5 | 6 }) {
-    const commonStyles = `mt-3 mb-3 px-3 py-1 rounded-md bg-mist-700 text-white`
+    const commonStyles = `mt-3 mb-3 px-3 py-1 rounded-md bg-mist-600 dark:bg-mist-800 text-white`
 
     const levelStyles = {
         1: "text-4xl font-bold",
