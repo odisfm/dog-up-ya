@@ -77,7 +77,7 @@ export default function GameDetail() {
 
     }, [gameData, isSpoiler]);
 
-    const showTips = gameData && gameData.tips.length
+    const showTips = Boolean(gameData && gameData.tips.length)
 
     if (!params.gameId) {
         return (
