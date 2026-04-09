@@ -4,6 +4,7 @@ import type {Season} from "@footy-scores/shared"
 import TeamFlag from "./TeamFlag.tsx";
 import {FaTrophy} from "react-icons/fa";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
+import {formatDistance, isAfter} from "date-fns";
 
 export default function Ladder() {
     const [ladder, setLadder] = useState<LadderPayload | null>(null);
@@ -56,8 +57,25 @@ export default function Ladder() {
         return bgs;
     }, [ladder, season, finals1bg, finals2bg])
 
+    let updatedDate = null
+    updatedDate = useMemo(() => {
+        let lastDate = null
+        if (!ladder) return null
+        for (const standing of ladder) {
+            if (!standing.updated) continue
+            if (lastDate === null) {
+                lastDate = standing.updated
+            } else {
+                if (isAfter(standing.updated, lastDate)) {
+                    lastDate = standing.updated
+                }
+            }
+        }
+        return lastDate
+    }, [ladder])
+
     return (
-        <>
+        <div className={"flex flex-col gap-2"}>
             {!failed  && !ladder &&
             <h1>Getting ladder...</h1>
             }
@@ -66,51 +84,60 @@ export default function Ladder() {
             }
 
             {ladder && season &&
-            <table className={"border-separate border-spacing-0 rounded-lg text-xs md:text-sm w-full"}>
-                <thead className={""}>
-                <tr className={"*:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
-                    <th className={"w-1 px-0 pt-0 !p-0"}></th>
-                    <th className={"px-3 text-right"}>#</th>
-                    <th className={"text-left"}>Team</th>
-                    <th>Played</th>
-                    <th>Won</th>
-                    <th>Pts</th>
-                    <th>%</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {ladder.map((standing, i) => (
-                        <tr key={`${standing.team.id}${season.year}`}
-                            className={"bg-neutral-200 odd:bg-neutral-300 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white *:p-2"}>
-                            <td className={`!p-0 ${positionFinalsBgs[i]}`}></td>
-                            <td className={"px-3 text-right"}>
-                                {i + 1}
-                            </td>
-                            <td className={"text-left flex gap-2 items-center font-bold"}>
-                                <TeamFlag teamName={standing.team.name} size={"xs"} />
-                                {standing.team.name.length < 17 ? standing.team.name : standing.team.abbreviation}
-                                {season.premierTeamId === standing.teamId &&
-                                    <FaTrophy className={"text-yellow-600"}/>
-                                }
-                            </td>
-                            <td>
-                                {standing.played}
-                            </td>
-                            <td>
-                                {standing.wins}
-                            </td>
-                            <td>
-                                {standing.premPoints}
-                            </td>
-                            <td>
-                                {standing.percentage.toFixed(1)}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <>
+                {
+                    updatedDate &&
+                    <span className={
+                        "self-start text-white mt-2 py-2 px-4 text-left " +
+                        "rounded-md bg-mist-500 dark:bg-mist-800"}
+                    >{`Last updated ${formatDistance(new Date(), updatedDate)} ago`}</span>
+                }
+                <table className={"border-separate border-spacing-0 rounded-lg text-xs md:text-sm w-full"}>
+                    <thead className={""}>
+                    <tr className={"*:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
+                        <th className={"w-1 px-0 pt-0 !p-0"}></th>
+                        <th className={"px-3 text-right"}>#</th>
+                        <th className={"text-left"}>Team</th>
+                        <th>Played</th>
+                        <th>Won</th>
+                        <th>Pts</th>
+                        <th>%</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {ladder.map((standing, i) => (
+                            <tr key={`${standing.team.id}${season.year}`}
+                                className={"bg-neutral-200 odd:bg-neutral-300 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white *:p-2"}>
+                                <td className={`!p-0 ${positionFinalsBgs[i]}`}></td>
+                                <td className={"px-3 text-right"}>
+                                    {i + 1}
+                                </td>
+                                <td className={"text-left flex gap-2 items-center font-bold"}>
+                                    <TeamFlag teamName={standing.team.name} size={"xs"} />
+                                    {standing.team.name.length < 17 ? standing.team.name : standing.team.abbreviation}
+                                    {season.premierTeamId === standing.teamId &&
+                                        <FaTrophy className={"text-yellow-600"}/>
+                                    }
+                                </td>
+                                <td>
+                                    {standing.played}
+                                </td>
+                                <td>
+                                    {standing.wins}
+                                </td>
+                                <td>
+                                    {standing.premPoints}
+                                </td>
+                                <td>
+                                    {standing.percentage.toFixed(1)}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </>
 
             }
-        </>
+        </div>
     )
 }
