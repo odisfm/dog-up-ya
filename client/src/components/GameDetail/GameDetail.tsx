@@ -61,11 +61,13 @@ export default function GameDetail() {
         timeContext.setYear(seasonData.year)
     }, [timeContext, roundData, seasonData]);
 
+    const isSpoiler = !!(gameData && !prefsContext.showSpoilers && isInSpoilerWindow(gameData.localTime) && !prefsContext.spoilerIgnoredGames.includes(gameData.id))
+
     const showScoreEvents = useMemo(() => {
         if (!gameData || !gameData.homeTeam || !gameData.awayTeam) {
             return false
         }
-        if (!prefsContext.showSpoilers && isInSpoilerWindow(gameData.localTime) && !prefsContext.spoilerIgnoredGames.includes(gameData.id)) {
+        if (isSpoiler) {
             return false
         }
         if (gameData.timeString === "Full Time" && gameData.scoreEvents.length === 0) {
@@ -73,7 +75,7 @@ export default function GameDetail() {
         }
         return true
 
-    }, [gameData, prefsContext.spoilerIgnoredGames, prefsContext.showSpoilers]);
+    }, [gameData, isSpoiler]);
 
     const showGameLinks = useMemo(() => {
         if (!gameData || !gameData.gameLinks) {
@@ -131,7 +133,7 @@ export default function GameDetail() {
                 </>
             }
 
-            { showTips && gameData.homeTeam && gameData.awayTeam && gameData.tips.length &&
+            { !isSpoiler && showTips && gameData.homeTeam && gameData.awayTeam && gameData.tips.length &&
                 <>
                     <Section title={"Tips"} headingLevel={3} collapsible={true} collapsedDefault={true} prefName={"tips"}>
                         <GameTips gameData={gameData}/>
