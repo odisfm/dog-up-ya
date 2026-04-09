@@ -77,17 +77,6 @@ export default function GameDetail() {
 
     }, [gameData, isSpoiler]);
 
-    const showGameLinks = useMemo(() => {
-        if (!gameData || !gameData.gameLinks) {
-            return false
-        }
-        const links = gameData.gameLinks
-        if (!links.redditAflMatchThread && !links.redditAflPostMatchThread) {
-            return false
-        }
-        return true
-    }, [gameData])
-
     const showTips = gameData && gameData.tips.length
 
     if (!params.gameId) {
@@ -119,10 +108,6 @@ export default function GameDetail() {
 
             <GameSummary gameData={gameData} homeTeamData={gameData.homeTeam} awayTeamData={gameData.awayTeam}
                         segmentIdx={0} segmentLength={1}/>
-
-            { showGameLinks && gameData.gameLinks &&
-                <GameLinks linkData={gameData.gameLinks}/>
-            }
 
             { showScoreEvents && gameData.homeTeam && gameData.awayTeam &&
                 <>
