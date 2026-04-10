@@ -198,7 +198,7 @@ app.get(`/game/:gameId`, async (c) => {
 
 })
 
-app.get("/health/*", async (c) => {
+app.get("/health", async (c) => {
   try {
     await db.season.findFirst({})
   } catch (e) {
