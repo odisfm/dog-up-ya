@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useMemo, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import GameSummary from "../GameSummary/GameSummary.tsx";
 import {Link, Navigate, useParams} from "react-router";
 import type {GameDetailsPayload, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
@@ -21,6 +21,7 @@ export default function GameDetail() {
     const [seasonData, setSeasonData] = useState<Season | null>(null);
     const [roundData, setRoundData] = useState<Round | null>(null);
     const [failed, setFailed] = useState(false);
+    const mainHeadingRef = useRef<HTMLHeadingElement | null>(null);
 
     const fetchGameData = useCallback(async () => {
         if (!params?.gameId) {
@@ -79,6 +80,13 @@ export default function GameDetail() {
 
     const showTips = Boolean(gameData && gameData.tips.length)
 
+    useEffect(() => {
+        if (mainHeadingRef.current) {
+            const top = mainHeadingRef.current.getBoundingClientRect().top + window.scrollY - 20;
+            window.scrollTo({top, behavior: "smooth"});
+        }
+    }, [gameData]);
+
     if (!params.gameId) {
         return (
             <Navigate to={"/round"} />
@@ -91,7 +99,11 @@ export default function GameDetail() {
 
     return (
         <div className={"flex flex-col text-white mt-2 items-start w-full"}>
-            <h2 className={"font-black text-left text-xl md:text-5xl mb-1 rounded-lg px-3 pr-3 pt-2 pb-1 md:pb-4 bg-cyan-700 dark:bg-cyan-800"}>
+            <h2
+                className={"font-black text-left text-xl md:text-5xl mb-1 rounded-lg " +
+                    "px-3 pr-3 pt-2 pb-1 md:pb-4 bg-cyan-700 dark:bg-cyan-800"}
+                ref={mainHeadingRef}
+            >
                 {gameData.homeTeam?.name || "TBD"} v {gameData.awayTeam?.name || "TBD"}
             </h2>
             <Link to={`/round/${seasonData.year}/${roundData.roundNumber}`} className={"group"}>
