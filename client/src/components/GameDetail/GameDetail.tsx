@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import GameSummary from "../GameSummary/GameSummary.tsx";
 import {Link, Navigate, useParams} from "react-router";
 import type {GameDetailsPayload, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
@@ -22,7 +22,6 @@ export default function GameDetail() {
     const [seasonData, setSeasonData] = useState<Season | null>(null);
     const [roundData, setRoundData] = useState<Round | null>(null);
     const [failed, setFailed] = useState(false);
-    const mainHeadingRef = useRef<HTMLHeadingElement | null>(null);
 
     const fetchGameData = useCallback(async () => {
         if (!params?.gameId) {
@@ -83,10 +82,10 @@ export default function GameDetail() {
 
     const showTips = Boolean(gameData && gameData.tips.length)
 
-    useEffect(() => {
-        if (mainHeadingRef.current) {
-            const top = mainHeadingRef.current.getBoundingClientRect().top + window.scrollY - 20;
-            window.scrollTo({top, behavior: "smooth"});
+    const mainHeadingRef = useCallback((node: HTMLHeadingElement | null) => {
+        if (node) {
+            const top = node.getBoundingClientRect().top + window.scrollY - 20;
+            window.scrollTo({ top, behavior: "smooth" });
         }
     }, []);
 
