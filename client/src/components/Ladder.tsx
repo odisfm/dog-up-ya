@@ -103,13 +103,13 @@ export default function Ladder() {
                 {
                     updatedDate &&
                     <span className={
-                        "self-start text-white mt-2 py-2 px-4 text-left " +
+                        "self-start text-white mb-2 py-2 px-4 text-left " +
                         "rounded-md bg-mist-500 dark:bg-mist-800"}
                     >{`Last updated ${formatDistance(new Date(), updatedDate)} ago`}</span>
                 }
                 <table className={"border-separate border-spacing-0 rounded-lg text-xs md:text-sm w-full"}>
                     <thead className={""}>
-                    <tr className={"*:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
+                    <tr className={"*:px-1 *:md:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
                         <th className={"w-1 px-0 pt-0 !p-0"}></th>
                         <th className={"px-3 text-right"}>#</th>
                         <th className={"text-left"}>Team</th>
