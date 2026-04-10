@@ -9,7 +9,7 @@ export default function Footer() {
         bg-mist-500 dark:bg-mist-900 
         grid py-3 md:p-6 px-4 md:px-12 items-center
         text-white font-light text-xs md:text-sm`}>
-            <div className={"attr-text text-left flex flex-col md:flex-row gap-0.5 md:gap-1 justify-self-start"}>
+            <div className={"attr-text text-left flex flex-col md:flex-row gap-0.5 md:gap-1 justify-self-start md:justify-self-center"}>
                 <span>data from <a href={"https://squiggle.com.au/"} target={"_blank"}>Squiggle</a>,</span>
                 <span>site by <a href={"https://odis.fm"} target={"_blank"}>odis</a></span>
             </div>
