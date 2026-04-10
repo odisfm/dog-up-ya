@@ -49,7 +49,7 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
     return (
         <nav className={"flex items-center gap-2 text-white p-1"}>
             <button className={`${scrollButtonClasses}`} onClick={scrollLeft} aria-hidden={true}>
-                <FaChevronCircleLeft />
+                <FaChevronCircleLeft aria-hidden={true}/>
             </button>
             <ul ref={ulRef} className={"flex gap-1 flex-nowrap flex-1 min-w-0 overflow-x-auto overflow-y-hidden text-white *:inline-block scrollbar-hide"}>
                 {items.map((item) => {
@@ -74,7 +74,7 @@ export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[
                 })}
             </ul>
             <button className={`${scrollButtonClasses}`} onClick={scrollRight} aria-hidden={true}>
-                <FaChevronCircleRight />
+                <FaChevronCircleRight aria-hidden={true}/>
             </button>
         </nav>
     )

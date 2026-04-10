@@ -52,20 +52,20 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
             `}
         >
             <span className={"sr-only"}>{createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData, isSpoiler)}</span>
-            <div className={"game-summary-inner"} aria-hidden={true}>
+            <div className={"game-summary-inner"}>
                 <GameSummaryTeam teamData={homeTeamData} homeTeam={true}/>
                 <div className={"game-summary-detail gap-2 "}>
-                    <span className={`venue-name ${dullPillStyles}`}>{gameData.venue}</span>
+                    <span className={`venue-name ${dullPillStyles}`} aria-hidden={true}>{gameData.venue}</span>
                     {preGame &&
                         <>
-                        <span className={`pre-game-time text-xl md:text-2xl font-bold self-center`}>
+                        <span className={`pre-game-time text-xl md:text-2xl font-bold self-center`} aria-hidden={true}>
                             {gameStart.toLocaleString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}
                         </span>
                         </>
                     }
                     {!preGame && !isSpoiler &&
                         <>
-                            <div className={"home-team"}>
+                            <div className={"home-team"} aria-hidden={true}>
                                 <GameSummaryScore
                                     score={gameData.hScore}
                                     margin={gameData.hScore - gameData.aScore}
@@ -73,8 +73,8 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                                     behinds={gameData.hBehinds}
                                 />
                             </div>
-                            <div className={"divider h-8 w-1 rounded-md bg-mist-700 justify-self-center self-center"}></div>
-                            <div className={"away-team"}>
+                            <div className={"divider h-8 w-1 rounded-md bg-mist-700 justify-self-center self-center"} aria-hidden={true}></div>
+                            <div className={"away-team"} aria-hidden={true}>
                                 <GameSummaryScore
                                     score={gameData.aScore}
                                     margin={gameData.aScore - gameData.hScore}
@@ -84,6 +84,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                             </div>
                             <span
                                 className={`time-string ${inPlay ? livePillStyles : dullPillStyles} font-bold`}
+                                aria-hidden={true}
                             >{gameData.timeString}</span>
                         </>
                     }
@@ -95,7 +96,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                                     "gap-2 rounded-md cursor-pointer bg-mist-600 hover:bg-red-900 self-center justify-self-center"}
                                 onClick={(e) => spoilerIgnoreGame(e)}
                             >
-                                <FaEye /> <span>Reveal scores</span>
+                                <FaEye aria-hidden={true}/> <span>Reveal scores</span>
                             </button>
                         </>
                     }
