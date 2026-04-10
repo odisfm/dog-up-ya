@@ -20,7 +20,7 @@ export function areGamesLive(games: Game[], preGameMinutesMargin=15): boolean {
     return false;
 }
 
-export function createScreenreaderGameDescription(game: Game, homeTeam: Team | null, awayTeam: Team | null) {
+export function createScreenreaderGameDescription(game: Game, homeTeam: Team | null, awayTeam: Team | null, isSpoiler: boolean) {
     let description = ""
     const venueName = game.venue || "venue TBD";
     const date = formatDate(new Date(game.unixTime * 1000), "eeee, do MMMM hh:mmaa");
@@ -38,6 +38,11 @@ export function createScreenreaderGameDescription(game: Game, homeTeam: Team | n
         description += `, live now, ${game.timeString}`
     }
     description += `. `
+
+    if (isSpoiler) {
+        description += ` Scores are hidden by spoiler preference. Change spoiler preference in side menu.`
+        return description;
+    }
 
     const leadTerm = game.timeString !== "Full Time" ? "lead" : "win"
     const drawTerm = game.timeString !== "Full Time" ? "Scores are level" : "Ended in a draw"

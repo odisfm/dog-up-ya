@@ -38,34 +38,34 @@ export default function Sidebar() {
             <div className="flex flex-col gap-6 items-start flex-1 w-full p-3 overflow-y-scroll pb-12">
                 <h3 className={"text-xl font-bold"}>Options</h3>
                 <fieldset className={`md:hidden flex flex-col`}>
-                    <label htmlFor={"sidebarSeasonSwitcher"} className={labelStyles}>Season</label>
+                    <legend className={labelStyles} aria-label={"season selector"}>Season</legend>
                     <div id={"sidebarSeasonSwitcher"}>
                         <SeasonSwitcher />
                     </div>
                 </fieldset>
                 <fieldset className={`md:hidden flex flex-col`}>
-                    <label htmlFor={"themeSwitcher"} className={labelStyles}>Theme</label>
+                    <legend className={labelStyles}>Theme</legend>
                     <div id={"themeSwitcher"} className={"flex gap-1"}>
                         <button
                             className={`${buttonStyles} ${prefsContext.theme === "light" ? activeButtonStyles : inactiveButtonStyles}`}
                             onClick={() => prefsContext.changeTheme("light")}
                         >
-                            <MdLightMode />
+                            <MdLightMode aria-hidden={true}/>
                             <span>Light</span>
                         </button>
                         <button
                             className={`${buttonStyles} ${prefsContext.theme === "dark" ? activeButtonStyles : inactiveButtonStyles}`}
                             onClick={() => prefsContext.changeTheme("dark")}
                         >
-                            <MdDarkMode />
+                            <MdDarkMode aria-hidden={true}/>
                             <span>Dark</span>
                         </button>
                     </div>
                 </fieldset>
                 <fieldset className={`flex flex-col`}>
-                    <label htmlFor={"spoilerPreference"} className={labelStyles}>
+                    <legend className={labelStyles}>
                         Scores for recent games
-                    </label>
+                    </legend>
                     <div id={"spoilerPreference"} className={"flex gap-1"}>
                         <button
                             className={`${!prefsContext.showSpoilers ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
@@ -83,7 +83,12 @@ export default function Sidebar() {
                 </fieldset>
             </div>
 
-            <span className={"mt-auto wrap-break-word text-xs text-neutral-700 text-left p-2"}>app version: {__COMMIT_HASH__}</span>
+            <span
+                className={"mt-auto wrap-break-word text-xs text-neutral-700 text-left p-2"}
+                aria-label={`app version: ${__COMMIT_HASH__}`}
+            >
+                app version: {__COMMIT_HASH__}
+            </span>
         </div>
     );
 }

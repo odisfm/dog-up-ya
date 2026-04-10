@@ -35,6 +35,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
     const gameStart = new Date(gameData.unixTime * 1000)
     const preGame = gameStart > now
     const inSpoilerWindow = isInSpoilerWindow(gameStart)
+    const isSpoiler = Boolean(inSpoilerWindow && prefsContext.showSpoilers && !prefsContext.spoilerIgnoredGames.includes(gameData.id))
 
     const spoilerIgnoreGame = (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -50,7 +51,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
             group-hover:bg-mist-400 dark:group-hover:bg-mist-700
             `}
         >
-            <span className={"sr-only"}>{createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData)}</span>
+            <span className={"sr-only"}>{createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData, isSpoiler)}</span>
             <div className={"game-summary-inner"} aria-hidden={true}>
                 <GameSummaryTeam teamData={homeTeamData} homeTeam={true}/>
                 <div className={"game-summary-detail gap-2 "}>
@@ -62,7 +63,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                         </span>
                         </>
                     }
-                    {!preGame && (!inSpoilerWindow || prefsContext.showSpoilers || prefsContext.spoilerIgnoredGames.includes(gameData.id)) &&
+                    {!preGame && !isSpoiler &&
                         <>
                             <div className={"home-team"}>
                                 <GameSummaryScore
@@ -87,7 +88,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                         </>
                     }
                     {
-                        !preGame && (!prefsContext.showSpoilers && inSpoilerWindow && !prefsContext.spoilerIgnoredGames.includes(gameData.id)) &&
+                        !preGame && isSpoiler &&
                         <>
                             <button
                                 className={"reveal-spoiler-button flex items-center px-4 py-2 " +

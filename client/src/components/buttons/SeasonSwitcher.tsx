@@ -39,16 +39,24 @@ export default function SeasonSwitcher() {
         }
 
         return (
-            <div className={"flex gap-1 items-center"}>
+            <div
+                className={"flex gap-1 items-center"}
+                aria-label={`season selector, current season: ${timeContext.year!}`}
+            >
                 { !seasonInputVisible && timeContext.year &&
-                    <button className={`${timeContext.year <= minYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `} onClick={() => timeContext.setYear(timeContext.year! - 1)}>
-                        <MdNavigateBefore />
+                    <button
+                        className={`${timeContext.year <= minYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `}
+                        onClick={() => timeContext.setYear(timeContext.year! - 1)}
+                        aria-label={`show season ${timeContext.year! - 1}`}
+                    >
+                        <MdNavigateBefore aria-hidden={true}/>
                     </button>
                 }
                 { !seasonInputVisible &&
                     <button
                         className={"px-3 py-1 bg-mist-700 hover:bg-cyan-700 text-white rounded-lg cursor-pointer text-xs font-bold"}
                         onClick={() => activateSeasonInput()}
+                        aria-label={"go to particular season"}
                     >
                         {timeContext.year}
                     </button>
@@ -59,15 +67,34 @@ export default function SeasonSwitcher() {
                         className={"w-full flex gap-1 p-1 bg-mist-800 rounded-md text-xs"}
                         onSubmit={(e) => submitSeasonInputForm(e)}
                     >
-                        <input type={"number"} min={minYear} max={maxYear} defaultValue={timeContext.year || maxYear} ref={seasonInputRef} className={"w-15 text-white"} placeholder={String(timeContext.year)}></input>
-                        <button className={`${formButtonStyles} bg-lime-600 hover:bg-lime-700`} type={"submit"}><GrReturn /></button>
-                        <button className={`${formButtonStyles} bg-red-950 hover:bg-red-900`} type={"button"} onClick={() => setSeasonInputVisible(false)}><MdCancel /></button>
+                        <input
+                            type={"number"} min={minYear} max={maxYear} defaultValue={timeContext.year || maxYear}
+                            ref={seasonInputRef} className={"w-15 text-white"} placeholder={String(timeContext.year)}
+                            aria-label={"season input"}
+                        ></input>
+                        <button
+                            className={`${formButtonStyles} bg-lime-600 hover:bg-lime-700`} type={"submit"}
+                            aria-label={"submit season input"}
+                        >
+                            <GrReturn />
+                        </button>
+                        <button
+                            className={`${formButtonStyles} bg-red-950 hover:bg-red-900`} type={"button"}
+                            onClick={() => setSeasonInputVisible(false)}
+                            aria-label={"dismiss season input"}
+                        >
+                                <MdCancel />
+                        </button>
                     </form>
                     </>
                 }
                 { !seasonInputVisible && timeContext.year &&
-                    <button className={`${timeContext.year >= maxYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `} onClick={() => timeContext.setYear(timeContext.year! + 1)}>
-                        <MdNavigateNext />
+                    <button
+                        className={`${timeContext.year >= maxYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `}
+                        onClick={() => timeContext.setYear(timeContext.year! + 1)}
+                        aria-label={`show season ${timeContext.year! + 1}`}
+                    >
+                        <MdNavigateNext aria-hidden={true}/>
                     </button>
                 }
             </div>

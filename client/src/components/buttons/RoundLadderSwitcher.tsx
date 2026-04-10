@@ -12,15 +12,21 @@ export default function RoundLadderSwitcher() {
     const inactiveButtonStyles = `bg-mist-800 hover:bg-mist-600`
 
     return (
-            <div className={`flex gap-2 items-center ${!timeContext.year && `hidden`}`}>
+            <div
+                className={`flex gap-2 items-center ${!timeContext.year && `hidden`}`}
+            >
                 <Link to={`/round/${timeContext.year}/${timeContext.round}`}
-                      className={`${buttonStyles} ${viewContext.view === "round" ? activeButtonStyles : inactiveButtonStyles}`}>
+                      className={`${buttonStyles} ${viewContext.view === "round" ? activeButtonStyles : inactiveButtonStyles}`}
+                      aria-current={viewContext.view === "round"}
+                >
                     Round
                 </Link>
                 <Link to={`/ladder/${timeContext.year}/`}
                     className={`
-                    ${buttonStyles} ${viewContext.view === "ladder" ? activeButtonStyles : inactiveButtonStyles} 
-                    ${viewContext.view === "game" && `hidden md:block`}`}>
+                        ${buttonStyles} ${viewContext.view === "ladder" ? activeButtonStyles : inactiveButtonStyles} 
+                        ${viewContext.view === "game" && `hidden md:block`}`}
+                    aria-current={viewContext.view === "ladder"}
+                >
                     Ladder
                 </Link>
 
