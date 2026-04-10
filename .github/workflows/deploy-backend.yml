@@ -37,7 +37,7 @@ jobs:
           echo "cloudflare_zone_id = \"${{ secrets.CLOUDFLARE_ZONE_ID }}\"" >> terraform.tfvars
           echo "server_instance_type = \"${{ secrets.SERVER_INSTANCE_TYPE }}\"" >> terraform.tfvars
           echo "wacher_instance_type = \"${{ secrets.WATCHER_INSTANCE_TYPE }}\"" >> terraform.tfvars
-          echo "server_instance_type = \"${{ secrets.SERVER_GROUP_MAX_SIZE }}\"" >> terraform.tfvars
+          echo "server_grouo_max_size = \"${{ secrets.SERVER_GROUP_MAX_SIZE }}\"" >> terraform.tfvars
 
       - name: tofu init
         working-directory: infra
