@@ -17,10 +17,10 @@ export default function Footer() {
                 <a className={`${linkStyles}`} href={`mailto:${MAILTO_ADDRESS}?subject=${encodeURIComponent(APP_NAME)}`} target={"_blank"}
                     aria-label={"e-mail the developer of this site"}
                 >
-                    <MdEmail aria-hidden="true" />
+                    <MdEmail aria-hidden={true} />
                 </a>
                 <a className={`${linkStyles}`} href={GITHUB_REPO_LINK} target={"_blank"} aria-label={"see this site's source code on GitHun"}>
-                    <FaGithub aria-hidden={}/>
+                    <FaGithub aria-hidden={true}/>
                 </a>
             </div>
         </footer>
