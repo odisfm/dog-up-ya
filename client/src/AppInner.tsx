@@ -38,12 +38,13 @@ export default function AppInner() {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/details`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/round/current`);
             checkApiHeadersVersionMismatch(response)
             if (response) {
                 const data = await response.json();
-                const _data: ApiDetailsResponse = data.data
-                timeContext.setLatestYear(_data.latestSeason)
+                const _data: CurrentRoundResponse = data.data
+                timeContext.setLatestYear(_data.season)
+                timeContext.setLatestRound(_data.roundNum)
             }
         })()
     })
