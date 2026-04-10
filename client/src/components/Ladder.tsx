@@ -101,7 +101,7 @@ export default function Ladder() {
             {ladder && season &&
             <>
                 {
-                    updatedDate &&
+                    updatedDate && season.premierTeamId === null &&
                     <span className={
                         "self-start text-white mb-2 py-2 px-4 text-left " +
                         "rounded-md bg-mist-500 dark:bg-mist-800"}
