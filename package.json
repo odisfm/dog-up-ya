@@ -2,7 +2,7 @@
   "name": "footy-scores",
   "private": true,
   "workspaces": ["shared", "api", "client", "consumers"],
-  "packageManager": "npm@11.4.2",
+  "packageManager": "npm@11.12.1",
   "version": "1.0.0",
   "description": "",
   "homepage": "https://github.com/odisfm/footy-scores-test#readme",
