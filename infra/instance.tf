@@ -46,7 +46,7 @@ resource "aws_launch_template" "main" {
     market_type = "spot"
   }
 
-  instance_type = "t3.micro"
+  instance_type = var.server_instance_type
 
   metadata_options {
   }
@@ -79,7 +79,7 @@ resource "aws_launch_template" "main" {
 resource "aws_instance" "watch_server" {
   ami = data.aws_ami.amazon_linux.id
   associate_public_ip_address = true
-  instance_type = "t3.micro"
+  instance_type = var.watcher_instance_type
 
   iam_instance_profile = "dog-up-ya-app-server"
 

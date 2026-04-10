@@ -25,3 +25,16 @@ variable "cloudflare_zone_id" {
   type = string
 }
 
+variable "server_instance_type" {
+  type = string
+  default = "t3.nano"
+}
+
+variable "watcher_instance_type" {
+  type = string
+  default = "t3.nano"
+}
+
+variable "server_group_max_size" {
+  type = number
+}

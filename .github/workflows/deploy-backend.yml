@@ -35,7 +35,9 @@ jobs:
           touch terraform.tfvars
           echo "app_name = \"$REPO_NAME\"" >> terraform.tfvars
           echo "cloudflare_zone_id = \"${{ secrets.CLOUDFLARE_ZONE_ID }}\"" >> terraform.tfvars
-          
+          echo "server_instance_type = \"${{ secrets.SERVER_INSTANCE_TYPE }}\"" >> terraform.tfvars
+          echo "wacher_instance_type = \"${{ secrets.WATCHER_INSTANCE_TYPE }}\"" >> terraform.tfvars
+          echo "server_instance_type = \"${{ secrets.SERVER_GROUP_MAX_SIZE }}\"" >> terraform.tfvars
 
       - name: tofu init
         working-directory: infra
@@ -69,7 +71,7 @@ jobs:
           old_target="${{ steps.read_state.outputs.old_target }}"
           new_target="${{ steps.read_state.outputs.new_target }}"
           tofu apply -auto-approve \
-          -var="blue_desired_capacity=2" -var="green_desired_capacity=2" \
+          -var="blue_desired_capacity=${{ secrets.SERVER_GROUP_DESIRED_SIZE }}" -var="green_desired_capacity=${{ secrets.SERVER_GROUP_DESIRED_SIZE }}" \
           -var="active_deployment_target=$old_target"
 
       - name: install aws cli   # when testing workflow locally
@@ -115,9 +117,9 @@ jobs:
           new_target="${{ steps.read_state.outputs.new_target }}"
           if [[ $new_target == "green" ]]; then
             blue_capacity=0
-            green_capacity=2  
+            green_capacity=${{ secrets.SERVER_GROUP_DESIRED_SIZE }}  
           else
-            blue_capacity=2
+            blue_capacity=${{ secrets.SERVER_GROUP_DESIRED_SIZE }}  
             green_capacity=0
           fi
           tofu apply -auto-approve \

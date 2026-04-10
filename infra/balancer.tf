@@ -115,7 +115,7 @@ resource "aws_autoscaling_attachment" "green" {
 resource "aws_autoscaling_group" "blue" {
   vpc_zone_identifier = [aws_subnet.a.id, aws_subnet.b.id]
   desired_capacity   = var.blue_desired_capacity
-  max_size           = 3
+  max_size           = var.server_group_max_size
   min_size           = 0
   health_check_grace_period = 120
 
@@ -128,7 +128,7 @@ resource "aws_autoscaling_group" "blue" {
 resource "aws_autoscaling_group" "green" {
   vpc_zone_identifier = [aws_subnet.a.id, aws_subnet.b.id]
   desired_capacity   = var.green_desired_capacity
-  max_size           = 3
+  max_size           = var.server_group_max_size
   min_size           = 0
   health_check_grace_period = 120
 
