@@ -68,6 +68,7 @@ export function isInSpoilerWindow(gameStart: Date) {
 
 export function checkApiHeadersVersionMismatch(response: Response) {
     console.log("checking headers")
+    console.log(response.headers);
     if (response.headers.has("X-App-Version")) {
         const versionHeader = response.headers.get("X-App-Version");
         if (versionHeader === "null") { // returns literal "null" in dev
