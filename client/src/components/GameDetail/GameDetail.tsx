@@ -3,14 +3,15 @@ import GameSummary from "../GameSummary/GameSummary.tsx";
 import {Link, Navigate, useParams} from "react-router";
 import type {GameDetailsPayload, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season, Round} from "@footy-scores/shared"
-import { formatDate } from "date-fns";
+import {differenceInMinutes, formatDate} from "date-fns";
 import ScoreEvents from "./ScoreEvents.tsx";
-import GameLinks from "./GameLinks.tsx";
 import Section from "../Section.tsx";
 import GameTips from "./GameTips.tsx";
 import {TimeContext} from "../../contexts/TimeProvider.tsx";
 import {PrefsContext} from "../../contexts/PrefsProvider.tsx";
 import {isInSpoilerWindow} from "../../utils.ts";
+import Worm from "./Worm.tsx";
+import {REFRESH_TIME_MS} from "../../consts.ts";
 
 
 export default function GameDetail() {
@@ -78,6 +79,8 @@ export default function GameDetail() {
 
     }, [gameData, isSpoiler]);
 
+    const isLive = Boolean(gameData && new Date() > new Date(gameData.unixTime * 1000) && gameData.timeString !== "Full Time")
+
     const showTips = Boolean(gameData && gameData.tips.length)
 
     useEffect(() => {
@@ -86,6 +89,21 @@ export default function GameDetail() {
             window.scrollTo({top, behavior: "smooth"});
         }
     }, [gameData]);
+
+    useEffect(() => {
+        if (!isLive) return
+        const interval = setInterval(fetchGameData, REFRESH_TIME_MS);
+        return () => clearInterval(interval);
+    }, [fetchGameData, isLive]);
+
+    useEffect(() => {
+        if (isLive || !gameData) return
+        const minutesTilLive = differenceInMinutes(new Date(gameData.unixTime * 1000), new Date())
+        if (minutesTilLive < 0) return
+        const interval = setTimeout(fetchGameData, minutesTilLive * 60)
+        return () => clearTimeout(interval);
+
+    }, [isLive, gameData, fetchGameData])
 
     if (!params.gameId) {
         return (
@@ -124,6 +142,7 @@ export default function GameDetail() {
             { showScoreEvents && gameData.homeTeam && gameData.awayTeam && gameData.timeString !== null &&
                 <>
                     <Section title={"Scoring shots"} headingLevel={3} collapsible={true} prefName={"scoreEvents"} collapsedDefault={true} role={null}>
+                        <Worm scoreEvents={gameData.scoreEvents} />
                         <ScoreEvents scoreEvents={gameData.scoreEvents} homeTeam={gameData.homeTeam}
                                   awayTeam={gameData.awayTeam}/>
                     </Section>
