@@ -44,9 +44,9 @@ export default function GameProgressBar({progress, timeString}: {progress: numbe
     }
 
     return (
-        <div className={"rounded-lg p-1 bg-mist-700 dark:bg-mist-900"}>
+        <div className={"rounded-lg p-1 bg-mist-700 dark:bg-mist-900 hidden md:block"}>
             <div
-                className={"game-progress-bar hidden md:grid gap-1 h-4 w-full  items-center justify-items-center mb-1 overflow-hidden mt-1"}
+                className={"game-progress-bar md:grid gap-1 h-4 w-full  items-center justify-items-center mb-1 overflow-hidden mt-1"}
                 aria-hidden={true}>
                 <GameProgressInterval label={"PG"} status={"past"}/>
                 <GameProgressSegment progress={firstQuarterPct}/>
