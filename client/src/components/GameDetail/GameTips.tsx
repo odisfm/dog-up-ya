@@ -135,7 +135,9 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                     {
                         gameData.tips.map((tip, index) => {
                             return (
-                                <tr className={"*:px-2 *:pt-2 odd:bg-mist-300 even:bg-mist-200 dark:odd:bg-mist-800 even:dark:bg-mist-900"}>
+                                <tr className={"*:px-2 *:pt-2 odd:bg-mist-300 even:bg-mist-200 dark:odd:bg-mist-800 even:dark:bg-mist-900"}
+                                    key={`${tip.sourceName}${gameData.id}`}
+                                >
                                     <td className={"text-right"}>
                                         {tip.sourceName}
                                     </td>
