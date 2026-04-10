@@ -15,7 +15,7 @@ export default function ScoreEventSingle({scoringTeam, homeTeam, awayTeam, event
     const homeWinning = (event.hScore || 0) > (event.aScore || 0)
     const awayWinning = (event.aScore || 0) > (event.hScore || 0)
     const pillStyles = `rounded-md px-2 py-1 `
-    const scoreStyles = `flex gap-2 items-center justify-items-center rounded-md px-2`
+    const scoreStyles = `flex gap-2 items-center justify-center rounded-md px-2`
     const scoreBgWinning = `bg-cyan-700 dark:bg-cyan-800`
     const scoreBgLosing = `bg-mist-800 dark:bg-mist-950`
     return (
@@ -35,7 +35,7 @@ export default function ScoreEventSingle({scoringTeam, homeTeam, awayTeam, event
                     <div className={""}><span className={"hidden lg:inline"}>{event.hGoals}.{event.hBehinds}.</span><strong>{event.hScore}</strong></div>
                 </div>
                 <div className={`${scoreStyles} ${awayWinning ?  scoreBgWinning : scoreBgLosing}`}>
-                    <TeamFlag teamName={awayTeam.name} size={"xs"}/>
+                    <div className={"justify-self-start"}><TeamFlag teamName={awayTeam.name} size={"xs"}/></div>
                     <div className={""}><span className={"hidden lg:inline"}>{event.aGoals}.{event.aBehinds}.</span><strong>{event.aScore}</strong></div>
                 </div>
 
