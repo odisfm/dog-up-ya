@@ -30,7 +30,7 @@ export default function Header() {
                   className={"rounded-lg py-1 px-3 hover:bg-mist-700 dark:hover:bg-mist-950 " +
                       "cursor-pointer flex gap-1 md:gap-2 justify-self-center items-center " +
                       "text-white no-underline"}>
-                <LiaFootballBallSolid className={"text-4xl md:text-xl hidden md:block"}/>
+                <LiaFootballBallSolid className={"text-2xl md:text-xl"}/>
                 <h1 className={"text-white text-md md:text-2xl font-bold"}>{APP_NAME}</h1>
             </Link>
 
