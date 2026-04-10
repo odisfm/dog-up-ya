@@ -100,6 +100,9 @@ export default function Ladder() {
 
             {ladder && season &&
             <>
+                <h2 className={"text-3xl mt-2 p-2 text-white bg-cyan-600 dark:bg-cyan-700 rounded-md self-start"}>
+                    {`${timeContext.year} ladder`}
+                </h2>
                 {
                     updatedDate && season.premierTeamId === null &&
                     <span className={
