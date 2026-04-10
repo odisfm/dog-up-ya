@@ -12,7 +12,7 @@ export type TabBarItem = {
 
 const scrollDistance = 150
 
-export default function ScrollingTabBar({items, activeItem}: {items: TabBarItem[], activeItem: string | undefined}) {
+export default function RoundSelector({items, activeItem}: {items: TabBarItem[], activeItem: string | undefined}) {
     const [activeTab, setActiveTab] = useState<HTMLLIElement | null>(null);
     const ulRef = useRef<HTMLUListElement>(null)
     const timeContext = useContext(TimeContext)!;

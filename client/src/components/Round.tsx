@@ -6,7 +6,7 @@ import type {
     RoundResponse,
     SeasonResponse
 } from "@footy-scores/shared/src/types/apiResponses.ts";
-import ScrollingTabBar, {type TabBarItem} from "./ScrollingTabBar.tsx";
+import RoundSelector, {type TabBarItem} from "./RoundSelector.tsx";
 import {areGamesLive, checkApiHeadersVersionMismatch} from "../utils.ts";
 import {REFRESH_TIME_MS, ROUND_SEGMENT_LIVE_LABEL} from "../consts.ts";
 import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore, isToday, isSameDay} from "date-fns";
@@ -256,7 +256,7 @@ export default function Round() {
     return (
         <>
             { roundItems.length > 0 &&
-                <ScrollingTabBar items={roundItems} activeItem={`/round/${timeContext.year}/${timeContext.round}`} />
+                <RoundSelector items={roundItems} activeItem={`/round/${timeContext.year}/${timeContext.round}`} />
             }
             <div className={"flex flex-col w-full"} {...swipeHandlers}>
                 {roundSegments &&
