@@ -33,6 +33,7 @@ export default function Sidebar() {
                 transition: "transform 100ms ease-in-out",
             }}
             className="absolute top-0 right-0 h-full w-screen md:w-1/3 lg:w-1/5 z-50 bg-mist-900 dark:bg-black text-white flex flex-col"
+            inert={!viewContext.sidebarActive }
         >
             <div className="flex flex-col gap-6 items-start flex-1 w-full p-3 overflow-y-scroll pb-12">
                 <h3 className={"text-xl font-bold"}>Options</h3>
