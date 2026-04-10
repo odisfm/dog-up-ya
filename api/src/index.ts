@@ -23,7 +23,8 @@ const APP_VERSION = process.env.COMMIT_ID || null
 const app = new Hono()
 app.use(
     cors({
-      origin: process.env.ALLOWED_CORS ? process.env.ALLOWED_CORS.split(" ") : []
+      origin: process.env.ALLOWED_CORS ? process.env.ALLOWED_CORS.split(" ") : [],
+      exposeHeaders: ['X-App-Version']
     })
 )
 
