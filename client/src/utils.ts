@@ -67,20 +67,33 @@ export function isInSpoilerWindow(gameStart: Date) {
 }
 
 export function checkApiHeadersVersionMismatch(response: Response) {
-    console.log("checking headers")
-    console.log(response.headers);
     if (response.headers.has("X-App-Version")) {
         const versionHeader = response.headers.get("X-App-Version");
         if (versionHeader === "null") { // returns literal "null" in dev
-            console.log("X-App-Version null")
             return
         }
-        console.log(`Header: ${versionHeader}`)
         if (versionHeader !== __COMMIT_HASH__) {
-            console.log(`Header mismatch, reloading. api: ${versionHeader}, client: ${__COMMIT_HASH__}`)
-            window.location.reload()
+            const mismatchReloadHistoryString = localStorage.getItem("versionMismatchCausedReload")
+            let reloadedThisVersion = 0;
+            if (mismatchReloadHistoryString) {
+                const mismatchReloadHistory: Record<string, number> = JSON.parse(mismatchReloadHistoryString)
+                if (__COMMIT_HASH__ in mismatchReloadHistory) {
+                    mismatchReloadHistory[__COMMIT_HASH__] ++
+                } else {
+                    mismatchReloadHistory[__COMMIT_HASH__] = 1
+
+                }
+                reloadedThisVersion = mismatchReloadHistory[__COMMIT_HASH__]
+                localStorage.setItem("versionMismatchCausedReload", JSON.stringify(mismatchReloadHistory))
+            } else {
+                reloadedThisVersion = 1
+                const mismatchReloadHistory = {[__COMMIT_HASH__]: 1}
+                localStorage.setItem("versionMismatchCausedReload", JSON.stringify(mismatchReloadHistory))
+
+            }
+            if (reloadedThisVersion < 2) {
+                window.location.reload()
+            }
         }
-    } else {
-        console.log(`headers dont include "X-App-Version"`)
     }
 }
