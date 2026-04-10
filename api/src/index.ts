@@ -198,6 +198,16 @@ app.get(`/game/:gameId`, async (c) => {
 
 })
 
+app.get("/health/*", async (c) => {
+  try {
+    await db.season.findFirst({})
+  } catch (e) {
+    return c.body(null, 500)
+  }
+  return c.body(null, 200)
+
+})
+
 serve({
   fetch: app.fetch,
   port: 3000,

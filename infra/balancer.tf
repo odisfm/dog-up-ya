@@ -85,7 +85,7 @@ resource "aws_lb_target_group" "blue" {
   vpc_id   = aws_vpc.main.id
 
   health_check {
-    path    = "/"
+    path    = "/health"
     matcher = "200"
   }
 }
@@ -97,7 +97,7 @@ resource "aws_lb_target_group" "green" {
   vpc_id   = aws_vpc.main.id
 
   health_check {
-    path    = "/"
+    path    = "/health"
     matcher = "200"
   }
 }

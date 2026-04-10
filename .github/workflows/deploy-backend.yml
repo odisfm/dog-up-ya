@@ -90,30 +90,23 @@ jobs:
         timeout-minutes: 10
         run: |
           new_target="${{ steps.read_state.outputs.new_target }}"
-          asg_name=$(tofu output -json | jq -r ".${new_target}_asg_name.value")
-          
-          echo "Waiting for all instances in $asg_name to be healthy..."
-          
+          target_group_arn=$(tofu output -json | jq -r ".${new_target}_target_group_arn.value")
+  
           while true; do
-            total=$(aws autoscaling describe-auto-scaling-groups \
-              --auto-scaling-group-names "$asg_name" \
-              --query 'AutoScalingGroups[0].DesiredCapacity' \
-              --output text)
-          
-            healthy=$(aws autoscaling describe-auto-scaling-groups \
-              --auto-scaling-group-names "$asg_name" \
-              --query 'length(AutoScalingGroups[0].Instances[?HealthStatus==`Healthy` && LifecycleState==`InService`])' \
-              --output text)
-          
-            echo "Healthy instances: $healthy / $total"
-          
+          healthy=$(aws elbv2 describe-target-health \
+          --target-group-arn "$target_group_arn" \
+          --query 'length(TargetHealthDescriptions[?TargetHealth.State==`healthy`])' \
+          --output text)
+          total=$(aws elbv2 describe-target-health \
+          --target-group-arn "$target_group_arn" \
+          --query 'length(TargetHealthDescriptions)' \
+          --output text)
+          echo "Healthy targets: $healthy / $total"
             if [[ "$healthy" -eq "$total" && "$total" -gt 0 ]]; then
-              echo "All instances healthy!"
-              break
+            break
             fi
-          
             sleep 10
-          done
+            done
 
       - name: scale old group to zero
         working-directory: infra
