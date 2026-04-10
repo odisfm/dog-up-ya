@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import {EventSource} from "eventsource";
-import {PrismaExports, Prisma} from '@footy-scores/shared'
+import {PrismaExports, Prisma, SquiggleEventWinner} from '@footy-scores/shared'
 import { db } from '@footy-scores/shared'
 import type {SquiggleEventGame, SquiggleEventScore, SquiggleEventTime, SquiggleEventProgress} from "@footy-scores/shared";
 
@@ -166,6 +166,38 @@ es.addEventListener('timestr', async (event) => {
     })
 })
 
+es.addEventListener('winner', async (event) => {
+    const data: SquiggleEventWinner = JSON.parse(event.data);
+    console.log('got winner event', data)
+    if (TEST_MODE) {
+        return
+    }
+    if (!data.winner) {
+        return
+    }
+    const gameRecord = await getGameRecord(data.gameid)
+    const seasonTeamRecord = await db.seasonTeam.findFirst({
+        where: {
+            seasonId: gameRecord.round.seasonId,
+            squiggleTeamId: data.winner
+        },
+        include: {
+            team: true
+        }
+    })!
+
+    await db.game.update({
+        where: {
+            squiggleId: data.gameid
+        },
+        data: {
+            timeString: "Full Time",
+            winnerTeamId: seasonTeamRecord.team.id
+        }
+    })
+
+})
+
 
 type GamePayload = Prisma.GameGetPayload<{
     include: {
@@ -184,7 +216,11 @@ async function getGameRecord(squiggleId: number): Promise<GamePayload> {
         include: {
             homeTeam: true,
             awayTeam: true,
-            round: true
+            round: {
+                include: {
+                    season: true
+                }
+            }
         }
     })
     return record;
