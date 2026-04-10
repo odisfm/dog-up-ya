@@ -88,7 +88,7 @@ export default function GameDetail() {
             const top = mainHeadingRef.current.getBoundingClientRect().top + window.scrollY - 20;
             window.scrollTo({top, behavior: "smooth"});
         }
-    }, [gameData]);
+    }, []);
 
     useEffect(() => {
         if (!isLive) return
