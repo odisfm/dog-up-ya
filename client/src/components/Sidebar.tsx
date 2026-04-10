@@ -37,7 +37,7 @@ export default function Sidebar() {
         >
             <div className="flex flex-col gap-6 items-start flex-1 w-full p-3 overflow-y-scroll pb-12">
                 <h3 className={"text-xl font-bold"}>Options</h3>
-                <fieldset className={`md:hidden flex flex-col`}>
+                <fieldset className={`${viewContext.view === "game" && `hidden`} md:hidden flex flex-col`}>
                     <legend className={labelStyles} aria-label={"season selector"}>Season</legend>
                     <div id={"sidebarSeasonSwitcher"}>
                         <SeasonSwitcher />
