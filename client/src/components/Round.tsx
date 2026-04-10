@@ -15,6 +15,7 @@ import {TimeContext} from "../contexts/TimeProvider.tsx";
 import Section from "./Section.tsx";
 import TeamFlag from "./TeamFlag.tsx";
 import type {FinalType} from "@footy-scores/shared/src/generated/prisma/enums.ts";
+import {useSwipeable} from "react-swipeable";
 
 type RoundSegmentEntry = { label: string; date: Date; games: GameResponse[] }
 
@@ -31,6 +32,17 @@ export default function Round() {
     const [roundData, setRoundData] = useState<RoundResponse | null>(null);
     const [seasonData, setSeasonData] = useState<SeasonResponse | null>(null);
     const navigate = useNavigate();
+    const swipeHandlers = useSwipeable({
+        onSwipedRight: () => {
+            if (timeContext.round === null) return
+            timeContext.setRound(timeContext.round - 1)
+        },
+        onSwipedLeft: () => {
+            if (timeContext.round === null) return
+            timeContext.setRound(timeContext.round + 1)
+        },
+        preventScrollOnSwipe: true
+    })
 
     const fetchThisRoundData = useCallback(async () => {
         if (!timeContext.year || timeContext.round === null) {
@@ -97,7 +109,11 @@ export default function Round() {
         })()
     }, [fetchSeasonData]);
 
-
+    useEffect(() => {
+        if (!seasonData) return
+        timeContext.setFirstRound(seasonData.rounds.at(0)!.roundNumber)
+        timeContext.setLastRound(seasonData.rounds.at(-1)!.roundNumber)
+    }, [seasonData, timeContext]);
 
     useEffect(() => {
         if (hasLiveGames) return;
@@ -242,7 +258,7 @@ export default function Round() {
             { roundItems.length > 0 &&
                 <ScrollingTabBar items={roundItems} activeItem={`/round/${timeContext.year}/${timeContext.round}`} />
             }
-            <div className={"flex flex-col w-full"}>
+            <div className={"flex flex-col w-full"} {...swipeHandlers}>
                 {roundSegments &&
                     roundSegments.liveGames &&
                     <RoundSegment label={ROUND_SEGMENT_LIVE_LABEL} games={roundSegments.liveGames} key={ROUND_SEGMENT_LIVE_LABEL}/>

@@ -13,7 +13,7 @@ import type {
   GameDetailsResponse,
   GameDetailsGetPayload,
   GameDetailsPayload,
-  LadderPayload
+  LadderPayload, ApiDetailsResponse
 } from "@footy-scores/shared/src/types/apiResponses.js";
 import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
 import {serialiseGames} from "./utils.js";
@@ -196,6 +196,16 @@ app.get(`/game/:gameId`, async (c) => {
   } satisfies GameDetailsResponse
   return c.json({data: response})
 
+})
+
+app.get('/details', async (c) => {
+  const latestSeason = await db.season.findFirst({
+    orderBy: {
+      year: "desc"
+    }
+  })
+
+  return c.json({data: {latestSeason: latestSeason!.year} satisfies ApiDetailsResponse}, 200)
 })
 
 app.get("/health", async (c) => {

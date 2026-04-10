@@ -6,12 +6,25 @@ import {FaTrophy} from "react-icons/fa";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
 import {formatDistance, isAfter} from "date-fns";
 import {checkApiHeadersVersionMismatch} from "../utils.ts";
+import {useSwipeable} from "react-swipeable";
+import {FIRST_SEASON} from "../consts.ts";
 
 export default function Ladder() {
     const [ladder, setLadder] = useState<LadderPayload | null>(null);
     const [season, setSeason] = useState<Season | null>(null);
     const [failed, setFailed] = useState(false);
     const timeContext = useContext(TimeContext)!;
+    const swipeHandlers = useSwipeable({
+        onSwipedRight: () => {
+            if (timeContext.year === null || timeContext.year <= FIRST_SEASON) return
+            timeContext.setYear(timeContext.year - 1)
+        },
+        onSwipedLeft: () => {
+            if (timeContext.year === null || timeContext.latestYear === null || timeContext.year >= timeContext.latestYear) return
+            timeContext.setYear(timeContext.year + 1)
+        },
+        preventScrollOnSwipe: true
+    })
 
     useEffect(() => {
         if (!timeContext.year) {
@@ -77,7 +90,7 @@ export default function Ladder() {
     }, [ladder])
 
     return (
-        <div className={"flex flex-col gap-2"}>
+        <div className={"flex flex-col gap-2"} {...swipeHandlers}>
             {!failed  && !ladder &&
             <h1>Getting ladder...</h1>
             }

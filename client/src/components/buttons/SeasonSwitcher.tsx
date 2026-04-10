@@ -8,8 +8,6 @@ import type {SubmitEvent} from "react";
 
 
 export default function SeasonSwitcher() {
-        const minYear = FIRST_SEASON
-        const maxYear = new Date().getFullYear()
         const [seasonInputVisible, setSeasonInputVisible] = useState(false)
         const seasonInputRef = useRef<HTMLInputElement>(null)
         const incrementButtonStyles = `cursor-pointer py-1 px-2 font-bold text-white rounded-lg text-sm`
@@ -18,6 +16,8 @@ export default function SeasonSwitcher() {
         const formButtonStyles = `text-white px-2 py-1 rounded-lg cursor-pointer`
         const timeContext = useContext(TimeContext)!
         const viewContext = useContext(ViewContext)!
+        const minYear = FIRST_SEASON
+        const maxYear = timeContext.latestYear
 
         useEffect(() => {
             if (seasonInputVisible && seasonInputRef.current) {
@@ -39,65 +39,71 @@ export default function SeasonSwitcher() {
         }
 
         return (
-            <div
-                className={"flex gap-1 items-center"}
-                aria-label={`season selector, current season: ${timeContext.year!}`}
-            >
-                { !seasonInputVisible && timeContext.year &&
-                    <button
-                        className={`${timeContext.year <= minYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `}
-                        onClick={() => timeContext.setYear(timeContext.year! - 1)}
-                        aria-label={`show season ${timeContext.year! - 1}`}
-                    >
-                        <MdNavigateBefore aria-hidden={true}/>
-                    </button>
-                }
-                { !seasonInputVisible &&
-                    <button
-                        className={"px-3 py-1 bg-mist-700 hover:bg-cyan-700 text-white rounded-lg cursor-pointer text-xs font-bold"}
-                        onClick={() => activateSeasonInput()}
-                        aria-label={"go to particular season"}
-                    >
-                        {timeContext.year}
-                    </button>
-                }
-                {seasonInputVisible &&
-                    <>
-                    <form
-                        className={"w-full flex gap-1 p-1 bg-mist-800 rounded-md text-xs"}
-                        onSubmit={(e) => submitSeasonInputForm(e)}
-                    >
-                        <input
-                            type={"number"} min={minYear} max={maxYear} defaultValue={timeContext.year || maxYear}
-                            ref={seasonInputRef} className={"w-15 text-white"} placeholder={String(timeContext.year)}
-                            aria-label={"season input"}
-                        ></input>
+            <>
+                { timeContext.latestYear &&
+                    <div
+                    className={"flex gap-1 items-center"}
+                    aria-label={`season selector, current season: ${timeContext.year!}`}
+                >
+                    {!seasonInputVisible && timeContext.year &&
                         <button
-                            className={`${formButtonStyles} bg-lime-600 hover:bg-lime-700`} type={"submit"}
-                            aria-label={"submit season input"}
+                            className={`${timeContext.year <= minYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `}
+                            onClick={() => timeContext.setYear(timeContext.year! - 1)}
+                            aria-label={`show season ${timeContext.year! - 1}`}
                         >
-                            <GrReturn />
+                            <MdNavigateBefore aria-hidden={true}/>
                         </button>
+                    }
+                    {!seasonInputVisible &&
                         <button
-                            className={`${formButtonStyles} bg-red-950 hover:bg-red-900`} type={"button"}
-                            onClick={() => setSeasonInputVisible(false)}
-                            aria-label={"dismiss season input"}
+                            className={"px-3 py-1 bg-mist-700 hover:bg-cyan-700 text-white rounded-lg cursor-pointer text-xs font-bold"}
+                            onClick={() => activateSeasonInput()}
+                            aria-label={"go to particular season"}
                         >
-                                <MdCancel />
+                            {timeContext.year}
                         </button>
-                    </form>
-                    </>
+                    }
+                    {seasonInputVisible &&
+                        <>
+                            <form
+                                className={"w-full flex gap-1 p-1 bg-mist-800 rounded-md text-xs"}
+                                onSubmit={(e) => submitSeasonInputForm(e)}
+                            >
+                                <input
+                                    type={"number"} min={minYear} max={maxYear}
+                                    defaultValue={timeContext.year || maxYear}
+                                    ref={seasonInputRef} className={"w-15 text-white"}
+                                    placeholder={String(timeContext.year)}
+                                    aria-label={"season input"}
+                                ></input>
+                                <button
+                                    className={`${formButtonStyles} bg-lime-600 hover:bg-lime-700`} type={"submit"}
+                                    aria-label={"submit season input"}
+                                >
+                                    <GrReturn/>
+                                </button>
+                                <button
+                                    className={`${formButtonStyles} bg-red-950 hover:bg-red-900`} type={"button"}
+                                    onClick={() => setSeasonInputVisible(false)}
+                                    aria-label={"dismiss season input"}
+                                >
+                                    <MdCancel/>
+                                </button>
+                            </form>
+                        </>
+                    }
+                    {!seasonInputVisible && timeContext.year &&
+                        <button
+                            className={`${timeContext.year >= maxYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `}
+                            onClick={() => timeContext.setYear(timeContext.year! + 1)}
+                            aria-label={`show season ${timeContext.year! + 1}`}
+                        >
+                            <MdNavigateNext aria-hidden={true}/>
+                        </button>
+                    }
+                </div>
                 }
-                { !seasonInputVisible && timeContext.year &&
-                    <button
-                        className={`${timeContext.year >= maxYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `}
-                        onClick={() => timeContext.setYear(timeContext.year! + 1)}
-                        aria-label={`show season ${timeContext.year! + 1}`}
-                    >
-                        <MdNavigateNext aria-hidden={true}/>
-                    </button>
-                }
-            </div>
+            </>
         )
 
 }

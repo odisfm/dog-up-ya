@@ -4,7 +4,7 @@ import {Link, Outlet, useLocation, useNavigate} from "react-router";
 import {useContext, useEffect} from "react";
 import {TimeContext} from "./contexts/TimeProvider.tsx";
 import {ViewContext} from "./contexts/ViewProvider.tsx";
-import type {CurrentRoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import type {ApiDetailsResponse, CurrentRoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import Footer from "./components/Footer.tsx";
 import {checkApiHeadersVersionMismatch} from "./utils.ts";
 
@@ -35,6 +35,18 @@ export default function AppInner() {
             viewContext.setView("game")
         }
     }, [viewContext, isLadder, isRound, isGame]);
+
+    useEffect(() => {
+        (async () => {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/details`);
+            checkApiHeadersVersionMismatch(response)
+            if (response) {
+                const data = await response.json();
+                const _data: ApiDetailsResponse = data.data
+                timeContext.setLatestYear(_data.latestSeason)
+            }
+        })()
+    })
 
     useEffect(() => {
         if (!timeContext.year || timeContext.round === null) {

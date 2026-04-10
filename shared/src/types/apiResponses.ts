@@ -59,3 +59,7 @@ export type GameDetailsResponse = {
     round: Round;
     season: Season;
 }
+
+export type ApiDetailsResponse = {
+    latestSeason: number
+}
