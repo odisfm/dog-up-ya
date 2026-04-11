@@ -342,7 +342,8 @@ export default function Ladder() {
                             return (
                                 <>
                                 <tr key={`${standing.team.id}${season.year}`}
-                                    className={"bg-neutral-200 odd:bg-neutral-300 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white *:p-2"}>
+                                    className={"bg-neutral-200 odd:bg-neutral-300 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white " +
+                                        "*:p-2 *:min-h-10"}>
                                     <td className={`!p-0 ${positionFinalsBgs[i]}`}>
                                         <span className={"sr-only"}>{i < positionFinalsBgs.length ? `yes` : `no`}</span>
                                     </td>
