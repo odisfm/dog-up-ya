@@ -7,13 +7,14 @@ import type {
 } from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season, Team} from "@footy-scores/shared"
 import TeamFlag from "./TeamFlag.tsx";
-import {FaTrophy} from "react-icons/fa";
+import {FaExternalLinkAlt, FaTrophy, FaWikipediaW} from "react-icons/fa";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
 import {formatDistance, isAfter} from "date-fns";
 import {checkApiHeadersVersionMismatch} from "../utils.ts";
 import {useSwipeable} from "react-swipeable";
-import {FIRST_SEASON} from "../consts.ts";
+import {AFL_ERA, FIRST_SEASON} from "../consts.ts";
 import {Next5} from "./Next5.tsx";
+import LinkButton from "./buttons/LinkButton.tsx";
 
 type LadderView = "brief" | "extended" | "next-5" | "form"
 
@@ -398,6 +399,14 @@ export default function Ladder() {
             </>
 
             }
+            <a href={`https://wikipedia.org/wiki/${timeContext.year}_${timeContext.year! >= AFL_ERA ? "AFL" : "VFL"}_season`}
+               className={"px-2 py-1 cursor-pointer rounded-md bg-mist-500 hover:bg-mist-600 dark:bg-mist-700 dark:hover:bg-mist-600 " +
+                   "self-start text-white flex gap-2 items-center"}
+               target={"_blank"}
+            >
+                <FaWikipediaW/> <FaExternalLinkAlt className={"text-xs"}/><span>{`${timeContext.year} ${timeContext.year! >= AFL_ERA ? "AFL" : "VFL"} season`} </span>
+            </a>
+
         </div>
     )
 }
