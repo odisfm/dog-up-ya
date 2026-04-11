@@ -98,10 +98,6 @@ resource "aws_instance" "watch_server" {
 
   user_data = filebase64("${path.module}/scripts/app-watcher-user-data.sh")
 
-  lifecycle {
-    replace_triggered_by = [var.active_deployment_target]
-  }
-
   tags = {
     app = var.app_name
     Name = "${var.app_name}-watch-server-${formatdate("MMDD-hhmm", timestamp())}"
