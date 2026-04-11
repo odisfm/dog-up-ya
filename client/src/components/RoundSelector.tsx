@@ -87,11 +87,11 @@ export default function RoundSelector({seasonData}: {seasonData: SeasonResponse}
                     if (isActive) {
                         bgColor = `bg-cyan-700`
                     } else if (isCurrent) {
-                        bgColor = `bg-cyan-800 hover:bg-cyan-700`
+                        bgColor = `bg-cyan-800 hover:bg-cyan-700 dark:bg-cyan-900`
                     } else if (isFuture) {
-                        bgColor = `bg-mist-500 hover:bg-mist-600 dark:bg-mist-900 hover:dark:bg-mist-800`
+                        bgColor = `bg-mist-500 hover:bg-mist-600 dark:bg-mist-800 hover:dark:bg-mist-700`
                     } else {
-                        bgColor = `bg-mist-600 hover:bg-mist-500 dark:bg-mist-950 hover:dark:bg-mist-900`
+                        bgColor = `bg-mist-600 hover:bg-mist-500 dark:bg-mist-900 hover:dark:bg-mist-950`
 
                     }
                     return (
