@@ -129,6 +129,8 @@ jobs:
 
       - name: build frontend
         working-directory: client
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
           npx vite build
 
