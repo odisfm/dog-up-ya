@@ -39,14 +39,41 @@ export default function Ladder() {
     const [failed, setFailed] = useState(false);
     const [view, setView] = useState<LadderView>("brief");
     const timeContext = useContext(TimeContext)!;
+
+    const viewingThisYear = Boolean(timeContext.year !== null && timeContext.year === timeContext.latestYear)
+
+    function moveViewBack() {
+        if (timeContext.year === null ) return
+        if (view === "extended") {
+            setView("brief");
+        }
+        else if (view === "form") {
+            setView("next-5")
+        } else if (view === "next-5") {
+            setView("extended")
+            }
+        }
+
+    function moveViewForward() {
+        if (timeContext.year === null) return
+        if (view === "brief") {
+            setView("extended");
+        } else if (timeContext.year === timeContext.latestYear) {
+            if (view === "extended") {
+                setView("next-5")
+            }
+            else if (view === "next-5") {
+                setView("form")
+            }
+        }
+    }
+
     const swipeHandlers = useSwipeable({
         onSwipedRight: () => {
-            if (timeContext.year === null || timeContext.year <= FIRST_SEASON) return
-            timeContext.setYear(timeContext.year - 1)
+            moveViewBack()
         },
         onSwipedLeft: () => {
-            if (timeContext.year === null || timeContext.latestYear === null || timeContext.year >= timeContext.latestYear) return
-            timeContext.setYear(timeContext.year + 1)
+            moveViewForward()
         },
         preventScrollOnSwipe: true
     })
@@ -76,8 +103,6 @@ export default function Ladder() {
 
         })()
     }, [timeContext.year]);
-
-    const viewingThisYear = Boolean(timeContext.year === timeContext.latestYear)
 
     if (!viewingThisYear && ["next-5", "form"].includes(view)) {
         setView("brief");
