@@ -119,8 +119,8 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                             </th>
                             {
                                 gameOver && gameData.winnerTeamId &&
-                                <th>
-                                    <IoMdCheckmarkCircle />
+                                <th aria-label={"was correct"}>
+                                    <span aria-hidden={true}><IoMdCheckmarkCircle/></span>
                                 </th>
                             }
                             <th>
@@ -138,29 +138,34 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                                 <tr className={"*:px-2 *:pt-2 odd:bg-mist-300 even:bg-mist-200 dark:odd:bg-mist-800 even:dark:bg-mist-900"}
                                     key={`${tip.sourceName}${gameData.id}`}
                                 >
-                                    <td className={"text-right"}>
+                                    <td className={"text-right text-[12px] md:text-sm"}>
                                         {tip.sourceName}
                                     </td>
                                     <td className={"flex items-center gap-2"}>
                                         <TeamFlag teamName={
                                             tip.tipTeamId === gameData.homeTeam!.id ? gameData.homeTeam!.name : gameData.awayTeam!.name
                                         } size={"xs"} />
-                                        <span className={"font-bold"}>{tip.tipTeamId === gameData.homeTeam!.id ? gameData.homeTeam!.name : gameData.awayTeam!.name}</span>
+                                        <span className={"font-bold hidden md:inline"}>
+                                            {tip.tipTeamId === gameData.homeTeam!.id ? gameData.homeTeam!.name : gameData.awayTeam!.name}
+                                        </span>
+                                        <span className={"font-bold inline md:hidden"}>
+                                            {tip.tipTeamId === gameData.homeTeam!.id ? gameData.homeTeam!.abbreviation : gameData.awayTeam!.abbreviation}
+                                        </span>
                                     </td>
                                     {
                                         gameOver && gameData.winnerTeamId &&
                                         <td className={""}>
                                             {
                                                 !wasDraw && tip.tipTeamId === gameData.winnerTeamId &&
-                                                    <IoMdCheckmarkCircle  className={"text-lime-500"}/>
+                                                <span aria-label={"correct"} role={"img"}><IoMdCheckmarkCircle className={"text-lime-500"}/></span>
                                             }
                                             {
                                                 !wasDraw && tip.tipTeamId !== gameData.winnerTeamId &&
-                                                <ImCross  className={"text-neutral-400 text-sm"}/>
+                                                <span aria-label={"incorrect"} role={"img"}><ImCross className={"text-neutral-400 text-sm"}/></span>
                                             }
                                         </td>
                                     }
-                                    <td className={"font-bold"}>
+                                    <td className={""}>
                                         {tip.margin.toFixed(1)}
                                     </td>
                                     <td className={"hidden md:block"}>

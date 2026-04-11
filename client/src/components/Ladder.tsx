@@ -236,7 +236,7 @@ export default function Ladder() {
                     >{`Last updated ${formatDistance(new Date(), updatedDate)} ago`}</span>
                 }
 
-                <div className={"flex gap-1"}>
+                <div className={"flex gap-1"} aria-label={"select table view"}>
                     <button
                         className={`${buttonStyles} ${view === "brief" ? activeButtonStyles : inactiveButtonStyles}`}
                         onClick={() => setView("brief")}
@@ -270,22 +270,25 @@ export default function Ladder() {
                 <table className={"border-separate border-spacing-0 rounded-lg text-xs md:text-sm w-full"}>
                     <thead className={""}>
                     <tr className={"*:px-1 *:md:px-2 *:pt-4 bg-mist-500 dark:bg-mist-700 text-white"}>
-                        <th className={"w-1 px-0 pt-0 !p-0"}></th>
-                        <th className={"px-3 text-right"}>#</th>
+                        <th className={"w-1 px-0 pt-0 !p-0"} aria-label={"qualifying for finals"}>
+                        </th>
+                        <th className={"px-3 text-right"} aria-label={"ladder position"}>
+                            <span aria-hidden={true}>#</span>
+                        </th>
                         <th className={"text-left"}>Team</th>
                         { ["brief", "extended"].includes(view) &&
                             <>
-                                <th>{view === "brief" ? "Played" : "P"}</th>
-                                <th>{view === "brief" ? "Won" : "W"}</th>
+                                <th aria-label={"played"}>{view === "brief" ? "Played" : "P"}</th>
+                                <th aria-label={"won"}>{view === "brief" ? "Won" : "W"}</th>
                             </>
                         }
                         {
                             view === "extended" &&
                             <>
-                                <th>L</th>
-                                <th>D</th>
-                                <th>PF</th>
-                                <th>PA</th>
+                                <th aria-label={"losses"}>L</th>
+                                <th aria-label={"draws"}>D</th>
+                                <th aria-label={"points for"}>PF</th>
+                                <th aria-label={"points against"}>PA</th>
                             </>
                         }
                         {
@@ -314,12 +317,14 @@ export default function Ladder() {
                                 <>
                                 <tr key={`${standing.team.id}${season.year}`}
                                     className={"bg-neutral-200 odd:bg-neutral-300 dark:bg-mist-800 odd:dark:bg-mist-900 dark:text-white *:p-2"}>
-                                    <td className={`!p-0 ${positionFinalsBgs[i]}`}></td>
+                                    <td className={`!p-0 ${positionFinalsBgs[i]}`}>
+                                        <span className={"sr-only"}>{i < positionFinalsBgs.length ? `yes` : `no`}</span>
+                                    </td>
                                     <td className={"px-3 text-right"}>
                                         {i + 1}
                                     </td>
                                     <td className={"text-left flex gap-2 items-center font-bold"}>
-                                        <TeamFlag teamName={standing.team.name} size={"xs"} />
+                                        <span aria-hidden={true}><TeamFlag teamName={standing.team.name} size={"xs"}/></span>
                                         <span className={`${["extended"].includes(view) && `hidden md:inline`}`}>
                                             {standing.team.name.length < 17 ? standing.team.name : standing.team.abbreviation}
                                         </span>

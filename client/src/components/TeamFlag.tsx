@@ -94,7 +94,7 @@ export default function TeamFlag({teamName, size}: {teamName: keyof typeof FLAGS
     const altText = `Flag of ${teamName} football club`
 
     return (
-        <div className={`${height} ${width} relative overflow-clip ${size !== "xs" ? `border-2` : `border-1`} border-mist-300 dark:border-mist-700`}>
+        <div aria-hidden={true} role={"img"} className={`${height} ${width} relative overflow-clip ${size !== "xs" ? `border-2` : `border-1`} border-mist-300 dark:border-mist-700`}>
             <img src={src} alt={altText} className="absolute inset-0 w-full h-full object-cover" />
             <img src={flagTexture} className="absolute inset-0 w-full h-full object-cover opacity-5 pointer-events-none" alt={""}/>
 
