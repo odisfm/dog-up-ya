@@ -9,6 +9,7 @@ export type LadderPayload = Array<Prisma.StandingGetPayload<{
 export type LadderResponse = {
     ladder: LadderPayload
     season: Season
+    rounds: RoundResponse[]
 }
 
 export type GameGetPayload = Prisma.GameGetPayload<{

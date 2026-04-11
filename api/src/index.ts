@@ -68,9 +68,28 @@ app.get('/ladder/:year', async (c) => {
       team: true
     }
   })
+  const rounds = await db.round.findMany({
+    where: {
+      seasonId: seasonRecord.id
+    },
+    include: {
+      games: {
+        include: {
+          homeTeam: true,
+          awayTeam: true
+        }
+      }
+    }
+
+  })
+  const _rounds = rounds.map((round) => {
+      return {...round, games: serialiseGames(round.games)}
+  })
+
   const data: LadderResponse = {
     ladder: standingsRecords,
-    season: seasonRecord
+    season: seasonRecord,
+    rounds: _rounds
   }
 
   return c.json({ data }, 200)
