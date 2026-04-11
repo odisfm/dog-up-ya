@@ -125,3 +125,16 @@ jobs:
           tofu apply -auto-approve \
           -var="blue_desired_capacity=$blue_capacity" -var="green_desired_capacity=$green_capacity" \
           -var="active_deployment_target=$new_target"
+
+      - name: build frontend
+        working-directory: client
+        run: |
+          npx vite build
+
+      - name: deploy frontend
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy client/dist --project-name=dog-up-ya
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
