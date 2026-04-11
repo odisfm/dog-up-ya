@@ -35,7 +35,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
     const gameStart = new Date(gameData.unixTime * 1000)
     const preGame = gameStart > now
     const inSpoilerWindow = isInSpoilerWindow(gameStart)
-    const isSpoiler = Boolean(inSpoilerWindow && prefsContext.showSpoilers && !prefsContext.spoilerIgnoredGames.includes(gameData.id))
+    const isSpoiler = Boolean(inSpoilerWindow && !prefsContext.showSpoilers && !prefsContext.spoilerIgnoredGames.includes(gameData.id))
 
     const spoilerIgnoreGame = (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
