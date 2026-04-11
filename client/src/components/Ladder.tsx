@@ -212,7 +212,7 @@ export default function Ladder() {
     const buttonStyles = `px-2 py-1 rounded-md text-white cursor-pointer`
     const inactiveButtonStyles = `bg-mist-700 hover:bg-mist-600`
     const activeButtonStyles = `bg-cyan-700`
-    const streakStyles = `rounded-md px-2 py-0 font-bold text-white`
+    const streakStyles = `rounded-md px-2 py-0 font-bold text-white inline-block w-12`
 
     return (
         <div className={"flex flex-col gap-2"} {...swipeHandlers}>
@@ -375,7 +375,7 @@ export default function Ladder() {
                                                 {
                                                     derived.streak < 0 &&
                                                     <span className={`${streakStyles} bg-red-800`}>
-                                                        L{derived.streak}
+                                                        L{derived.streak * -1}
                                                     </span>
                                                 }
                                             </td>

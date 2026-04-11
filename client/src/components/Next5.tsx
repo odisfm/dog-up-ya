@@ -8,10 +8,12 @@ export function Next5({fixture, teamId}: {fixture: FutureGame[], teamId: string}
             <div className={"flex h-full gap-1 justify-center"}>
                 {fixture.map((game: FutureGame, i) => {
                     return (
-                        <div key={i} className={"flex-col justify-items-center items-center gap-1"}>
+                        <div key={i} className={"flex-col gap-1"}>
                                 <TeamFlag teamName={game.opponent.name} size={"xs"}/>
                                 { game.atHome &&
-                                    <FaHouseChimney className={"text-[8px] text-gray-700 dark:text-gray-300"}/>
+                                    <FaHouseChimney className={"text-[8px] text-gray-700 dark:text-gray-300 " +
+                                        "relative left-1 top-1"}
+                                    />
                                 }
                         </div>
                     )
