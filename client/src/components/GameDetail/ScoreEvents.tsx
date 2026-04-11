@@ -47,7 +47,7 @@ export default function ScoreEvents({scoreEvents, homeTeam, awayTeam}:
     }, [scoreEvents])
 
     return (
-        <div className={"flex flex-col gap-1 w-full"}>
+        <div className={"flex flex-col gap-1 w-full"} role={"log"}>
             { scoreEvents.length === 0 &&
                 <span className={"self-start mb-2 text-black dark:text-white"}>Both teams yet to score</span>
             }
@@ -56,17 +56,19 @@ export default function ScoreEvents({scoreEvents, homeTeam, awayTeam}:
                 <span className={"self-start mt-2 mb-3 px-4 py-1 rounded-md bg-mist-700 dark:bg-mist-900"}>Some scoring shots are missing!</span>
             }
 
-            { scoreEvents.map((event: ScoreEvent, i)=> {
-                return (
-                    <ScoreEventSingle
-                        scoringTeam={event.type === "HOME_GOAL" || event.type === "HOME_BEHIND" ? homeTeam : awayTeam}
-                        homeTeam={homeTeam}
-                        awayTeam={awayTeam}
-                        event={event}
-                        key={event.id}
-                        />
-                )
-            })}
+            <ul className={"flex flex-col gap-1 w-full"}>
+                { scoreEvents.map((event: ScoreEvent, i)=> {
+                    return (
+                        <ScoreEventSingle
+                            scoringTeam={event.type === "HOME_GOAL" || event.type === "HOME_BEHIND" ? homeTeam : awayTeam}
+                            homeTeam={homeTeam}
+                            awayTeam={awayTeam}
+                            event={event}
+                            key={event.id}
+                            />
+                    )
+                })}
+            </ul>
         </div>
     )
 }

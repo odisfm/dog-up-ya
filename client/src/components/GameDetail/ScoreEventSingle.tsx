@@ -18,28 +18,34 @@ export default function ScoreEventSingle({scoringTeam, homeTeam, awayTeam, event
     const scoreStyles = `flex gap-2 items-center justify-center rounded-md px-2`
     const scoreBgWinning = `bg-cyan-700 dark:bg-cyan-800`
     const scoreBgLosing = `bg-mist-800 dark:bg-mist-950`
+    const screenreaderText =
+        `${event.timeString}, ${scoringTeam.name} ${isGoal ? `goal` : `behind`}. 
+        ${homeTeam.name} ${event.hGoals}, ${event.hBehinds}, ${event.hScore}, 
+        ${awayTeam.name} ${event.aGoals}, ${event.aBehinds}, ${event.aScore}.`
     return (
-        <div className={"even:bg-mist-500 odd:bg-mist-600 even:dark:bg-mist-800 odd:dark:bg-mist-900 " +
-            "rounded-md p-2 flex gap-2 items-center"}>
-            <span className={`${pillStyles} font-normal md:font-bold text-xs md:text-md bg-mist-800 dark:bg-mist-950  w-1/6`}>
+        <li className={"even:bg-mist-500 odd:bg-mist-600 even:dark:bg-mist-800 odd:dark:bg-mist-900 " +
+            "rounded-md p-2 flex gap-2 items-center"}
+             aria-label={screenreaderText}
+        >
+            <span aria-hidden={true} className={`${pillStyles} font-normal md:font-bold text-xs md:text-md bg-mist-800 dark:bg-mist-950  w-1/6`}>
                 {event.timeString}
             </span>
-            <div className={"hidden lg:block"}><TeamFlag teamName={scoringTeam.name} size={"xs-sm"}/></div>
-            <span className={`font-bold ml-2`}>
-                <span className={"inline lg:hidden"}>{scoringTeam.abbreviation}</span>
-                <span className={"hidden lg:inline"}>{scoringTeam.name.length < 15 ? scoringTeam.name : scoringTeam.abbreviation}</span> {isGoal ? "goal" : "behind"}
+            <div aria-hidden={true} className={"hidden lg:block"}><TeamFlag teamName={scoringTeam.name} size={"xs-sm"}/></div>
+            <span aria-hidden={true} className={`font-bold ml-2`}>
+                <span aria-hidden={true} className={"inline lg:hidden"}>{scoringTeam.abbreviation}</span>
+                <span aria-hidden={true} className={"hidden lg:inline"}>{scoringTeam.name.length < 15 ? scoringTeam.name : scoringTeam.abbreviation}</span> {isGoal ? "goal" : "behind"}
             </span>
-            <div className={"ml-auto grid grid-cols-2 gap-2 w-2/5 lg:w-4/10"}>
-                <div className={`${scoreStyles} ${homeWinning ? scoreBgWinning : scoreBgLosing}`}>
+            <div aria-hidden={true} className={"ml-auto grid grid-cols-2 gap-2 w-2/5 lg:w-4/10"}>
+                <div aria-hidden={true} className={`${scoreStyles} ${homeWinning ? scoreBgWinning : scoreBgLosing}`}>
                     <TeamFlag teamName={homeTeam.name} size={"xs"}/>
                     <div className={""}><span className={"hidden lg:inline"}>{event.hGoals}.{event.hBehinds}.</span><strong>{event.hScore}</strong></div>
                 </div>
-                <div className={`${scoreStyles} ${awayWinning ?  scoreBgWinning : scoreBgLosing}`}>
-                    <div className={"justify-self-start"}><TeamFlag teamName={awayTeam.name} size={"xs"}/></div>
-                    <div className={""}><span className={"hidden lg:inline"}>{event.aGoals}.{event.aBehinds}.</span><strong>{event.aScore}</strong></div>
+                <div aria-hidden={true} className={`${scoreStyles} ${awayWinning ?  scoreBgWinning : scoreBgLosing}`}>
+                    <div aria-hidden={true} className={"justify-self-start"}><TeamFlag teamName={awayTeam.name} size={"xs"}/></div>
+                    <div aria-hidden={true} className={""}><span className={"hidden lg:inline"}>{event.aGoals}.{event.aBehinds}.</span><strong>{event.aScore}</strong></div>
                 </div>
 
             </div>
-        </div>
+        </li>
     )
 }

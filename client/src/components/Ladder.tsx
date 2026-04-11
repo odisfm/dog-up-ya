@@ -241,7 +241,7 @@ export default function Ladder() {
     const streakStyles = `rounded-md px-2 py-0 font-bold text-white inline-block w-12`
 
     return (
-        <div className={"flex flex-col gap-2"} {...swipeHandlers}>
+        <section className={"flex flex-col gap-2"} {...swipeHandlers}>
             {!failed  && !ladder &&
             <h1>Getting ladder...</h1>
             }
@@ -425,14 +425,18 @@ export default function Ladder() {
             </>
 
             }
-            <a href={`https://wikipedia.org/wiki/${timeContext.year}_${timeContext.year! >= AFL_ERA ? "AFL" : "VFL"}_season`}
-               className={"px-2 py-1 cursor-pointer rounded-md bg-mist-500 hover:bg-mist-600 dark:bg-mist-700 dark:hover:bg-mist-600 " +
-                   "self-start text-white flex gap-2 items-center"}
-               target={"_blank"}
-            >
-                <FaWikipediaW/> <FaExternalLinkAlt className={"text-xs"}/><span>{`${timeContext.year} ${timeContext.year! >= AFL_ERA ? "AFL" : "VFL"} season`} </span>
-            </a>
+            <aside>
+                <a
+                    href={`https://wikipedia.org/wiki/${timeContext.year}_${timeContext.year! >= AFL_ERA ? "AFL" : "VFL"}_season`}
+                    className={"px-2 py-1 cursor-pointer rounded-md bg-mist-500 hover:bg-mist-600 dark:bg-mist-700 dark:hover:bg-mist-600 " +
+                        "self-start text-white flex gap-2 items-center"}
+                    target={"_blank"}
+                >
+                    <FaWikipediaW/> <FaExternalLinkAlt
+                    className={"text-xs"}/><span>{`${timeContext.year} ${timeContext.year! >= AFL_ERA ? "AFL" : "VFL"} season`} </span>
+                </a>
+            </aside>
 
-        </div>
+        </section>
     )
 }

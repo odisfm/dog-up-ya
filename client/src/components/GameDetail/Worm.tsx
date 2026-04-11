@@ -27,7 +27,7 @@ export default function Worm({ gameData, scoreEvents }: { gameData: GameDetailsP
     const teamBoxStyles = `flex flex-col flex-1 font-bold gap-1`
 
     return (
-        <div className={"rounded-md mb-4 p-4 bg-mist-600 dark:bg-mist-800 flex gap-2"}>
+        <div className={"rounded-md mb-4 p-4 bg-mist-600 dark:bg-mist-800 flex gap-2"} aria-hidden={true}>
             <div className={
                 "flex flex-col gap-2 self-stretch justify-items-center text-xs " +
                 "relative bottom-3"

@@ -50,6 +50,7 @@ export default function SeasonSwitcher() {
                             className={`${timeContext.year <= minYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `}
                             onClick={() => timeContext.setYear(timeContext.year! - 1)}
                             aria-label={`show season ${timeContext.year! - 1}`}
+                            aria-disabled={timeContext.year <= minYear}
                         >
                             <MdNavigateBefore aria-hidden={true}/>
                         </button>
@@ -97,6 +98,7 @@ export default function SeasonSwitcher() {
                             className={`${timeContext.year >= maxYear ? limitButtonStyles : incrementButtonBg} ${incrementButtonStyles} `}
                             onClick={() => timeContext.setYear(timeContext.year! + 1)}
                             aria-label={`show season ${timeContext.year! + 1}`}
+                            aria-disabled={timeContext.year >= maxYear}
                         >
                             <MdNavigateNext aria-hidden={true}/>
                         </button>

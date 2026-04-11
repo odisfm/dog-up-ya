@@ -44,12 +44,13 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
     }
 
     return (
-        <div
+        <section
             className={
             `game-summary flex flex-col gap-2 ${isEven ? bg1 : bg2} self-stretch text-white 
             pt-4 pl-4 pr-4 pb-1 ${firstOfSegment && `rounded-t-md`} ${lastOfSegment && `rounded-b-md`}
             group-hover:bg-mist-400 dark:group-hover:bg-mist-700
             `}
+            role={"status"}
         >
             <span className={"sr-only"}>{createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData, isSpoiler)}</span>
             <div className={"game-summary-inner"}>
@@ -106,6 +107,6 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
             </div>
             { isLive && <GameProgressBar progress={gameData.progress} timeString={gameData.timeString} />}
 
-        </div>
+        </section>
     )
 }

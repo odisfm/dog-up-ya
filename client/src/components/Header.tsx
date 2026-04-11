@@ -18,12 +18,12 @@ export default function Header() {
     const buttonStyles = `rounded-lg px-3 py-2 bg-mist-800 hover:bg-mist-700 cursor-pointer`
     return (
         <header className={`${headerStyles} grid w-full py-3 px-3 md:p-6 lg:px-10 justify-center items-center gap-3`}>
-            <div className={"flex gap-2 items-center"}>
+            <nav className={"flex gap-2 items-center"}>
                 <RoundLadderSwitcher/>
                 <div className={`hidden md:block ${viewContext.view === "game" && `hidden md:hidden`}`}>
                     <SeasonSwitcher/>
                 </div>
-            </div>
+            </nav>
 
             <Link to={"/"}
                   onClick={() => {timeContext.setYear(null) ; timeContext.setRound(null)}}
