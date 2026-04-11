@@ -137,3 +137,29 @@ resource "aws_autoscaling_group" "green" {
     version = "$Latest"
   }
 }
+
+resource "aws_autoscaling_policy" "blue_cpu" {
+  name                   = "${var.app_name}-blue-cpu-policy"
+  autoscaling_group_name = aws_autoscaling_group.blue.name
+  policy_type            = "TargetTrackingScaling"
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 50.0
+  }
+}
+
+resource "aws_autoscaling_policy" "green_cpu" {
+  name                   = "${var.app_name}-green-cpu-policy"
+  autoscaling_group_name = aws_autoscaling_group.green.name
+  policy_type            = "TargetTrackingScaling"
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 50.0
+  }
+}
