@@ -55,9 +55,12 @@ body {
 
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    * {
-        transition: background-color 0.2s ease;
+html:not(.no-animate) {
+
+    @media (prefers-reduced-motion: no-preference) {
+        * {
+            transition: background-color 0.2s ease;
+        }
     }
 }
 

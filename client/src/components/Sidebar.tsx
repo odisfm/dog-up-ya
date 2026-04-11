@@ -30,7 +30,7 @@ export default function Sidebar() {
         <div
             style={{
                 transform: viewContext.sidebarActive ? "translateX(0)" : "translateX(100%)",
-                transition: "transform 100ms ease-in-out",
+                transition: prefsContext.playAnimations ? `transform 100ms ease-in-out` : `none`,
             }}
             className="absolute top-0 right-0 h-full w-screen md:w-1/3 lg:w-1/5 z-50 bg-mist-900 dark:bg-black text-white flex flex-col"
             inert={!viewContext.sidebarActive }
@@ -59,6 +59,23 @@ export default function Sidebar() {
                         >
                             <MdDarkMode aria-hidden={true}/>
                             <span>Dark</span>
+                        </button>
+                    </div>
+                </fieldset>
+                <fieldset className={`flex flex-col`}>
+                    <legend className={labelStyles}>Animations</legend>
+                    <div className={"flex gap-1"}>
+                        <button
+                            className={`${buttonStyles} ${prefsContext.playAnimations ? activeButtonStyles : inactiveButtonStyles}`}
+                            onClick={() => prefsContext.setPlayAnimations(true)}
+                        >
+                            On
+                        </button>
+                        <button
+                            className={`${buttonStyles} ${!prefsContext.playAnimations ? activeButtonStyles : inactiveButtonStyles}`}
+                            onClick={() => prefsContext.setPlayAnimations(false)}
+                        >
+                            Off
                         </button>
                     </div>
                 </fieldset>

@@ -1,4 +1,4 @@
-import {createContext, type ReactNode, useState} from "react";
+import {createContext, type ReactNode, useEffect, useState} from "react";
 
 type Theme = "light" | "dark";
 
@@ -10,6 +10,8 @@ type PrefsContextType = {
     theme: Theme
     addSpoilerIgnoredGame: (gameId: string) => void
     spoilerIgnoredGames: string[]
+    playAnimations: boolean
+    setPlayAnimations: (setting: boolean) => void
 }
 
 export const PrefsContext = createContext<PrefsContextType | null>(null);
@@ -31,6 +33,14 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
             return JSON.parse(stored);
         }
     })
+    const [playAnimations, setPlayAnimations] = useState(() => {
+        const pref = localStorage.getItem("animationPref");
+        if (pref === null) {
+            localStorage.setItem("animationPref", "true");
+            return true;
+        }
+        return pref === "true";
+    });
 
     const [theme, setTheme] = useState<Theme>(() => {
         const pref = localStorage.getItem("darkModePref");
@@ -63,6 +73,19 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
         setSpoilerIgnoredGames(ignoredGames);
     }
 
+    function doSetPlayAnimations(setting: boolean) {
+        setPlayAnimations(setting);
+        localStorage.setItem("animationPref", String(setting))
+    }
+
+    useEffect(() => {
+        if (playAnimations) {
+            document.documentElement.classList.remove("no-animate")
+        } else {
+            document.documentElement.classList.add("no-animate")
+        }
+    }, [playAnimations])
+
     return (
         <PrefsContext.Provider value={{
             changeTheme,
@@ -71,7 +94,9 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
             showSpoilers,
             theme,
             addSpoilerIgnoredGame,
-            spoilerIgnoredGames
+            spoilerIgnoredGames,
+            playAnimations,
+            setPlayAnimations: doSetPlayAnimations
         }}>
             {children}
         </PrefsContext.Provider>

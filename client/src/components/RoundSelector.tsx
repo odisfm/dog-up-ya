@@ -3,6 +3,7 @@ import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
 import type {SeasonResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import {ViewContext} from "../contexts/ViewProvider.tsx";
+import {PrefsContext} from "../contexts/PrefsProvider.tsx";
 
 
 export type TabBarItem = {
@@ -19,6 +20,7 @@ export default function RoundSelector({seasonData}: {seasonData: SeasonResponse}
     const ulRef = useRef<HTMLUListElement>(null)
     const timeContext = useContext(TimeContext)!;
     const viewContext = useContext(ViewContext)!;
+    const prefsContext = useContext(PrefsContext)!;
 
     const roundItems: TabBarItem[] = []
     if (seasonData) {
@@ -44,20 +46,20 @@ export default function RoundSelector({seasonData}: {seasonData: SeasonResponse}
 
             ul.scrollTo({
                 left: tabLeft - ulWidth / 2 + tabWidth / 2,
-                behavior: "smooth",
+                behavior: prefsContext.playAnimations ? "smooth" : "instant",
             });
         }
-    }, [activeTab]);
+    }, [activeTab, prefsContext.playAnimations]);
 
     const scrollLeft = () => {
         if (ulRef.current) {
-            ulRef.current.scrollBy({ left: -scrollDistance, behavior: 'smooth' });
+            ulRef.current.scrollBy({ left: -scrollDistance, behavior: prefsContext.playAnimations ? 'smooth' : 'instant' });
         }
     };
 
     const scrollRight = () => {
         if (ulRef.current) {
-            ulRef.current.scrollBy({ left: scrollDistance, behavior: 'smooth' });
+            ulRef.current.scrollBy({ left: scrollDistance, behavior: prefsContext.playAnimations ? 'smooth' : 'instant' });
         }
     };
 

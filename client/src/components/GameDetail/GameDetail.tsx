@@ -85,9 +85,9 @@ export default function GameDetail() {
     const mainHeadingRef = useCallback((node: HTMLHeadingElement | null) => {
         if (node) {
             const top = node.getBoundingClientRect().top + window.scrollY - 20;
-            window.scrollTo({ top, behavior: "smooth" });
+            window.scrollTo({ top, behavior: prefsContext.playAnimations ? "smooth" : "instant" });
         }
-    }, []);
+    }, [prefsContext.playAnimations]);
 
     useEffect(() => {
         if (!isLive) return

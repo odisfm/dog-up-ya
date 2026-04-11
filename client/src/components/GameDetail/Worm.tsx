@@ -6,7 +6,7 @@ import { PrefsContext } from '../../contexts/PrefsProvider';
 import TeamFlag from "../TeamFlag.tsx";
 
 export default function Worm({ gameData, scoreEvents }: { gameData: GameDetailsPayload, scoreEvents: ScoreEvent[] }) {
-    const prefsContext = useContext(PrefsContext);
+    const prefsContext = useContext(PrefsContext)!;
     const data = useMemo(() => {
         const _scoreEvents = scoreEvents.toReversed()
         const result: Record<string, number>[] = [{ x: 0, y: 0 }];
@@ -62,7 +62,7 @@ export default function Worm({ gameData, scoreEvents }: { gameData: GameDetailsP
                             return [-symmetricBound, symmetricBound];
                         }}
                     />
-                    <Line dataKey="y" type="stepAfter" dot={false} strokeWidth={3} stroke={"#0092B9"}/>
+                    <Line dataKey="y" type="stepAfter" dot={false} strokeWidth={3} stroke={"#0092B9"} isAnimationActive={prefsContext.playAnimations}/>
                     <CartesianGrid vertical={true} horizontal={false} stroke="#888" strokeWidth={0.5}/>
                     <ReferenceLine y={0} stroke="#888" strokeWidth={0.5}/>
                 </LineChart>
