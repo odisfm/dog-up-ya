@@ -58,7 +58,8 @@ export default function Worm({ gameData, scoreEvents }: { gameData: GameDetailsP
                         style={{ fill: "#eee", fontSize: ".8rem" }}
                         domain={([min, max]) => {
                             const bound = Math.max(Math.abs(min), Math.abs(max));
-                            return [-bound, bound]
+                            const symmetricBound = Math.max(bound, 6);
+                            return [-symmetricBound, symmetricBound];
                         }}
                     />
                     <Line dataKey="y" type="stepAfter" dot={false} strokeWidth={3} stroke={"#0092B9"}/>
