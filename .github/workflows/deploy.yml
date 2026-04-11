@@ -72,7 +72,7 @@ jobs:
           new_target="${{ steps.read_state.outputs.new_target }}"
           tofu apply -auto-approve \
           -var="blue_desired_capacity=${{ secrets.SERVER_GROUP_DESIRED_SIZE }}" -var="green_desired_capacity=${{ secrets.SERVER_GROUP_DESIRED_SIZE }}" \
-          -var="active_deployment_target=$old_target"
+          -var="active_deployment_target=$old_target" \
           -replace="aws_instance.watch_server"
 
       - name: install aws cli   # when testing workflow locally
