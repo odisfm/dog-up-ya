@@ -214,21 +214,6 @@ export default function Round() {
         }
     }, [roundData]);
 
-    const roundItems: TabBarItem[] = []
-    if (seasonData) {
-        for (const roundData of seasonData.rounds) {
-            let label = roundData.name as string;
-            if (label.startsWith("Round")) {
-                label = `R${roundData.roundNumber}`
-            }
-            roundItems.push({
-                label,
-                link: `/round/${timeContext.year}/${roundData.roundNumber}`,
-                roundNumber: roundData.roundNumber
-            })
-        }
-    }
-
     const byeTeams: Team[] = useMemo(() => {
         if (!roundData || !seasonData) return [];
         const finalType: FinalType = roundData.finalType
@@ -255,9 +240,8 @@ export default function Round() {
 
     return (
         <>
-            { roundItems.length > 0 &&
-                <RoundSelector items={roundItems} activeItem={`/round/${timeContext.year}/${timeContext.round}`} />
-            }
+            {seasonData && <RoundSelector seasonData={seasonData}/>}
+
             <div className={"flex flex-col w-full"} {...swipeHandlers}>
                 {roundSegments &&
                     roundSegments.liveGames &&

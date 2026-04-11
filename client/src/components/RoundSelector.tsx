@@ -1,6 +1,8 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
+import type {SeasonResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import {ViewContext} from "../contexts/ViewProvider.tsx";
 
 
 export type TabBarItem = {
@@ -12,10 +14,26 @@ export type TabBarItem = {
 
 const scrollDistance = 150
 
-export default function RoundSelector({items, activeItem}: {items: TabBarItem[], activeItem: string | undefined}) {
+export default function RoundSelector({seasonData}: {seasonData: SeasonResponse}) {
     const [activeTab, setActiveTab] = useState<HTMLLIElement | null>(null);
     const ulRef = useRef<HTMLUListElement>(null)
     const timeContext = useContext(TimeContext)!;
+    const viewContext = useContext(ViewContext)!;
+
+    const roundItems: TabBarItem[] = []
+    if (seasonData) {
+        for (const roundData of seasonData.rounds) {
+            let label = roundData.name as string;
+            if (label.startsWith("Round")) {
+                label = `R${roundData.roundNumber}`
+            }
+            roundItems.push({
+                label,
+                link: `/${viewContext.view === "round" ? "round" : "ladder"}/${timeContext.year}/${roundData.roundNumber}`,
+                roundNumber: roundData.roundNumber
+            })
+        }
+    }
 
     useEffect(() => {
         if (activeTab && ulRef.current) {
@@ -52,8 +70,8 @@ export default function RoundSelector({items, activeItem}: {items: TabBarItem[],
                 <FaChevronCircleLeft aria-hidden={true}/>
             </button>
             <ul ref={ulRef} className={"flex gap-1 flex-nowrap flex-1 min-w-0 overflow-x-auto overflow-y-hidden text-white *:inline-block scrollbar-hide"}>
-                {items.map((item) => {
-                    const isActive = item.link === activeItem;
+                {roundItems.map((item) => {
+                    const isActive = item.roundNumber === timeContext.round;
                     return (
                         <li key={item.link}
                             ref={isActive ? setActiveTab : null}
