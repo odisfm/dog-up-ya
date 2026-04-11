@@ -50,7 +50,7 @@ export default function Worm({ gameData, scoreEvents }: { gameData: GameDetailsP
                         type="number"
                         domain={[0, 100]}
                         ticks={[0, 25, 50, 75, 100]}
-                        tickFormatter={(v) => ({0: '', 25: 'QT', 50: 'HT', 75: '3QT', 100: 'FT'}[v] ?? '')}
+                        tickFormatter={(v) => ({0: '', 25: 'QT', 50: 'HT', 75: '3QT'}[v] ?? '')}
                         style={{ fill: "#eee"}}
                     />
                     <YAxis
