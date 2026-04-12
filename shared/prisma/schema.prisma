@@ -160,4 +160,5 @@ model GameLinks {
   game                     Game    @relation(fields: [gameId], references: [id])
   redditAflMatchThread     String?
   redditAflPostMatchThread String?
+  aflTables                String?
 }
