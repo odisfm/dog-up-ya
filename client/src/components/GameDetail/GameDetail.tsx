@@ -142,7 +142,7 @@ export default function GameDetail() {
             { timeContext.year && roundData.finalType === "GRAND_FINAL" &&
                 <aside className={"self-start my-2"}>
                     <WikiButton
-                        url={`https://en.wikipedia.org/wiki/${timeContext.year}_${timeContext.year >= AFL_ERA ? `AFL` : `VFL`}_grand_final`}
+                        url={`https://en.wikipedia.org/wiki/${timeContext.year}_${timeContext.year >= AFL_ERA ? `AFL` : `VFL`}_Grand_Final`}
                         label={`${timeContext.year} ${timeContext.year >= AFL_ERA ? `AFL` : `VFL`} Grand Final`}
                     />
                 </aside>
