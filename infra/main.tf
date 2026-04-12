@@ -14,9 +14,11 @@ terraform {
 }
 
 data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners      = ["amazon"]
   filter {
-    name = "image-id"
-    values = ["ami-07b24db0d2671f1da"]
+    name   = "name"
+    values = ["al2023-ami-2023.*-x86_64"]
   }
 }
 
