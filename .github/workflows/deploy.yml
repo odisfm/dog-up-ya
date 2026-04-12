@@ -33,9 +33,11 @@ jobs:
         working-directory: infra
         run: |                    
           REPO_NAME=${GITHUB_REPOSITORY##*/}
+          COMMIT_ID=${GITHUB_SHA}
           
           touch terraform.tfvars
           echo "app_name = \"$REPO_NAME\"" >> terraform.tfvars
+          echo "commit_id = \"$COMMIT_ID\"" >> terraform.tfvars
           echo "cloudflare_zone_id = \"${{ secrets.CLOUDFLARE_ZONE_ID }}\"" >> terraform.tfvars
           echo "watcher_instance_type = \"${{ secrets.WATCHER_INSTANCE_TYPE }}\"" >> terraform.tfvars
 

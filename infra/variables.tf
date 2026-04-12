@@ -10,3 +10,7 @@ variable "watcher_instance_type" {
   type = string
   default = "t3.nano"
 }
+
+variable "commit_id" {
+  type = string
+}

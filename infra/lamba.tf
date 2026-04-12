@@ -12,6 +12,11 @@ resource "aws_lambda_function" "api" {
   timeout          = 30
   memory_size      = 512
 
+  environment {
+    variables = {
+      COMMIT_ID = var.commit_id
+    }
+  }
 
   tags = {
     app: var.app_name
