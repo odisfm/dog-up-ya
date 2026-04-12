@@ -86,6 +86,7 @@ if (options.redo) {
         }
         console.log(`Found ${gameRecords.length} games today`)
         for (const record of gameRecords) {
+            if (!record.homeTeam || !record.awayTeam) continue
             gamesToSearch.push({...record, unixTime: Number(record.unixTime)})
         }
     }
@@ -102,8 +103,8 @@ if (options.redo) {
         const currentMatchParams = new URLSearchParams(commonParams)
         const postMatchParams = new URLSearchParams(commonParams)
 
-        const homeTeamName = formatTeamName(game.homeTeam.name)
-        const awayTeamName = formatTeamName(game.awayTeam.name)
+        const homeTeamName = formatTeamName(game.homeTeam!.name)
+        const awayTeamName = formatTeamName(game.awayTeam!.name)
 
         currentMatchParams.append(
             "q", `"Match Thread": "${homeTeamName}" "${awayTeamName}" `
