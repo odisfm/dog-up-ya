@@ -4,9 +4,11 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "build:lambda": "node esbuild.config.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.1029.0",
     "@footy-scores/shared": "*",
     "@hono/node-server": "^1.19.13",
     "date-fns": "^4.1.0",

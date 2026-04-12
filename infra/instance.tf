@@ -23,51 +23,6 @@ resource "aws_security_group" "server_sg" {
   }
 }
 
-resource "aws_launch_template" "main" {
-  name = "${var.app_name}_launch_template"
-
-  iam_instance_profile {
-    arn = "arn:aws:iam::613232991568:instance-profile/dog-up-ya-app-server"
-  }
-
-  image_id = data.aws_ami.amazon_linux.id
-
-  instance_initiated_shutdown_behavior = "terminate"
-
-  instance_market_options {
-    market_type = "spot"
-  }
-
-  instance_type = var.server_instance_type
-
-  metadata_options {
-  }
-
-  monitoring {
-    enabled = true
-  }
-
-  network_interfaces {
-    associate_public_ip_address = true
-    security_groups = [aws_security_group.server_sg.id]
-  }
-
-  placement {
-  }
-
-  tag_specifications {
-    resource_type = "instance"
-
-    tags = {
-      app = var.app_name
-      Name = "${var.app_name}-api-server-${formatdate("MMDD-hhmm", timestamp())}"
-    }
-  }
-
-  user_data = filebase64("${path.module}/scripts/app-server-user-data.sh")
-
-}
-
 resource "aws_instance" "watch_server" {
   ami = data.aws_ami.amazon_linux.id
   associate_public_ip_address = true
