@@ -24,7 +24,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "api:dev": "tsx watch api/src/index.ts",
+    "api:dev": "tsx watch api/src/server.ts",
     "client:dev": "npm run dev -w client"
   },
   "dependencies": {
