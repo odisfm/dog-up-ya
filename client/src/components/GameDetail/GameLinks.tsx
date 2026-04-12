@@ -4,7 +4,7 @@ import Section from "../Section.tsx";
 
 export default function GameLinks({linkData}: {linkData: GameLinks}) {
 
-    if (!linkData.aflTables) {
+    if (!linkData.aflTables && ! linkData.matchCentre) {
         return null;
     }
 
@@ -14,6 +14,9 @@ export default function GameLinks({linkData}: {linkData: GameLinks}) {
                 <div className="flex flex-wrap gap-2">
                     {linkData.aflTables &&
                         <LinkButton url={linkData.aflTables} label={"Stats (AFLTables.com)"} size={"md"}/>
+                    }
+                    {linkData.matchCentre &&
+                        <LinkButton url={linkData.matchCentre} label={"AFL Match Centre"} size={"md"}/>
                     }
                 </div>
             </Section>
