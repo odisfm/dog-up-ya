@@ -1,10 +1,10 @@
 import Header from "./components/Header.tsx";
 import Sidebar from "./components/Sidebar.tsx";
-import {Link, Outlet, useLocation, useNavigate} from "react-router";
+import {Outlet, useLocation, useNavigate} from "react-router";
 import {useContext, useEffect} from "react";
 import {TimeContext} from "./contexts/TimeProvider.tsx";
 import {ViewContext} from "./contexts/ViewProvider.tsx";
-import type {ApiDetailsResponse, CurrentRoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import type {CurrentRoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import Footer from "./components/Footer.tsx";
 import {checkApiHeadersVersionMismatch} from "./utils.ts";
 

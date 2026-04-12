@@ -8,10 +8,7 @@ export default function ScoreEventSingle({scoringTeam, homeTeam, awayTeam, event
     awayTeam: Team,
     event: ScoreEvent
 }) {
-    const isHome = event.type === "HOME_GOAL" || event.type === "HOME_BEHIND"
     const isGoal = event.type === "HOME_GOAL" || event.type === "AWAY_GOAL"
-    const winningScoreBg = `bg-cyan-800`
-    const scoreBg = `bg-mist-800 dark:bg-mist-900`
     const homeWinning = (event.hScore || 0) > (event.aScore || 0)
     const awayWinning = (event.aScore || 0) > (event.hScore || 0)
     const pillStyles = `rounded-md px-2 py-1 `

@@ -17,7 +17,7 @@ export default function SeasonSwitcher() {
         const timeContext = useContext(TimeContext)!
         const viewContext = useContext(ViewContext)!
         const minYear = FIRST_SEASON
-        const maxYear = timeContext.latestYear
+        const maxYear = timeContext.latestYear!
 
         useEffect(() => {
             if (seasonInputVisible && seasonInputRef.current) {

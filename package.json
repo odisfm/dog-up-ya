@@ -1,7 +1,12 @@
 {
   "name": "footy-scores",
   "private": true,
-  "workspaces": ["shared", "api", "client", "consumers"],
+  "workspaces": [
+    "shared",
+    "api",
+    "client",
+    "consumers"
+  ],
   "packageManager": "npm@11.12.1",
   "version": "1.0.0",
   "description": "",
@@ -21,5 +26,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "api:dev": "tsx watch api/src/index.ts",
     "client:dev": "npm run dev -w client"
+  },
+  "dependencies": {
+    "command-line-args": "^6.0.2"
+  },
+  "devDependencies": {
+    "@types/command-line-args": "^5.2.3"
   }
 }

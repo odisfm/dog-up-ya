@@ -1,12 +1,12 @@
 import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router";
-import type {Round as RoundType, Team} from "@footy-scores/shared/src"
+import type {Team} from "@footy-scores/shared/src"
 import type {
     GameResponse,
     RoundResponse,
     SeasonResponse
 } from "@footy-scores/shared/src/types/apiResponses.ts";
-import RoundSelector, {type TabBarItem} from "./RoundSelector.tsx";
+import RoundSelector from "./RoundSelector.tsx";
 import {areGamesLive, checkApiHeadersVersionMismatch} from "../utils.ts";
 import {REFRESH_TIME_MS, ROUND_SEGMENT_LIVE_LABEL} from "../consts.ts";
 import {differenceInMinutes, isThisWeek, isThisYear, formatDate, isBefore, isToday, isSameDay} from "date-fns";

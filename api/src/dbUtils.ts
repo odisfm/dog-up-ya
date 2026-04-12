@@ -1,5 +1,5 @@
 import {db, Prisma, type Round, type Season} from '@footy-scores/shared'
-import {differenceInDays, differenceInHours} from "date-fns"
+import {differenceInHours} from "date-fns"
 
 export async function getSeasonForYear(year: number) {
     return db.season.findFirst({

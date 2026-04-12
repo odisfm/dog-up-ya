@@ -7,14 +7,13 @@ import type {
 } from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season, Team} from "@footy-scores/shared"
 import TeamFlag from "./TeamFlag.tsx";
-import {FaExternalLinkAlt, FaTrophy, FaWikipediaW} from "react-icons/fa";
+import {FaTrophy} from "react-icons/fa";
 import {TimeContext} from "../contexts/TimeProvider.tsx";
 import {formatDistance, isAfter} from "date-fns";
 import {checkApiHeadersVersionMismatch} from "../utils.ts";
 import {useSwipeable} from "react-swipeable";
-import {AFL_ERA, FIRST_SEASON} from "../consts.ts";
+import {AFL_ERA} from "../consts.ts";
 import {Next5} from "./Next5.tsx";
-import LinkButton from "./buttons/LinkButton.tsx";
 import WikiButton from "./buttons/WikiButton.tsx";
 import Loading from "./Loading.tsx";
 
@@ -130,8 +129,7 @@ export default function Ladder() {
         return bgs;
     }, [ladder, season, finals1bg, finals2bg])
 
-    let updatedDate = null
-    updatedDate = useMemo(() => {
+    const updatedDate = useMemo(() => {
         let lastDate = null
         if (!ladder) return null
         for (const standing of ladder) {

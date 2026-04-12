@@ -204,7 +204,7 @@ for (const tablesGame of finalsGames) {
     }
 
     if (!dbFinalsGame) {
-        console.error(`Couldn't match AflTables finals game ${tablesGame.homeTeam} (${tablesGame.hScore} b ${tablesGame.aScore} (${tablesGame.aScore})!!!`)
+        console.error(`Couldn't match AflTables finals game ${tablesGame.homeTeam} (${tablesGame.hScore} v ${tablesGame.aScore} (${tablesGame.aScore})!!!`)
         continue
     }
 
@@ -223,7 +223,7 @@ for (const tablesGame of finalsGames) {
         }
     })
 
-    console.log(`Matched db record: ${dbFinalsGame.homeTeam!.abbreviation} v ${dbFinalsGame.awayTeam!.abbreviation} (${dbRound.name})`)
+    console.log(`Matched db record: ${dbFinalsGame.homeTeam!.abbreviation} v ${dbFinalsGame.awayTeam!.abbreviation} (${dbRound!.name})`)
     console.log(fullUrl)
 
 }

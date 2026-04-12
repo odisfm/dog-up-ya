@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import {db, Game} from "@footy-scores/shared"
+import {db} from "@footy-scores/shared"
 import {startOfDay, addDays, isSameDay, differenceInDays, differenceInHours} from "date-fns";
 import commandLineArgs from 'command-line-args'
 import {GameLinks} from "@footy-scores/shared/src/generated/prisma/client";
@@ -212,7 +212,7 @@ async function searchRedditThreads(params: URLSearchParams, subreddit: string = 
     }
 
     const data = await redditResponse.json()
-    return data.data.children.map(child => {
+    return data.data.children.map((child: Record<string, any>) => {
         return child.data
     })
 }

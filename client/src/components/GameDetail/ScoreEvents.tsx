@@ -57,7 +57,7 @@ export default function ScoreEvents({scoreEvents, homeTeam, awayTeam}:
             }
 
             <ul className={"flex flex-col gap-1 w-full"}>
-                { scoreEvents.map((event: ScoreEvent, i)=> {
+                { scoreEvents.map((event: ScoreEvent)=> {
                     return (
                         <ScoreEventSingle
                             scoringTeam={event.type === "HOME_GOAL" || event.type === "HOME_BEHIND" ? homeTeam : awayTeam}
