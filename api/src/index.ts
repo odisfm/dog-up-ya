@@ -7,13 +7,11 @@ import * as dbUtils from './dbUtils.js'
 import type {
   LadderResponse,
   SeasonResponse,
-  GameResponse,
   RoundResponse,
   CurrentRoundResponse,
   GameDetailsResponse,
-  GameDetailsGetPayload,
   GameDetailsPayload,
-  LadderPayload, ApiDetailsResponse
+  ApiDetailsResponse
 } from "@footy-scores/shared/src/types/apiResponses.js";
 import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
 import {serialiseGames} from "./utils.js";
