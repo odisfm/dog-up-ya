@@ -6,14 +6,6 @@ resource "aws_security_group" "server_sg" {
     app = var.app_name
   }
 
-  ingress {
-    security_groups = [aws_security_group.lb_sg.id]
-    from_port       = 3000
-    to_port         = 3000
-    protocol        = "tcp"
-    description     = "Allow app traffic from ALB"
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
