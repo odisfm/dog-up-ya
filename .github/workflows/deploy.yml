@@ -53,7 +53,7 @@ jobs:
           npx prisma generate
           cd ../api
           npm run build:lambda
-          zip -j dist/lambda.zip api/dist/lambda.mjs
+          zip -j dist/lambda.zip dist/lambda.mjs
 
       - name: deploy aws
         working-directory: infra
