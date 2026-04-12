@@ -13,6 +13,7 @@ import {isInSpoilerWindow} from "../../utils.ts";
 import Worm from "./Worm.tsx";
 import {AFL_ERA, REFRESH_TIME_MS} from "../../consts.ts";
 import WikiButton from "../buttons/WikiButton.tsx";
+import Loading from "../Loading.tsx";
 
 
 export default function GameDetail() {
@@ -112,7 +113,7 @@ export default function GameDetail() {
     }
 
     if (!gameData || !seasonData || !roundData) {
-        return <h2>{"Loading..."}</h2>
+        return <Loading />
     }
 
     return (

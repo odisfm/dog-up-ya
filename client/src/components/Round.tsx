@@ -16,6 +16,7 @@ import Section from "./Section.tsx";
 import TeamFlag from "./TeamFlag.tsx";
 import type {FinalType} from "@footy-scores/shared/src/generated/prisma/enums.ts";
 import {useSwipeable} from "react-swipeable";
+import Loading from "./Loading.tsx";
 
 type RoundSegmentEntry = { label: string; date: Date; games: GameResponse[] }
 
@@ -236,6 +237,10 @@ export default function Round() {
         }
         return teams
     }, [seasonData, roundData])
+
+    if (!seasonData || !roundData) {
+        return <Loading />
+    }
 
 
     return (

@@ -16,6 +16,7 @@ import {AFL_ERA, FIRST_SEASON} from "../consts.ts";
 import {Next5} from "./Next5.tsx";
 import LinkButton from "./buttons/LinkButton.tsx";
 import WikiButton from "./buttons/WikiButton.tsx";
+import Loading from "./Loading.tsx";
 
 type LadderView = "brief" | "extended" | "next-5" | "form"
 
@@ -240,6 +241,10 @@ export default function Ladder() {
     const inactiveButtonStyles = `bg-mist-700 hover:bg-mist-600`
     const activeButtonStyles = `bg-cyan-700`
     const streakStyles = `rounded-md px-2 py-0 font-bold text-white inline-block w-12`
+
+    if (!season || !ladder) {
+        return <Loading />
+    }
 
     return (
         <section className={"flex flex-col gap-2"} {...swipeHandlers}>
