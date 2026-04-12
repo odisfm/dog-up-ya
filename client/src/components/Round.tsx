@@ -243,15 +243,30 @@ export default function Round() {
             {seasonData && <RoundSelector seasonData={seasonData}/>}
 
             <div className={"flex flex-col w-full"} {...swipeHandlers}>
-                {roundSegments &&
+                {roundData && roundSegments &&
                     roundSegments.liveGames &&
-                    <RoundSegment label={ROUND_SEGMENT_LIVE_LABEL} games={roundSegments.liveGames} key={ROUND_SEGMENT_LIVE_LABEL}/>
+                    <RoundSegment
+                        label={ROUND_SEGMENT_LIVE_LABEL}
+                        games={roundSegments.liveGames}
+                        key={ROUND_SEGMENT_LIVE_LABEL}
+                        roundData={roundData}
+                    />
                 }
-                {roundSegments?.futureGames.map(({ label, games }) => (
-                    <RoundSegment label={label} games={games} key={label} />
+                {roundData && roundSegments?.futureGames.map(({ label, games }) => (
+                    <RoundSegment
+                        label={label}
+                        games={games}
+                        key={label}
+                        roundData={roundData}
+                    />
                 ))}
-                {roundSegments?.pastGames.map(({ label, games }) => (
-                    <RoundSegment label={label} games={games} key={label} />
+                {roundData && roundSegments?.pastGames.map(({ label, games }) => (
+                    <RoundSegment
+                        label={label}
+                        games={games}
+                        key={label}
+                        roundData={roundData}
+                    />
                 ))}
 
             </div>

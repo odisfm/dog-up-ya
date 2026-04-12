@@ -6,17 +6,18 @@ import {createScreenreaderGameDescription, isInSpoilerWindow} from "../../utils.
 import GameProgressBar from "./GameProgressBar/GameProgressBar.tsx";
 import {useContext} from "react";
 import {PrefsContext} from "../../contexts/PrefsProvider.tsx";
-import { FaEye } from "react-icons/fa";
+import {FaEye, FaTrophy} from "react-icons/fa";
 import type {MouseEvent} from "react";
 
 
-export default function GameSummary({gameData, homeTeamData, awayTeamData, segmentIdx, segmentLength}:
+export default function GameSummary({gameData, homeTeamData, awayTeamData, segmentIdx, segmentLength, isGrandFinal}:
                                     {
                                         gameData: Game,
                                         homeTeamData: Team | null,
                                         awayTeamData: Team | null,
                                         segmentIdx: number,
-                                        segmentLength: number
+                                        segmentLength: number,
+                                        isGrandFinal: boolean
                                     }) {
     const prefsContext = useContext(PrefsContext)!
     const bg1 = "bg-mist-500 dark:bg-mist-800"
@@ -74,7 +75,12 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                                     behinds={gameData.hBehinds}
                                 />
                             </div>
-                            <div className={"divider h-8 w-1 rounded-md bg-mist-700 justify-self-center self-center"} aria-hidden={true}></div>
+                            {
+                                !isGrandFinal ?
+                                        <div className={"divider h-8 w-1 rounded-md bg-mist-700 justify-self-center self-center"} aria-hidden={true}></div>
+                                    :
+                                        <FaTrophy className={"divider self-center text-6xl text-zinc-300"}/>
+                            }
                             <div className={"away-team"} aria-hidden={true}>
                                 <GameSummaryScore
                                     score={gameData.aScore}

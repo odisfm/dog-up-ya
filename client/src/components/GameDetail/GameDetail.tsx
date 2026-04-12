@@ -136,7 +136,16 @@ export default function GameDetail() {
 
 
             <GameSummary gameData={gameData} homeTeamData={gameData.homeTeam} awayTeamData={gameData.awayTeam}
-                        segmentIdx={0} segmentLength={1}/>
+                        segmentIdx={0} segmentLength={1} isGrandFinal={roundData.finalType === "GRAND_FINAL"}/>
+
+            { timeContext.year && roundData.finalType === "GRAND_FINAL" &&
+                <aside className={"self-start my-2"}>
+                    <WikiButton
+                        url={`https://en.wikipedia.org/wiki/${timeContext.year}_${timeContext.year >= AFL_ERA ? `AFL` : `VFL`}_grand_final`}
+                        label={`${timeContext.year} ${timeContext.year >= AFL_ERA ? `AFL` : `VFL`} Grand Final`}
+                    />
+                </aside>
+            }
 
             { showScoreEvents && gameData.homeTeam && gameData.awayTeam && gameData.timeString !== null &&
                 <>

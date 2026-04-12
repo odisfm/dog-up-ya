@@ -1,9 +1,9 @@
 import GameSummary from "./GameSummary/GameSummary.tsx";
-import type {GameResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
+import type {GameResponse, RoundResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import {Link} from "react-router";
 import {ROUND_SEGMENT_LIVE_LABEL} from "../consts.ts";
 
-export default function RoundSegment({label, games}: {label: string, games: GameResponse[]}){
+export default function RoundSegment({label, games, roundData}: {label: string, games: GameResponse[], roundData: RoundResponse}){
     if (games.length === 0) {
         return <></>
     }
@@ -23,6 +23,7 @@ export default function RoundSegment({label, games}: {label: string, games: Game
                         awayTeamData={game.awayTeam}
                         segmentIdx={i}
                         segmentLength={games.length}
+                        isGrandFinal={roundData.finalType === "GRAND_FINAL"}
                     />
                     </Link>
                 )
