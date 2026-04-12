@@ -4,15 +4,16 @@ import Section from "../Section.tsx";
 
 export default function GameLinks({linkData}: {linkData: GameLinks}) {
 
+    if (!linkData.aflTables) {
+        return null;
+    }
+
     return (
         <>
             <Section title={"Links"} headingLevel={3} collapsible={false} >
                 <div className="flex flex-wrap gap-2">
-                    {linkData.redditAflMatchThread &&
-                        <LinkButton url={linkData.redditAflMatchThread} label={"r/afl match thread"} size={"md"}/>
-                    }
-                    {linkData.redditAflPostMatchThread &&
-                        <LinkButton url={linkData.redditAflPostMatchThread} label={"r/afl post-match thread"} size={"md"}/>
+                    {linkData.aflTables &&
+                        <LinkButton url={linkData.aflTables} label={"Stats (AFLTables.com)"} size={"md"}/>
                     }
                 </div>
             </Section>

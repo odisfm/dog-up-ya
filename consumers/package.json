@@ -12,7 +12,8 @@
   "dependencies": {
     "command-line-args": "^6.0.2",
     "date-fns": "^4.1.0",
-    "eventsource": "^4.1.0"
+    "eventsource": "^4.1.0",
+    "puppeteer": "^24.40.0"
   },
   "devDependencies": {
     "@types/eventsource": "^3.0.0",

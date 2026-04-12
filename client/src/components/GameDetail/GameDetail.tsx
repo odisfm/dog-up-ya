@@ -14,6 +14,7 @@ import Worm from "./Worm.tsx";
 import {AFL_ERA, REFRESH_TIME_MS} from "../../consts.ts";
 import WikiButton from "../buttons/WikiButton.tsx";
 import Loading from "../Loading.tsx";
+import GameLinks from "./GameLinks.tsx";
 
 
 export default function GameDetail() {
@@ -146,6 +147,12 @@ export default function GameDetail() {
                         url={`https://en.wikipedia.org/wiki/${timeContext.year}_${timeContext.year >= AFL_ERA ? `AFL` : `VFL`}_Grand_Final`}
                         label={`${timeContext.year} ${timeContext.year >= AFL_ERA ? `AFL` : `VFL`} Grand Final`}
                     />
+                </aside>
+            }
+            {
+                gameData.gameLinks &&
+                <aside className={"self-start my-2"}>
+                    <GameLinks linkData={gameData.gameLinks}/>
                 </aside>
             }
 
