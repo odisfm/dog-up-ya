@@ -12,6 +12,11 @@ resource "aws_lambda_function" "api" {
   timeout          = 30
   memory_size      = 512
 
+
+  tags = {
+    app: var.app_name
+  }
+
 }
 
 resource "aws_apigatewayv2_api" "http" {
