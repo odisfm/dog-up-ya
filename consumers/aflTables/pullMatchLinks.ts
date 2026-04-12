@@ -79,6 +79,8 @@ const finalsGames: GameData[] = await page.$$eval('table:not(table table)', (tab
         const linkEls = table.querySelectorAll("a");
         const url = linkEls[linkEls.length - 1]?.getAttribute("href") ?? null;
 
+        if (!homeTeam || !awayTeam) continue
+
         if (!url) {
             console.error(`Couldn't find url for finals match ${homeTeam} v ${awayTeam}!`)
             continue
