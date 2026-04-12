@@ -11,7 +11,8 @@ import {TimeContext} from "../../contexts/TimeProvider.tsx";
 import {PrefsContext} from "../../contexts/PrefsProvider.tsx";
 import {isInSpoilerWindow} from "../../utils.ts";
 import Worm from "./Worm.tsx";
-import {REFRESH_TIME_MS} from "../../consts.ts";
+import {AFL_ERA, REFRESH_TIME_MS} from "../../consts.ts";
+import WikiButton from "../buttons/WikiButton.tsx";
 
 
 export default function GameDetail() {
