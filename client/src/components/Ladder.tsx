@@ -15,6 +15,7 @@ import {useSwipeable} from "react-swipeable";
 import {AFL_ERA, FIRST_SEASON} from "../consts.ts";
 import {Next5} from "./Next5.tsx";
 import LinkButton from "./buttons/LinkButton.tsx";
+import WikiButton from "./buttons/WikiButton.tsx";
 
 type LadderView = "brief" | "extended" | "next-5" | "form"
 
@@ -425,17 +426,14 @@ export default function Ladder() {
             </>
 
             }
-            <aside>
-                <a
-                    href={`https://wikipedia.org/wiki/${timeContext.year}_${timeContext.year! >= AFL_ERA ? "AFL" : "VFL"}_season`}
-                    className={"px-2 py-1 cursor-pointer rounded-md bg-mist-500 hover:bg-mist-600 dark:bg-mist-700 dark:hover:bg-mist-600 " +
-                        "self-start text-white flex gap-2 items-center"}
-                    target={"_blank"}
-                >
-                    <FaWikipediaW/> <FaExternalLinkAlt
-                    className={"text-xs"}/><span>{`${timeContext.year} ${timeContext.year! >= AFL_ERA ? "AFL" : "VFL"} season`} </span>
-                </a>
-            </aside>
+            { timeContext.year &&
+                <aside className={"self-start mt-2"}>
+                    <WikiButton
+                        url={`https://en.wikipedia.org/wiki/${timeContext.year}_${timeContext.year >= AFL_ERA ? `AFL` : `VFL`}_season`}
+                        label={`${timeContext.year} ${timeContext.year >= AFL_ERA ? `AFL` : `VFL`} season`}
+                    />
+                </aside>
+            }
 
         </section>
     )
