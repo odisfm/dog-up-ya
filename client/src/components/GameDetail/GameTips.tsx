@@ -50,7 +50,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
         aFor = tipNumbers.forHome
         bFor = tipNumbers.forAway
         aMarginAvg = tipNumbers.marginHome / tipNumbers.forHome
-        bMarginAvg = tipNumbers.forAway / tipNumbers.forAway
+        bMarginAvg = tipNumbers.marginAway / tipNumbers.forAway
     } else if (tipNumbers.forAway > tipNumbers.forHome) {
         aTeam = gameData.awayTeam
         bTeam = gameData.homeTeam
