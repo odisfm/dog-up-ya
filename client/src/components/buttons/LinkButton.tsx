@@ -3,7 +3,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function LinkButton({url, label, size}:
                                    { url: string, label: string, size: "sm" | "md" | "lg"}) {
-    const commonStyles = "cursor-pointer rounded-md bg-mist-600 dark:bg-mist-800 group-hover:bg-mist-700 group-hover:dark:bg-mist-900 flex gap-2 items-center"
+    const commonStyles = "cursor-pointer rounded-md bg-mist-700 dark:bg-mist-900 group-hover:bg-mist-600 group-hover:dark:bg-mist-800 flex gap-2 items-center"
     let sizeStyles = ""
     switch (size) {
         case "sm":

@@ -100,7 +100,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
                         <>
                             <button
                                 className={"reveal-spoiler-button flex items-center px-4 py-2 " +
-                                    "gap-2 rounded-md cursor-pointer bg-mist-600 hover:bg-red-900 self-center justify-self-center"}
+                                    "gap-2 rounded-md cursor-pointer bg-mist-800 dark:bg-mist-700 hover:bg-red-900 self-center justify-self-center"}
                                 onClick={(e) => spoilerIgnoreGame(e)}
                             >
                                 <FaEye aria-hidden={true}/> <span>Reveal scores</span>
