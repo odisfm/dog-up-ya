@@ -75,10 +75,6 @@ sudo -u ec2-user -i bash << 'EOSU'
   $TSX_BIN consumers/pullSquiggleData.ts standings "year=$(date +%Y)"
   $TSX_BIN consumers/pullSquiggleData.ts tips "year=$(date +%Y)"
 
-  dnf install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-
-  $TSX_BIN consumers/aflTables/pullMatchLinks.ts --year $(date +%Y)
-
   crontab -l 2>/dev/null > /tmp/ec2cron; true
 
   printf "SHELL=/bin/bash\n" >> /tmp/ec2cron
@@ -98,3 +94,8 @@ sudo -u ec2-user -i bash << 'EOSU'
 EOSU
 
 env HOME=/home/ec2-user pm2 startup systemd -u ec2-user --hp /home/ec2-user | grep "sudo" | bash
+
+dnf install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+sudo su ec2-user
+npx puppeteer browsers install chrome
+$TSX_BIN consumers/aflTables/pullMatchLinks.ts --year $(date +%Y)
