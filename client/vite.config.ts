@@ -13,6 +13,24 @@ export default defineConfig({
       registerType: 'autoUpdate',
       devOptions: {
         enabled: true
+      },
+      manifest: {
+        name: 'dog up ya',
+        short_name: 'dog up ya',
+        description: 'Footy scores and fxitures',
+        theme_color: '#67797D',
+        icons: [
+          {
+            src: '/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
       }
     })
   ],
