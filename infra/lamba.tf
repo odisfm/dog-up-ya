@@ -27,6 +27,10 @@ resource "aws_lambda_function" "api" {
 resource "aws_apigatewayv2_api" "http" {
   name          = "my-api-gateway"
   protocol_type = "HTTP"
+
+  tags = {
+    app: var.app_name
+  }
 }
 
 resource "aws_apigatewayv2_integration" "lambda" {
