@@ -11,6 +11,6 @@ const secrets = JSON.parse(SecretString!)
 process.env.DATABASE_URL = secrets.DATABASE_URL
 process.env.ALLOWED_CORS = secrets.ALLOWED_CORS
 
-import { app } from './app.ts'
+const { app } = await import('./app.ts')
 
 export const handler = handle(app)
