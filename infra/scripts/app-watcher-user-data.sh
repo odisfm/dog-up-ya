@@ -96,6 +96,13 @@ EOSU
 env HOME=/home/ec2-user pm2 startup systemd -u ec2-user --hp /home/ec2-user | grep "sudo" | bash
 
 dnf install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-sudo su ec2-user
-npx puppeteer browsers install chrome
-$TSX_BIN consumers/aflTables/pullMatchLinks.ts --year $(date +%Y)
+
+sudo -u ec2-user bash << 'EOSU'
+  export NVM_DIR="/home/ec2-user/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+
+  npx puppeteer browsers install chrome
+
+  TSX_BIN="$NVM_DIR/versions/node/$(nvm current)/bin/tsx"
+  $TSX_BIN consumers/aflTables/pullMatchLinks.ts --year $(date +%Y)
+EOSU
