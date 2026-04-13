@@ -7,7 +7,7 @@ resource "aws_lambda_function" "api" {
   filename         = local.lambda_zip
   source_code_hash = filebase64sha256(local.lambda_zip)
   handler          = "lambda.handler"
-  runtime          = "nodejs20.x"
+  runtime          = "nodejs24.x"
   role             = data.aws_iam_role.lambda_exec.arn
   timeout          = 30
   memory_size      = 512
