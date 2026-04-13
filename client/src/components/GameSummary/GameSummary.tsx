@@ -48,7 +48,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
         <section
             className={
             `game-summary flex flex-col gap-2 ${isEven ? bg1 : bg2} self-stretch text-white 
-            pt-4 pl-4 pr-4 pb-1 ${firstOfSegment && `rounded-t-md`} ${lastOfSegment && `rounded-b-md`}
+            pt-2 pl-4 pr-4 pb-1 ${firstOfSegment && `rounded-t-md`} ${lastOfSegment && `rounded-b-md`}
             group-hover:bg-mist-400 dark:group-hover:bg-mist-700
             `}
             role={"status"}
@@ -56,7 +56,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
             <span className={"sr-only"}>{createScreenreaderGameDescription(gameData, homeTeamData, awayTeamData, isSpoiler)}</span>
             <div className={"game-summary-inner"}>
                 <GameSummaryTeam teamData={homeTeamData} homeTeam={true}/>
-                <div className={"game-summary-detail gap-2 "}>
+                <div className={"game-summary-detail md:gap-1"}>
                     <span className={`venue-name ${dullPillStyles}`} aria-hidden={true}>{gameData.venue}</span>
                     {preGame &&
                         <>
