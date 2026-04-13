@@ -8,7 +8,6 @@ resource "cloudflare_dns_record" "api" {
 }
 
 resource "aws_acm_certificate" "api" {
-  provider          = aws.us_east_1
   domain_name       = "api.dogupya.com"
   validation_method = "DNS"
 }
