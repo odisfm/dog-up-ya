@@ -75,19 +75,21 @@ sudo -u ec2-user -i bash << 'EOSU'
   $TSX_BIN consumers/aflTables/pullMatchLinks.ts --year $(date +%Y)
 
   crontab -l 2>/dev/null > /tmp/ec2cron; true
-  cat >> /tmp/ec2cron << EOF
-SHELL=/bin/bash
-PATH=$NVM_BIN:/usr/local/bin:/usr/bin:/bin
 
-0 5 * * 1,4 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts games year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
-0 16 * * 3,4,5 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts tips year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
-30 19-23 * * 4,5 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts standings year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
-30 12-23 * * 6,0 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts standings year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
-0 */6 * * 1,2,3 (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/pullSquiggleData.ts standings year=\$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
-0 12 * * * (cd /home/ec2-user/dog-up-ya && $TSX_BIN consumers/aflTables/pullMatchLinks.ts --year \$(date +\%Y)) >> /var/log/cron-pull.log 2>&1
-EOF
+  printf "SHELL=/bin/bash\n" >> /tmp/ec2cron
+  printf "PATH=%s:/usr/local/bin:/usr/bin:/bin\n\n" "$NVM_BIN" >> /tmp/ec2cron
+  printf "0 5 * * 1,4 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts games year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "0 16 * * 3,4,5 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts tips year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "30 19-23 * * 4,5 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "30 12-23 * * 6,0 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "0 */6 * * 1,2,3 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "0 12 * * * (cd /home/ec2-user/dog-up-ya && %s consumers/aflTables/pullMatchLinks.ts --year \$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+
   crontab /tmp/ec2cron
   rm /tmp/ec2cron
+
+  echo "Crontab installed:"
+  crontab -l
 EOSU
 
 env HOME=/home/ec2-user pm2 startup systemd -u ec2-user --hp /home/ec2-user | grep "sudo" | bash
