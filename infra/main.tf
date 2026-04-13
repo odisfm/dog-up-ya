@@ -2,6 +2,11 @@ provider "aws" {
   region = "ap-southeast-4"
 }
 
+provider "aws" {
+  alias  = "us_east_1"
+  region = "us-east-1"
+}
+
 provider "cloudflare" {
 }
 
