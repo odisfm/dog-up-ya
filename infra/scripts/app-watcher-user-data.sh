@@ -3,6 +3,11 @@ set -e
 sudo timedatectl set-timezone Australia/Melbourne
 export PATH=$PATH:/usr/bin:/usr/sbin:/usr/local/bin
 
+sudo dd if=/dev/zero of=/swapfile bs=128M count=16
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
 cd /home/ec2-user
 
 yum update -y
