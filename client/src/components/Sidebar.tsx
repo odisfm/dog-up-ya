@@ -26,6 +26,9 @@ export default function Sidebar() {
         return () => window.removeEventListener("keydown", handleKeyDown); // cleanup
     }, [viewContext]);
 
+    const buttonGroupStyles = `flex gap-1`
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
     return (
         <div
             style={{
@@ -41,42 +44,6 @@ export default function Sidebar() {
                     <legend className={labelStyles} aria-label={"season selector"}>Season</legend>
                     <div id={"sidebarSeasonSwitcher"}>
                         <SeasonSwitcher />
-                    </div>
-                </fieldset>
-                <fieldset className={`md:hidden flex flex-col`}>
-                    <legend className={labelStyles}>Theme</legend>
-                    <div id={"themeSwitcher"} className={"flex gap-1"}>
-                        <button
-                            className={`${buttonStyles} ${prefsContext.theme === "light" ? activeButtonStyles : inactiveButtonStyles}`}
-                            onClick={() => prefsContext.changeTheme("light")}
-                        >
-                            <MdLightMode aria-hidden={true}/>
-                            <span>Light</span>
-                        </button>
-                        <button
-                            className={`${buttonStyles} ${prefsContext.theme === "dark" ? activeButtonStyles : inactiveButtonStyles}`}
-                            onClick={() => prefsContext.changeTheme("dark")}
-                        >
-                            <MdDarkMode aria-hidden={true}/>
-                            <span>Dark</span>
-                        </button>
-                    </div>
-                </fieldset>
-                <fieldset className={`flex flex-col`}>
-                    <legend className={labelStyles}>Animations</legend>
-                    <div className={"flex gap-1"}>
-                        <button
-                            className={`${buttonStyles} ${prefsContext.playAnimations ? activeButtonStyles : inactiveButtonStyles}`}
-                            onClick={() => prefsContext.setPlayAnimations(true)}
-                        >
-                            On
-                        </button>
-                        <button
-                            className={`${buttonStyles} ${!prefsContext.playAnimations ? activeButtonStyles : inactiveButtonStyles}`}
-                            onClick={() => prefsContext.setPlayAnimations(false)}
-                        >
-                            Off
-                        </button>
                     </div>
                 </fieldset>
                 <fieldset className={`flex flex-col`}>
@@ -98,6 +65,169 @@ export default function Sidebar() {
                         </button>
                     </div>
                 </fieldset>
+                <fieldset className={`md:hidden flex flex-col`}>
+                    <legend className={labelStyles}>Theme</legend>
+                    <div id={"themeSwitcher"} className={buttonGroupStyles}>
+                        <button
+                            className={`${buttonStyles} ${prefsContext.theme === "light" ? activeButtonStyles : inactiveButtonStyles}`}
+                            onClick={() => prefsContext.changeTheme("light")}
+                        >
+                            <MdLightMode aria-hidden={true}/>
+                            <span>Light</span>
+                        </button>
+                        <button
+                            className={`${buttonStyles} ${prefsContext.theme === "dark" ? activeButtonStyles : inactiveButtonStyles}`}
+                            onClick={() => prefsContext.changeTheme("dark")}
+                        >
+                            <MdDarkMode aria-hidden={true}/>
+                            <span>Dark</span>
+                        </button>
+                    </div>
+                </fieldset>
+                <fieldset className={`flex flex-col`}>
+                    <legend className={labelStyles}>Animations</legend>
+                    <div className={buttonGroupStyles}>
+                        <button
+                            className={`${buttonStyles} ${prefsContext.playAnimations ? activeButtonStyles : inactiveButtonStyles}`}
+                            onClick={() => prefsContext.setPlayAnimations(true)}
+                        >
+                            On
+                        </button>
+                        <button
+                            className={`${buttonStyles} ${!prefsContext.playAnimations ? activeButtonStyles : inactiveButtonStyles}`}
+                            onClick={() => prefsContext.setPlayAnimations(false)}
+                        >
+                            Off
+                        </button>
+                    </div>
+                </fieldset>
+                { isTouch &&
+                    <fieldset className={`flex flex-col`}>
+                        <legend className={labelStyles}>
+                            Swipe gestures
+                        </legend>
+                        <div className={buttonGroupStyles}>
+                            <button
+                                className={`${prefsContext.gesturePrefs.global ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                                onClick={() => {
+                                    prefsContext.setGesturePrefs({
+                                        ...prefsContext.gesturePrefs,
+                                        global: true
+                                    })
+                                }}
+                            >
+                                On
+                            </button>
+                            <button
+                                className={`${!prefsContext.gesturePrefs.global ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                                onClick={() => {
+                                    prefsContext.setGesturePrefs({
+                                        ...prefsContext.gesturePrefs,
+                                        global: false
+                                    })
+                                }}
+                            >
+                                Off
+                            </button>
+                        </div>
+                            { prefsContext.gesturePrefs.global &&
+                                <div className={"pl-2 flex flex-col gap-1 mt-2"}>
+                                    <fieldset>
+                                        <legend className={labelStyles}>Round view</legend>
+                                        <div className={buttonGroupStyles}>
+                                            <button
+                                                className={`${prefsContext.gesturePrefs.round ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                                                onClick={() => {
+                                                    prefsContext.setGesturePrefs({
+                                                        ...prefsContext.gesturePrefs,
+                                                        round: true
+                                                    })
+                                                }}
+                                            >
+                                                On
+                                            </button>
+                                            <button
+                                                className={`${!prefsContext.gesturePrefs.round ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                                                onClick={() => {
+                                                    prefsContext.setGesturePrefs({
+                                                        ...prefsContext.gesturePrefs,
+                                                        round: false
+                                                    })
+                                                }}
+                                            >
+                                                Off
+                                            </button>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend className={labelStyles}>Ladder view</legend>
+                                        <div className={`${buttonGroupStyles}`}>
+                                            <button
+                                                className={`${prefsContext.gesturePrefs.ladder === false ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                                                onClick={() => {
+                                                    prefsContext.setGesturePrefs({
+                                                        ...prefsContext.gesturePrefs,
+                                                        ladder: false
+                                                    })
+                                                }}
+                                            >
+                                                Off
+                                            </button>
+                                            <button
+                                                className={`${prefsContext.gesturePrefs.ladder === "views" ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                                                onClick={() => {
+                                                    prefsContext.setGesturePrefs({
+                                                        ...prefsContext.gesturePrefs,
+                                                        ladder: "views"
+                                                    })
+                                                }}
+                                            >
+                                                Views
+                                            </button>
+                                            <button
+                                                className={`${prefsContext.gesturePrefs.ladder === "seasons" ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                                                onClick={() => {
+                                                    prefsContext.setGesturePrefs({
+                                                        ...prefsContext.gesturePrefs,
+                                                        ladder: "seasons"
+                                                    })
+                                                }}
+                                            >
+                                                Seasons
+                                            </button>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend className={labelStyles}>Game view</legend>
+                                        <div className={buttonGroupStyles}>
+                                            <button
+                                                className={`${prefsContext.gesturePrefs.game ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                                                onClick={() => {
+                                                    prefsContext.setGesturePrefs({
+                                                        ...prefsContext.gesturePrefs,
+                                                        game: true
+                                                    })
+                                                }}
+                                            >
+                                                On
+                                            </button>
+                                            <button
+                                                className={`${!prefsContext.gesturePrefs.game ? activeButtonStyles : inactiveButtonStyles} ${buttonStyles} `}
+                                                onClick={() => {
+                                                    prefsContext.setGesturePrefs({
+                                                        ...prefsContext.gesturePrefs,
+                                                        game: false
+                                                    })
+                                                }}
+                                            >
+                                                Off
+                                            </button>
+                                        </div>
+                                    </fieldset>
+                            </div>
+                            }
+                    </fieldset>
+                }
             </div>
 
             <span

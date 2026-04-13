@@ -2,6 +2,14 @@ import {createContext, type ReactNode, useEffect, useState} from "react";
 
 type Theme = "light" | "dark";
 
+type GesturePrefType = {
+    global: boolean
+    round: boolean
+    ladder: false | "seasons" | "views"
+    game: boolean
+}
+
+
 type PrefsContextType = {
     toggleTheme: () => void;
     changeTheme: (theme: Theme) => void;
@@ -12,6 +20,8 @@ type PrefsContextType = {
     spoilerIgnoredGames: string[]
     playAnimations: boolean
     setPlayAnimations: (setting: boolean) => void
+    gesturePrefs: GesturePrefType
+    setGesturePrefs: (prefs: GesturePrefType) => void
 }
 
 export const PrefsContext = createContext<PrefsContextType | null>(null);
@@ -52,6 +62,18 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
         return isDark ? "dark" : "light";
     });
 
+    const [gesturePrefs, setGesturePrefs] = useState<GesturePrefType>(() => {
+        const pref = localStorage.getItem("gesturePrefs")
+        let gesturePrefs: GesturePrefType
+        if (pref) {
+            gesturePrefs = JSON.parse(pref)
+        } else {
+            gesturePrefs = {global: true, round: true, ladder: "views", game: false}
+            localStorage.setItem("gesturePrefs", JSON.stringify(gesturePrefs))
+        }
+        return gesturePrefs
+    })
+
     function changeTheme(theme: Theme) {
         localStorage.setItem("darkModePref", theme === "dark" ? "true" : "false");
         document.documentElement.classList.toggle("dark", theme === "dark");
@@ -78,6 +100,11 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
         localStorage.setItem("animationPref", String(setting))
     }
 
+    function doSetGesturePrefs(prefs: GesturePrefType) {
+        localStorage.setItem("gesturePrefs", JSON.stringify(prefs))
+        setGesturePrefs(prefs)
+    }
+
     useEffect(() => {
         if (playAnimations) {
             document.documentElement.classList.remove("no-animate")
@@ -96,7 +123,9 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
             addSpoilerIgnoredGame,
             spoilerIgnoredGames,
             playAnimations,
-            setPlayAnimations: doSetPlayAnimations
+            setPlayAnimations: doSetPlayAnimations,
+            gesturePrefs,
+            setGesturePrefs: doSetGesturePrefs,
         }}>
             {children}
         </PrefsContext.Provider>

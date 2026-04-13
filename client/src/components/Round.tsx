@@ -17,6 +17,7 @@ import TeamFlag from "./TeamFlag.tsx";
 import type {FinalType} from "@footy-scores/shared/src/generated/prisma/enums.ts";
 import {useSwipeable} from "react-swipeable";
 import Loading from "./Loading.tsx";
+import {PrefsContext} from "../contexts/PrefsProvider.tsx";
 
 type RoundSegmentEntry = { label: string; date: Date; games: GameResponse[] }
 
@@ -28,6 +29,7 @@ type RoundGrouping = {
 
 export default function Round() {
     const timeContext = useContext(TimeContext)!;
+    const prefsContext = useContext(PrefsContext)!;
     const [failed, setFailed] = useState(false);
     const [hasLiveGames, setHasLiveGames] = useState(false);
     const [roundData, setRoundData] = useState<RoundResponse | null>(null);
@@ -35,10 +37,12 @@ export default function Round() {
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
         onSwipedRight: () => {
+            if (!prefsContext.gesturePrefs.global || !prefsContext.gesturePrefs.round) return;
             if (timeContext.round === null) return
             timeContext.setRound(timeContext.round - 1)
         },
         onSwipedLeft: () => {
+            if (!prefsContext.gesturePrefs.global || !prefsContext.gesturePrefs.round) return;
             if (timeContext.round === null) return
             timeContext.setRound(timeContext.round + 1)
         },

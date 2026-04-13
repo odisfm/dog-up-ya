@@ -16,6 +16,7 @@ import {AFL_ERA} from "../consts.ts";
 import {Next5} from "./Next5.tsx";
 import WikiButton from "./buttons/WikiButton.tsx";
 import Loading from "./Loading.tsx";
+import {PrefsContext} from "../contexts/PrefsProvider.tsx";
 
 type LadderView = "brief" | "extended" | "next-5" | "form"
 
@@ -40,6 +41,7 @@ export default function Ladder() {
     const [failed, setFailed] = useState(false);
     const [view, setView] = useState<LadderView>("brief");
     const timeContext = useContext(TimeContext)!;
+    const prefsContext = useContext(PrefsContext)!;
 
     const viewingThisYear = Boolean(timeContext.year !== null && timeContext.year === timeContext.latestYear)
 
@@ -71,13 +73,30 @@ export default function Ladder() {
 
     const swipeHandlers = useSwipeable({
         onSwipedRight: () => {
-            moveViewBack()
+            handleSwipe("right")
         },
         onSwipedLeft: () => {
-            moveViewForward()
+            handleSwipe("left")
         },
         preventScrollOnSwipe: true
     })
+
+    function handleSwipe(direction: "left" | "right") {
+        if (!prefsContext.gesturePrefs.global || !prefsContext.gesturePrefs.ladder) return
+        if (prefsContext.gesturePrefs.ladder === "views") {
+            if (direction === "left") {
+                moveViewForward()
+            } else {
+                moveViewBack()
+            }
+        } else if (prefsContext.gesturePrefs.ladder === "seasons") {
+            if (direction === "left") {
+                timeContext.setYear(timeContext.year! + 1)
+            } else {
+                timeContext.setYear(timeContext.year! - 1)
+            }
+        }
+    }
 
     useEffect(() => {
         if (!timeContext.year) {
