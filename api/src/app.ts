@@ -12,7 +12,7 @@ import type {
   GameDetailsPayload,
   ApiDetailsResponse
 } from "@footy-scores/shared/src/types/apiResponses.js";
-import {getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
+import {getAdjacentGame, getCurrentRoundForSeason, getCurrentSeason} from "./dbUtils.js";
 import {serialiseGames} from "./utils.js";
 
 const APP_VERSION = process.env.COMMIT_ID || null
@@ -212,6 +212,18 @@ app.get(`/game/:gameId`, async (c) => {
   } satisfies GameDetailsResponse
   return c.json({data: response})
 
+})
+
+app.get(`/game/:gameId/:direction`, async (c) => {
+  const { gameId, direction } = c.req.param()
+  if (direction !== 'next' && direction !== 'prev') {
+    return c.json({ error: 'Invalid direction' }, 400)
+  }
+  try {
+    return c.json({data: await getAdjacentGame(gameId, direction)})
+  } catch {
+    return c.json({ error: "Invalid game ID"}, 400)
+  }
 })
 
 app.get('/details', async (c) => {

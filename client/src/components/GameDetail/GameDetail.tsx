@@ -1,6 +1,6 @@
 import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import GameSummary from "../GameSummary/GameSummary.tsx";
-import {Link, Navigate, useParams} from "react-router";
+import {Link, Navigate, useNavigate, useParams} from "react-router";
 import type {GameDetailsPayload, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season, Round} from "@footy-scores/shared"
 import {differenceInMinutes, formatDate} from "date-fns";
@@ -15,6 +15,7 @@ import {AFL_ERA, REFRESH_TIME_MS} from "../../consts.ts";
 import WikiButton from "../buttons/WikiButton.tsx";
 import Loading from "../Loading.tsx";
 import GameLinks from "./GameLinks.tsx";
+import {useSwipeable} from "react-swipeable";
 
 
 export default function GameDetail() {
@@ -25,6 +26,7 @@ export default function GameDetail() {
     const [seasonData, setSeasonData] = useState<Season | null>(null);
     const [roundData, setRoundData] = useState<Round | null>(null);
     const [failed, setFailed] = useState(false);
+    const navigate = useNavigate();
 
     const fetchGameData = useCallback(async () => {
         if (!params?.gameId) {
@@ -107,6 +109,31 @@ export default function GameDetail() {
 
     }, [isLive, gameData, fetchGameData])
 
+    function handleSwipe(direction: "left" | "right") {
+        if (!prefsContext.gesturePrefs.global || !prefsContext.gesturePrefs.game || !gameData) return
+        (async () => {
+            const _direction = direction === "right" ? "prev" : "next";
+            const response =
+                await fetch(`${import.meta.env.VITE_API_URL}/game/${gameData!.id}/${_direction}`);
+            if (!response || !response.ok) {
+                return;
+            }
+            const data = await response.json();
+            const _data = data.data;
+            if (!_data) {
+                return;
+            }
+            navigate(`/game/${_data}`)
+
+        })()
+    }
+
+    const swipeHandlers = useSwipeable({
+        onSwipedRight: () => {handleSwipe("right")},
+        onSwipedLeft: () => {handleSwipe("left")},
+        preventScrollOnSwipe: true
+    })
+
     if (!params.gameId) {
         return (
             <Navigate to={"/round"} />
@@ -118,7 +145,7 @@ export default function GameDetail() {
     }
 
     return (
-        <div className={"flex flex-col text-white mt-2 items-start w-full"}>
+        <div className={"flex flex-col text-white mt-2 items-start w-full"} {...swipeHandlers}>
             <h2
                 className={"font-black text-left text-xl md:text-5xl mb-1 rounded-lg " +
                     "px-3 pr-3 pt-2 pb-1 md:pb-4 bg-cyan-700 dark:bg-cyan-800"}
