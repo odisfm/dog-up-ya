@@ -6,6 +6,9 @@ import App from './App.tsx'
 import Ladder from "./components/Ladder.tsx";
 import Round from "./components/Round.tsx";
 import GameDetail from "./components/GameDetail/GameDetail.tsx";
+import { registerSW } from 'virtual:pwa-register'
+registerSW({ immediate: true })
+
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
