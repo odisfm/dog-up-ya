@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_lambda_function" "api" {
-  function_name    = "my-api"
+  function_name    = "${var.app_name}-api"
   filename         = local.lambda_zip
   source_code_hash = filebase64sha256(local.lambda_zip)
   handler          = "lambda.handler"
