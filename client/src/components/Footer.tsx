@@ -19,7 +19,12 @@ export default function Footer() {
                 >
                     <MdEmail aria-hidden={true} />
                 </a>
-                <a className={`${linkStyles}`} href={GITHUB_REPO_LINK} target={"_blank"} aria-label={"see this site's source code on GitHun"}>
+                <a
+                    className={`${linkStyles}`}
+                    href={GITHUB_REPO_LINK}
+                    target={"_blank"}
+                    aria-label={"see this site's source code on GitHub"}
+                >
                     <FaGithub aria-hidden={true}/>
                 </a>
             </div>
