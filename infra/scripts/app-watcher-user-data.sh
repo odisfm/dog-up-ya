@@ -67,22 +67,22 @@ sudo -u ec2-user -i bash << 'EOSU'
 
   cd /home/ec2-user/dog-up-ya
 
-  pm2 start $TSX_BIN --name "watch-server" --interpreter node -- consumers/watchSquiggleEvents.ts
+  pm2 start $TSX_BIN --name "watch-server" --interpreter node -- consumers/squiggle/watchEvents.ts
   pm2 list
   pm2 save --force
 
-  $TSX_BIN consumers/pullSquiggleData.ts games "year=$(date +%Y)"
-  $TSX_BIN consumers/pullSquiggleData.ts standings "year=$(date +%Y)"
+  $TSX_BIN consumers/squiggle/pull.ts games "year=$(date +%Y)"
+  $TSX_BIN consumers/squiggle/pull.ts standings "year=$(date +%Y)"
 
   crontab -l 2>/dev/null > /tmp/ec2cron; true
 
   printf "SHELL=/bin/bash\n" >> /tmp/ec2cron
   printf "PATH=%s:/usr/local/bin:/usr/bin:/bin\n\n" "$NVM_BIN" >> /tmp/ec2cron
-  printf "0 5 * * 1,4 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts games year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-  printf "0 16 * * 3,4,5 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts tips year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-  printf "30 19-23 * * 4,5 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-  printf "30 12-23 * * 6,0 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-  printf "0 */6 * * 1,2,3 (cd /home/ec2-user/dog-up-ya && %s consumers/pullSquiggleData.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "0 5 * * 1,4 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts games year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "0 16 * * 3,4,5 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts tips year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "30 19-23 * * 4,5 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "30 12-23 * * 6,0 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
+  printf "0 */6 * * 1,2,3 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
   printf "0 12 * * * (cd /home/ec2-user/dog-up-ya && %s consumers/aflTables/pullMatchLinks.ts --year \$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
 
   crontab /tmp/ec2cron

@@ -1,10 +1,10 @@
 import 'dotenv/config'
 import { db } from '@footy-scores/shared'
-import pullTeams from "./pullSquiggleData/pullTeams";
-import pullRounds from "./pullSquiggleData/pullRounds";
-import pullGames from "./pullSquiggleData/pullGames";
-import pullStandings from "./pullSquiggleData/pullStandings";
-import pullTips from "./pullSquiggleData/pullTips";
+import pullTeams from "./pullTeams";
+import pullRounds from "./pullRounds";
+import pullGames from "./pullGames";
+import pullStandings from "./pullStandings";
+import pullTips from "./pullTips";
 
 enum AllowedCommands {
     teams="teams",
