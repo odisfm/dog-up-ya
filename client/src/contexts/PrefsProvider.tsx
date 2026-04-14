@@ -78,6 +78,7 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
         localStorage.setItem("darkModePref", theme === "dark" ? "true" : "false");
         document.documentElement.classList.toggle("dark", theme === "dark");
         setTheme(theme);
+        umami.track("prefsTheme", theme);
     }
 
     function toggleTheme() {
@@ -87,6 +88,7 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     function setShowSpoilersPref(pref: boolean) {
         setShowSpoilers(pref);
         localStorage.setItem("spoilerPref", pref ? "true" : "false");
+        umami.track("prefsSpoiler", pref)
     }
 
     function addSpoilerIgnoredGame(gameId: string) {
@@ -98,11 +100,13 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     function doSetPlayAnimations(setting: boolean) {
         setPlayAnimations(setting);
         localStorage.setItem("animationPref", String(setting))
+        umami.track("prefsAnimations", setting)
     }
 
     function doSetGesturePrefs(prefs: GesturePrefType) {
         localStorage.setItem("gesturePrefs", JSON.stringify(prefs))
         setGesturePrefs(prefs)
+        umami.track("prefsGestures", prefs)
     }
 
     useEffect(() => {

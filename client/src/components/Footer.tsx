@@ -24,6 +24,7 @@ export default function Footer() {
                     href={GITHUB_REPO_LINK}
                     target={"_blank"}
                     aria-label={"see this site's source code on GitHub"}
+                    onClick={() => umami.track("github")}
                 >
                     <FaGithub aria-hidden={true}/>
                 </a>
