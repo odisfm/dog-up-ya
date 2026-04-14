@@ -71,6 +71,9 @@ app.get('/ladder/:year', async (c) => {
     },
     include: {
       games: {
+        orderBy: {
+          unixTime: "asc"
+        },
         include: {
           homeTeam: true,
           awayTeam: true
@@ -120,6 +123,9 @@ app.get('/round/:year/:roundNumber', async (c) => {
     },
     include: {
       games: {
+        orderBy: {
+          unixTime: "asc"
+        },
         include: {
           scoreEvents: {
             orderBy: {
