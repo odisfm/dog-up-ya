@@ -6,7 +6,8 @@ export default function GameSummaryTeam({teamData, homeTeam}: {
     homeTeam: boolean,
 }) {
     return (
-        <div className={`flex w-full ${homeTeam ? 'justify-start' : 'justify-end'}`} aria-hidden={true}>
+        <div className={`flex w-full ${homeTeam ? 'justify-items-start justify-self-start' : 'justify-end justify-self-end'} max-w-10`}
+             aria-hidden={true}>
             <div className={`grid grid-rows-2 ${homeTeam ? 'justify-items-start' : 'justify-items-end'}`}>
                     <div className={"self-end"}>
                         <TeamFlag teamName={teamData?.name || "tbd"} size={"sm-md"}/>

@@ -48,7 +48,7 @@ export default function GameSummary({gameData, homeTeamData, awayTeamData, segme
         <section
             className={
             `game-summary flex flex-col gap-2 ${isEven ? bg1 : bg2} self-stretch text-white 
-            pt-2 pl-4 pr-4 pb-1 ${firstOfSegment && `rounded-t-md`} ${lastOfSegment && `rounded-b-md`}
+            pt-2 px-2 md:px-4 pb-1 ${firstOfSegment && `rounded-t-md`} ${lastOfSegment && `rounded-b-md`}
             group-hover:bg-mist-400 dark:group-hover:bg-mist-700
             `}
             role={"status"}
