@@ -12,7 +12,7 @@ import {
 import type {CurrentRoundResponse, RoundResponse} from "@footy-scores/shared/src/types/apiResponses";
 import {differenceInMinutes} from "date-fns";
 // @ts-ignore
-import userDataScript from '../../scripts/watcher-user-data.sh'
+import userDataScript from './watcher-user-data.sh'
 
 type EventType = {
     force?: boolean,
