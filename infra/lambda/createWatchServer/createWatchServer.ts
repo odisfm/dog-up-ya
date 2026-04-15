@@ -154,7 +154,7 @@ export const handler = async (event: EventType) => {
             const sgResponse = await computeClient.send(new DescribeSecurityGroupsCommand({
                 Filters: [
                     {
-                        Name: "Name",
+                        Name: "tag:Name",
                         Values: [sgName]
                     }
                 ]
@@ -168,7 +168,7 @@ export const handler = async (event: EventType) => {
             const subnetResponse = await computeClient.send(new DescribeSubnetsCommand({
                 Filters: [
                     {
-                        Name: "Name",
+                        Name: "tag:Name",
                         Values: [subnetName]
                     }
                 ]
