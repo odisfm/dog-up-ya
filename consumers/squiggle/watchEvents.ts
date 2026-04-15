@@ -12,7 +12,7 @@ const es = new EventSource(url, {
     fetch: (input, init) =>
         fetch(input, {
             headers: {
-                "User-Agent": process.env.USER_AGENT_FOR_SQUIGGLE
+                "User-Agent": process.env.USER_AGENT_FOR_SQUIGGLE!
             },
         }),
 });
@@ -110,7 +110,7 @@ es.addEventListener('game', async (event) => {
                 team: true
             }
         })
-        winnerTeamId = winnerSeasonTeam.team.id
+        winnerTeamId = winnerSeasonTeam!.team.id
     }
 
     db.game.update({
@@ -192,7 +192,7 @@ es.addEventListener('winner', async (event) => {
         },
         data: {
             timeString: "Full Time",
-            winnerTeamId: seasonTeamRecord.team.id
+            winnerTeamId: seasonTeamRecord!.team.id
         }
     })
 
