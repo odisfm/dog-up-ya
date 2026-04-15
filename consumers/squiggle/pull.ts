@@ -1,86 +1,27 @@
 import 'dotenv/config'
-import { db } from '@footy-scores/shared'
-import pullTeams from "./pullTeams";
-import pullRounds from "./pullRounds";
-import pullGames from "./pullGames";
-import pullStandings from "./pullStandings";
-import pullTips from "./pullTips";
+import { runPull, type Command } from './handler'
 
-enum AllowedCommands {
-    teams="teams",
-    rounds="rounds",
-    games="games",
-    standings="standings",
-    tips="tips"
-}
+const ALLOWED_COMMANDS: Command[] = ['teams', 'rounds', 'games', 'standings', 'tips']
 
-const args: string[] = process.argv.slice(2)
-const invalidCommandErrorMessage =
-    `Invalid args; must provide a command (${Object.values(AllowedCommands).join(', ')})`
-const missingYearErrorMessage =
-    `Invalid args; must provide a year (year=xxxx)`
+const args = process.argv.slice(2)
 
-if (!args.length) {
-    console.error(invalidCommandErrorMessage)
-    process.exit(1)
-} else if (!(args[0] in AllowedCommands)) {
-    console.error(invalidCommandErrorMessage)
-    process.exit(1)
-}
-
-const command = args[0]
-
-if (!args[1]) {
-    console.error(missingYearErrorMessage)
+if (!args.length || !ALLOWED_COMMANDS.includes(args[0] as Command)) {
+    console.error(`Invalid args; must provide a command (${ALLOWED_COMMANDS.join(', ')})`)
     process.exit(1)
 }
 
 const yearArg = args[1]
-if (!yearArg.startsWith('year=') || !(yearArg.split('=').length === 2)) {
-    console.error(missingYearErrorMessage)
+if (!yearArg?.startsWith('year=') || yearArg.split('=').length !== 2) {
+    console.error('Invalid args; must provide a year (year=xxxx)')
     process.exit(1)
 }
 
-const yearDef = yearArg.split("=")[1]
-const yearToUse = parseInt(yearDef)
-if (isNaN(yearToUse)) {
-    console.error(missingYearErrorMessage)
+const year = parseInt(yearArg.split('=')[1])
+if (isNaN(year)) {
+    console.error('Invalid args; must provide a year (year=xxxx)')
     process.exit(1)
 }
 
-(async () => {
-
-    const season = await db.season.findFirst({
-        where: {
-            year: yearToUse,
-        }
-    })
-
-    if (!season) {
-        console.error(`Season ${yearToUse} not found in DB. Create it manually.`)
-        process.exit(1)
-    }
-
-    switch (command) {
-        case AllowedCommands.teams:
-            await pullTeams(season)
-            break
-        case AllowedCommands.rounds:
-            await pullRounds(season)
-            break
-        case AllowedCommands.games:
-            await pullGames(season)
-            break
-        case AllowedCommands.standings:
-            await pullStandings(season)
-            break
-        case AllowedCommands.tips:
-            await pullTips(season)
-            break
-    }
-})().then(()=> {
-    console.log("Command complete!")
-    process.exit(0)
-})
-
-
+runPull({ command: args[0] as Command, year })
+    .then(() => { console.log('Command complete!'); process.exit(0) })
+    .catch((err) => { console.error(err); process.exit(1) })

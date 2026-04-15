@@ -7,9 +7,11 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:squiggle": "node squiggle/esbuild.config.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.1030.0",
     "command-line-args": "^6.0.2",
     "date-fns": "^4.1.0",
     "eventsource": "^4.1.0",

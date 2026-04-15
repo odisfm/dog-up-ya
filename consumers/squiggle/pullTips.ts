@@ -1,8 +1,8 @@
-import {db} from '@footy-scores/shared'
+import {db, Tip} from '@footy-scores/shared'
 import type {SquiggleTip} from "@footy-scores/shared";
 import {PrismaExports, consts} from '@footy-scores/shared'
 
-export default async function pullTips(season: PrismaExports.Season) {
+export default async function pullTips(season: PrismaExports.Season): Promise<Tip[]> {
     const url = `${consts.SQUIGGLE_API_URL}/?q=tips;year=${season.year}`
     const response = await fetch(url, {
         headers: {"User-Agent": process.env.USER_AGENT_FOR_SQUIGGLE},
@@ -19,6 +19,7 @@ export default async function pullTips(season: PrismaExports.Season) {
     }
 
     const tipsResult: SquiggleTip[] = result.tips;
+    const createdRecords = []
 
     for (const tip of tipsResult) {
         const gameRecord = await db.game.findUnique({
@@ -80,7 +81,9 @@ export default async function pullTips(season: PrismaExports.Season) {
 
         console.log(`Created tip record!`)
         console.log(tipRecord)
+        createdRecords.push(tipRecord)
     }
 
+    return createdRecords
 }
 

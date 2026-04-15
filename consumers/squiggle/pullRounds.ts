@@ -1,8 +1,8 @@
-import {db} from '@footy-scores/shared'
+import {db, Round} from '@footy-scores/shared'
 import type {SquiggleGame} from "@footy-scores/shared";
 import {PrismaExports, consts} from '@footy-scores/shared'
 
-export default async function pullTeams(season: PrismaExports.Season) {
+export default async function pullTeams(season: PrismaExports.Season): Promise<Round[]> {
     const url = `${consts.SQUIGGLE_API_URL}/?q=games;year=${season.year}`
     const response = await fetch(url, {
         headers: {"User-Agent": process.env.USER_AGENT_FOR_SQUIGGLE},
@@ -19,7 +19,8 @@ export default async function pullTeams(season: PrismaExports.Season) {
     }
 
     const gamesResult: SquiggleGame[] = result.games
-    const roundNumbersProcessed = []
+    const roundNumbersProcessed: number[] = []
+    const createdRecords: Round[] = []
 
     for (const gameData of gamesResult) {
         if (roundNumbersProcessed.includes(gameData.round)) {
@@ -54,6 +55,10 @@ export default async function pullTeams(season: PrismaExports.Season) {
             roundRecord
         )
 
+        createdRecords.push(roundRecord)
+
     }
+
+    return createdRecords;
 }
 

@@ -1,4 +1,4 @@
-import {db} from '@footy-scores/shared'
+import {db, Team} from '@footy-scores/shared'
 import type {SquiggleTeam} from "@footy-scores/shared";
 import {PrismaExports, consts} from '@footy-scores/shared'
 
@@ -19,6 +19,7 @@ export default async function pullTeams(season: PrismaExports.Season) {
     }
 
     const teamsResult: SquiggleTeam[] = result.teams;
+    const createdRecords: Team[] = []
 
     for (const teamData of teamsResult) {
 
@@ -71,5 +72,9 @@ export default async function pullTeams(season: PrismaExports.Season) {
             )
         }
 
+        createdRecords.push(teamRecord)
+
     }
+
+    return createdRecords
 }

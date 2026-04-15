@@ -1,8 +1,8 @@
 import {db} from '@footy-scores/shared'
-import type {SquiggleGame} from "@footy-scores/shared";
+import type {SquiggleGame, Game} from "@footy-scores/shared";
 import {PrismaExports, consts} from '@footy-scores/shared'
 
-export default async function pullGames(season: PrismaExports.Season) {
+export default async function pullGames(season: PrismaExports.Season): Promise<Game[]> {
     const url = `${consts.SQUIGGLE_API_URL}/?q=games;year=${season.year}`
     const response = await fetch(url, {
         headers: {"User-Agent": process.env.USER_AGENT_FOR_SQUIGGLE},
@@ -19,6 +19,7 @@ export default async function pullGames(season: PrismaExports.Season) {
     }
 
     const gamesResult: SquiggleGame[] = result.games
+    const createdRecords: Game[] = []
 
     for (const gameData of gamesResult) {
 
@@ -169,5 +170,9 @@ export default async function pullGames(season: PrismaExports.Season) {
             gameRecord
         )
 
+        createdRecords.push({...gameRecord, unixTime: Number(gameRecord.unixTime)})
+
     }
+
+    return createdRecords
 }
