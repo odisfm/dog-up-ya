@@ -49,13 +49,16 @@ jobs:
             -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
             -backend-config="region=${{ vars.AWS_REGION }}"
 
-      - name: build lambda
+      - name: build lambdas
         run: |
           cd shared
           npx prisma generate
           cd ../api
           npm run build:lambda
           zip -j dist/lambda.zip dist/lambda.mjs
+          cd ../consumers
+          npm run build:squiggle
+          zip -j squiggle/lambda.zip squiggle/lambda.mjs
 
       - name: deploy aws
         working-directory: infra

@@ -1,11 +1,12 @@
 locals {
-  lambda_zip = "${path.module}/../api/dist/lambda.zip"
+  api_lambda_zip = "${path.module}/../api/dist/lambda.zip"
+  squiggle_lambda_zip = "${path.module}/../consumers/squiggle/lambda.zip"
 }
 
 resource "aws_lambda_function" "api" {
   function_name    = "${var.app_name}-api"
-  filename         = local.lambda_zip
-  source_code_hash = filebase64sha256(local.lambda_zip)
+  filename         = local.api_lambda_zip
+  source_code_hash = filebase64sha256(local.api_lambda_zip)
   handler          = "lambda.handler"
   runtime          = "nodejs24.x"
   role             = data.aws_iam_role.lambda_exec.arn
@@ -17,6 +18,22 @@ resource "aws_lambda_function" "api" {
       COMMIT_ID = var.commit_id
     }
   }
+
+  tags = {
+    app: var.app_name
+  }
+
+}
+
+resource "aws_lambda_function" "squiggle" {
+  function_name    = "${var.app_name}-squiggle"
+  filename         = local.squiggle_lambda_zip
+  source_code_hash = filebase64sha256(local.squiggle_lambda_zip)
+  handler          = "lambda.handler"
+  runtime          = "nodejs24.x"
+  role             = data.aws_iam_role.lambda_exec.arn
+  timeout          = 30
+  memory_size      = 512
 
   tags = {
     app: var.app_name
