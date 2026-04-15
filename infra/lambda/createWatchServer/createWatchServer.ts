@@ -140,7 +140,14 @@ export const handler = async (event: EventType) => {
                 InstanceType: event.ec2InstanceType as _InstanceType,
                 MinCount: 1,
                 MaxCount: 1,
-                AssociatePublicIpAddress: true,
+                NetworkInterfaces: [
+                    {
+                        DeviceIndex: 0,
+                        SubnetId: event.subnetId,
+                        Groups: [event.securityGroupId],
+                        AssociatePublicIpAddress: true
+                    }
+                ],
                 IamInstanceProfile: {
                     Name: "dog-up-ya-app-server"
                 },
