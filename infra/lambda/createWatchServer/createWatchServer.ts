@@ -2,12 +2,18 @@ import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-sec
 import {
     EC2Client,
     DescribeInstancesCommand,
+    DescribeSecurityGroupsCommand,
+    DescribeSubnetsCommand,
     RunInstancesCommand,
+    RunInstancesCommandOutput,
     TerminateInstancesCommand,
+    TerminateInstancesCommandOutput,
     DescribeImagesCommand,
     _InstanceType,
     ResourceType,
-    ShutdownBehavior
+    ShutdownBehavior,
+    Instance,
+    InstanceStateChange
 } from "@aws-sdk/client-ec2";
 import type {CurrentRoundResponse, RoundResponse} from "@footy-scores/shared/src/types/apiResponses";
 import {differenceInMinutes} from "date-fns";
@@ -19,6 +25,13 @@ type EventType = {
     ec2InstanceType: string,
 }
 
+type SuccessResponse = {
+    message: string | null,
+    createdInstances: Instance[],
+    terminatedInstances: string[],
+    existingInstances?: Instance[],
+}
+
 export const handler = async (event: EventType) => {
 
     const START_TIME_WINDOW = 60 // minutes
@@ -26,14 +39,14 @@ export const handler = async (event: EventType) => {
     const computeClient = new EC2Client({region: 'ap-southeast-4'});
     const secretsClient = new SecretsManagerClient({});
 
-    const terminateInstance = async (instanceId: string) => {
+    const terminateInstance = async (instanceId: string): Promise<TerminateInstancesCommandOutput> => {
         const command = new TerminateInstancesCommand({
             InstanceIds: [instanceId]
         });
 
-        const response = await computeClient.send(command);
+        const response: TerminateInstancesCommandOutput = await computeClient.send(command);
         console.log(`Terminated instance ${instanceId}`)
-        return response.TerminatingInstances;
+        return response;
     };
 
     const {SecretString} = await secretsClient.send(
@@ -77,6 +90,7 @@ export const handler = async (event: EventType) => {
 
     let gameIsBeingPlayed = false
     let gameWillStartSoon = false
+    let minutesToNearestGame: number | null = null
     const now = new Date()
 
     for (const game of gamesData) {
@@ -92,6 +106,9 @@ export const handler = async (event: EventType) => {
         if (minutesToStartTime <= START_TIME_WINDOW) {
             gameWillStartSoon = true
             break
+        }
+        if (minutesToNearestGame === null || minutesToStartTime < minutesToNearestGame) {
+            minutesToNearestGame = minutesToStartTime
         }
     }
 
@@ -197,19 +214,47 @@ export const handler = async (event: EventType) => {
             }
 
             const runInstancesCommand = new RunInstancesCommand(instanceCreateOptions)
-            const result = await computeClient.send(runInstancesCommand);
+            const result: RunInstancesCommandOutput = await computeClient.send(runInstancesCommand);
 
             console.log("Done!")
             console.log(result)
+
+            return {createdInstances: result.Instances, terminatedInstances: [], message: null} as SuccessResponse
+
+        } else {
+            let message = ""
+            if (minutesToNearestGame) {
+                message = `Nearest game in ${minutesToNearestGame} minutes (window ${START_TIME_WINDOW})`
+            } else {
+                message = `No more games this round`
+            }
+            return {createdInstances: [], terminatedInstances: [], existingInstances: [], message} as SuccessResponse
         }
 
     } else {
         if (!needsWatchServer) {
+            const terminatedIds: string[] = []
             for (const instance of activeInstances) {
                 const id = instance!.InstanceId!
-                await terminateInstance(id)
-
+                const response = await terminateInstance(id)
+                response.TerminatingInstances!.forEach((stateChange: InstanceStateChange) => {
+                    terminatedIds.push(stateChange.InstanceId || "instance ID unavailable")
+                })
             }
+            return {createdInstances: [], terminatedInstances: terminatedIds, message: null} as SuccessResponse
+        } else {
+            let message = ''
+            if (gameIsBeingPlayed) {
+                message = "Game is live now."
+            } else if (minutesToNearestGame) {
+                message = `Game starting in ${minutesToNearestGame} minutes.`
+            }
+            return {
+                createdInstances: [],
+                terminatedInstances: [],
+                existingInstances: activeInstances,
+                message: `No change to instances: ${message}`
+            } as SuccessResponse
         }
     }
 }
