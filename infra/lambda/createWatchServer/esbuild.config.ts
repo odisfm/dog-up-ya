@@ -15,10 +15,15 @@ build({
         {
             name: 'sh-loader',
             setup(build) {
-                build.onLoad({ filter: /\.sh$/ }, async (args) => ({
-                    contents: await fs.promises.readFile(args.path, 'utf-8'),
-                    loader: 'text',
-                }))
+                build.onLoad({ filter: /\.sh$/ }, async (args) => {
+                    const content = await fs.promises.readFile(args.path)
+                    const base64 = content.toString('base64')
+
+                    return {
+                        contents: `export default "${base64}"`,
+                        loader: 'js',
+                    }
+                })
             }
         }
     ]
