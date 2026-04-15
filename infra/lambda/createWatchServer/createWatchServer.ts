@@ -151,8 +151,6 @@ export const handler = async (event: EventType) => {
                 IamInstanceProfile: {
                     Name: "dog-up-ya-app-server"
                 },
-                SecurityGroupIds: [event.securityGroupId],
-                SubnetId: event.subnetId,
                 InstanceInitiatedShutdownBehavior: ShutdownBehavior.terminate,
                 Monitoring: { Enabled: true },
                 UserData: userDataScript,
