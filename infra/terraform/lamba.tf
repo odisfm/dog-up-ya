@@ -46,7 +46,7 @@ resource "aws_lambda_function" "watcher_creator" {
   function_name = "${var.app_name}-watcher-creator"
   filename      = local.watcher_creator_zip
   source_code_hash = filebase64sha256(local.watcher_creator_zip)
-  handler       = "lambda.handler"
+  handler       = "createWatchServer.handler"
   runtime       = "nodejs24.x"
   role          = data.aws_iam_role.lambda_exec.arn
   timeout       = 30
