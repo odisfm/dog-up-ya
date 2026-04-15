@@ -1,6 +1,7 @@
 locals {
   api_lambda_zip = "${path.module}/../../api/dist/lambda.zip"
   squiggle_lambda_zip = "${path.module}/../../consumers/squiggle/lambda.zip"
+  watcher_creator_zip = "${path.module}/../lambda/createWatchServer/createWatchServer.zip"
 }
 
 resource "aws_lambda_function" "api" {
@@ -39,6 +40,21 @@ resource "aws_lambda_function" "squiggle" {
     app: var.app_name
   }
 
+}
+
+resource "aws_lambda_function" "watcher_creator" {
+  function_name = "${var.app_name}-watcher-creator"
+  filename      = local.watcher_creator_zip
+  source_code_hash = filebase64sha256(local.watcher_creator_zip)
+  handler       = "lambda.handler"
+  runtime       = "nodejs24.x"
+  role          = data.aws_iam_role.lambda_exec.arn
+  timeout       = 30
+  memory_size   = 512
+
+  tags = {
+    app : var.app_name
+  }
 }
 
 resource "aws_apigatewayv2_api" "http" {

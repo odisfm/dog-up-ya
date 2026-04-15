@@ -71,37 +71,7 @@ sudo -u ec2-user -i bash << 'EOSU'
   pm2 list
   pm2 save --force
 
-  $TSX_BIN consumers/squiggle/pull.ts games "year=$(date +%Y)"
-  $TSX_BIN consumers/squiggle/pull.ts standings "year=$(date +%Y)"
-
-  crontab -l 2>/dev/null > /tmp/ec2cron; true
-
-  printf "SHELL=/bin/bash\n" >> /tmp/ec2cron
-  printf "PATH=%s:/usr/local/bin:/usr/bin:/bin\n\n" "$NVM_BIN" >> /tmp/ec2cron
-  printf "0 5 * * 1,4 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts games year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-  printf "0 16 * * 3,4,5 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts tips year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-  printf "30 19-23 * * 4,5 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-  printf "30 12-23 * * 6,0 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-  printf "0 */6 * * 1,2,3 (cd /home/ec2-user/dog-up-ya && %s consumers/squiggle/pull.ts standings year=\$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-  printf "0 12 * * * (cd /home/ec2-user/dog-up-ya && %s consumers/aflTables/pullMatchLinks.ts --year \$(date +\\%%Y)) >> /var/log/cron-pull.log 2>&1\n" "$TSX_BIN" >> /tmp/ec2cron
-
-  crontab /tmp/ec2cron
-  rm /tmp/ec2cron
-
-  echo "Crontab installed:"
-  crontab -l
 EOSU
 
 env HOME=/home/ec2-user pm2 startup systemd -u ec2-user --hp /home/ec2-user | grep "sudo" | bash
 
-dnf install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-
-sudo -u ec2-user bash << 'EOSU'
-  export NVM_DIR="/home/ec2-user/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-
-  npx puppeteer browsers install chrome
-
-  TSX_BIN="$NVM_DIR/versions/node/$(nvm current)/bin/tsx"
-  $TSX_BIN consumers/aflTables/pullMatchLinks.ts --year $(date +%Y)
-EOSU
