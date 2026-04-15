@@ -30,7 +30,7 @@ resource "aws_instance" "watch_server" {
 
   subnet_id = aws_subnet.a.id
 
-  user_data = filebase64("${path.module}/scripts/app-watcher-user-data.sh")
+  user_data = filebase64("${path.module}/../scripts/app-watcher-user-data.sh")
 
   tags = {
     app = var.app_name
