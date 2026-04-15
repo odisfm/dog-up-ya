@@ -1,4 +1,4 @@
-import { runPull, type PullInput } from './handler'
+import type { PullInput } from './handler'
 import {GetSecretValueCommand, SecretsManagerClient} from "@aws-sdk/client-secrets-manager";
 
 export const handler = async (event: PullInput) => {
@@ -15,6 +15,8 @@ export const handler = async (event: PullInput) => {
     if (!command || !year) {
         return { statusCode: 400, body: 'Missing command or year' }
     }
+
+    const { runPull } = await import("./handler")
 
     const result: any[] = await runPull({ command, year })
 
