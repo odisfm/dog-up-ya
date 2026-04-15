@@ -48,6 +48,9 @@ export const handler = async (event: EventType) => {
     const currentTimeDetails: CurrentRoundResponse = await (async () => {
         const response = await fetch(`${apiUrl}/round/current`)
         if (!response.ok) {
+            const text = await response.text();
+            console.error(response.status, text);
+            console.error(apiUrl)
             throw new Error(`Didn't get current round response!`)
         }
         const json = await response.json()
