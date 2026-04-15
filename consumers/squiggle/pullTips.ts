@@ -5,7 +5,7 @@ import {PrismaExports, consts} from '@footy-scores/shared'
 export default async function pullTips(season: PrismaExports.Season): Promise<Tip[]> {
     const url = `${consts.SQUIGGLE_API_URL}/?q=tips;year=${season.year}`
     const response = await fetch(url, {
-        headers: {"User-Agent": process.env.USER_AGENT_FOR_SQUIGGLE},
+        headers: {"User-Agent": process.env.USER_AGENT_FOR_SQUIGGLE!},
     });
     if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
