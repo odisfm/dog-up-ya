@@ -86,7 +86,7 @@ export default async function pullGames(season: PrismaExports.Season): Promise<G
                 }
             })
 
-            winnerTeam = winnerSeasonTeam.team
+            winnerTeam = winnerSeasonTeam!.team
         }
 
         const gameDate = new Date(gameData.unixtime * 1000)
