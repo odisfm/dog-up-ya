@@ -66,9 +66,7 @@ jobs:
       - name: deploy aws
         working-directory: infra/terraform
         run: |
-          tofu apply -auto-approve \
-          -replace="aws_instance.watch_server"
-
+          tofu apply -auto-approve
       - name: build frontend
         working-directory: client
         env:
