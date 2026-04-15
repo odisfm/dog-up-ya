@@ -35,6 +35,7 @@ es.addEventListener('score', async (event) => {
     } catch (error) {
         console.error(error);
         console.error(`Game with Squiggle ID ${data.gameid} is not in DB!!!`)
+        return
     }
     let scoreType: PrismaExports.ScoreEventType;
     if (data.side === "hteam") {
@@ -98,6 +99,7 @@ es.addEventListener('game', async (event) => {
     } catch (error) {
         console.error(error);
         console.error(`Game with Squiggle ID ${data.id} is not in DB!!!`)
+        return
     }
     let winnerTeamId: undefined | string = undefined;
     if (data.winner) {
