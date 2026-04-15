@@ -9,10 +9,13 @@ export type Command = 'teams' | 'rounds' | 'games' | 'standings' | 'tips'
 
 export interface PullInput {
     command: Command
-    year: number
+    year: number | "now"
 }
 
 export async function runPull({ command, year }: PullInput): Promise<Game[] | Round[] | Team[] | Tip[] | Standing[]> {
+    if (year === "now") {
+        year = new Date().getFullYear()
+    }
     const season = await db.season.findFirst({
         where: { year }
     })
