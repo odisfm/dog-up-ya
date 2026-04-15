@@ -30,7 +30,7 @@ jobs:
           npx prisma migrate deploy
 
       - name: tofu vars
-        working-directory: infra
+        working-directory: infra/terraform
         run: |                    
           REPO_NAME=${GITHUB_REPOSITORY##*/}
           COMMIT_ID=${GITHUB_SHA}
@@ -42,7 +42,7 @@ jobs:
           echo "watcher_instance_type = \"${{ secrets.WATCHER_INSTANCE_TYPE }}\"" >> terraform.tfvars
 
       - name: tofu init
-        working-directory: infra
+        working-directory: infra/terraform
         run: |
           
           tofu init \
@@ -61,7 +61,7 @@ jobs:
           zip -j squiggle/lambda.zip squiggle/lambda.mjs
 
       - name: deploy aws
-        working-directory: infra
+        working-directory: infra/terraform
         run: |
           tofu apply -auto-approve \
           -replace="aws_instance.watch_server"

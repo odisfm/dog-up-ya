@@ -1,6 +1,6 @@
 locals {
-  api_lambda_zip = "${path.module}/../api/dist/lambda.zip"
-  squiggle_lambda_zip = "${path.module}/../consumers/squiggle/lambda.zip"
+  api_lambda_zip = "${path.module}/../../api/dist/lambda.zip"
+  squiggle_lambda_zip = "${path.module}/../../consumers/squiggle/lambda.zip"
 }
 
 resource "aws_lambda_function" "api" {
