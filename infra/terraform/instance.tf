@@ -4,6 +4,7 @@ resource "aws_security_group" "server_sg" {
 
   tags = {
     app = var.app_name
+    Name = "${var.app_name}-server-sg"
   }
 
   egress {

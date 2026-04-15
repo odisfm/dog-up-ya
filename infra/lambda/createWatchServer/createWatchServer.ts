@@ -150,7 +150,7 @@ export const handler = async (event: EventType) => {
             const mostRecentAmi = response.Images!
                 .sort((a, b) => new Date(b.CreationDate!).getTime() - new Date(a.CreationDate!).getTime())[0];
 
-            const sgName = "dog-up-ya_server_sg"
+            const sgName = "dog-up-ya-server-sg"
             const sgResponse = await computeClient.send(new DescribeSecurityGroupsCommand({
                 Filters: [
                     {
