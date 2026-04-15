@@ -17,8 +17,6 @@ import userDataScript from './watcher-user-data.sh'
 type EventType = {
     force?: boolean,
     ec2InstanceType: string,
-    securityGroupId: string,
-    subnetId: string,
 }
 
 export const handler = async (event: EventType) => {
@@ -135,6 +133,34 @@ export const handler = async (event: EventType) => {
             const mostRecentAmi = response.Images!
                 .sort((a, b) => new Date(b.CreationDate!).getTime() - new Date(a.CreationDate!).getTime())[0];
 
+            const sgName = "dog-up-ya_server_sg"
+            const sgResponse = await computeClient.send(new DescribeSecurityGroupsCommand({
+                Filters: [
+                    {
+                        Name: "Name",
+                        Values: [sgName]
+                    }
+                ]
+            }))
+            if (sgResponse.SecurityGroups === undefined) {
+                throw new Error(`No security group called ${sgName}`)
+            }
+            const securityGroup = sgResponse.SecurityGroups[0]
+
+            const subnetName = "subnet-dog-up-ya-a"
+            const subnetResponse = await computeClient.send(new DescribeSubnetsCommand({
+                Filters: [
+                    {
+                        Name: "Name",
+                        Values: [subnetName]
+                    }
+                ]
+            }))
+            if (subnetResponse.Subnets === undefined) {
+                throw new Error(`No subnet found called ${subnetName}`)
+            }
+            const subnet = subnetResponse.Subnets[0]
+
             const instanceCreateOptions = {
                 ImageId: mostRecentAmi.ImageId,
                 InstanceType: event.ec2InstanceType as _InstanceType,
@@ -143,8 +169,8 @@ export const handler = async (event: EventType) => {
                 NetworkInterfaces: [
                     {
                         DeviceIndex: 0,
-                        SubnetId: event.subnetId,
-                        Groups: [event.securityGroupId],
+                        SubnetId: subnet.SubnetId,
+                        Groups: [securityGroup.GroupId!],
                         AssociatePublicIpAddress: true
                     }
                 ],
