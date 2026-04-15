@@ -2,7 +2,7 @@ resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 
   tags = {
-    name = "vpc-${var.app_name}"
+    Name = "vpc-${var.app_name}"
     app  = var.app_name
   }
 }
@@ -11,7 +11,7 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    name = "igw-${var.app_name}"
+    Name = "igw-${var.app_name}"
     app  = var.app_name
   }
 }
@@ -36,7 +36,7 @@ resource "aws_subnet" "a" {
   availability_zone = "ap-southeast-4a"
 
   tags = {
-    name = "subnet-${var.app_name}-a"
+    Name = "subnet-${var.app_name}-a"
     app  = var.app_name
   }
 }
