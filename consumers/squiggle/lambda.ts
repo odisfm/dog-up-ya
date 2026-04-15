@@ -10,6 +10,7 @@ export const handler = async (event: PullInput) => {
     )
     const secrets = JSON.parse(SecretString!)
     process.env.DATABASE_URL = secrets.DATABASE_URL
+    process.env.USER_AGENT_FOR_SQUIGGLE = secrets.USER_AGENT_FOR_SQUIGGLE
 
     if (!command || !year) {
         return { statusCode: 400, body: 'Missing command or year' }
