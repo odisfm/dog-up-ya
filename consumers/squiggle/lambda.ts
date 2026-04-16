@@ -19,6 +19,7 @@ export const handler = async (event: PullInput) => {
     const { runPull } = await import("./handler")
 
     const result: any[] = await runPull({ command, year })
+    console.log(result)
 
     return { statusCode: 200, body: result }
 }

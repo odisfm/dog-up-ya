@@ -45,7 +45,6 @@ export const handler = async (event: EventType) => {
         });
 
         const response: TerminateInstancesCommandOutput = await computeClient.send(command);
-        console.log(`Terminated instance ${instanceId}`)
         return response;
     };
 
@@ -219,7 +218,13 @@ export const handler = async (event: EventType) => {
             console.log("Done!")
             console.log(result)
 
-            return {createdInstances: result.Instances, terminatedInstances: [], message: null} as SuccessResponse
+            const res: SuccessResponse = {
+                createdInstances: result.Instances as Instance[],
+                terminatedInstances: [],
+                message: null
+            }
+            console.log(res)
+            return res
 
         } else {
             let message = ""
@@ -228,7 +233,9 @@ export const handler = async (event: EventType) => {
             } else {
                 message = `No more games this round`
             }
-            return {createdInstances: [], terminatedInstances: [], existingInstances: [], message} as SuccessResponse
+            const res: SuccessResponse = {createdInstances: [], terminatedInstances: [], existingInstances: [], message}
+            console.log(res)
+            return res
         }
 
     } else {
@@ -241,7 +248,10 @@ export const handler = async (event: EventType) => {
                     terminatedIds.push(stateChange.InstanceId || "instance ID unavailable")
                 })
             }
-            return {createdInstances: [], terminatedInstances: terminatedIds, message: null} as SuccessResponse
+            const res: SuccessResponse = {createdInstances: [], terminatedInstances: terminatedIds, message: null}
+            console.log(res)
+            return res
+
         } else {
             let message = ''
             if (gameIsBeingPlayed) {
@@ -249,12 +259,14 @@ export const handler = async (event: EventType) => {
             } else if (minutesToNearestGame) {
                 message = `Game starting in ${minutesToNearestGame} minutes.`
             }
-            return {
+            const res: SuccessResponse = {
                 createdInstances: [],
                 terminatedInstances: [],
                 existingInstances: activeInstances,
                 message: `No change to instances: ${message}`
-            } as SuccessResponse
+            }
+            console.log(res)
+            return res
         }
     }
 }
