@@ -2,6 +2,11 @@ import type {ScoreEvent, Team} from "@footy-scores/shared";
 import TeamFlag from "../TeamFlag.tsx";
 import "./ScoreEvent.css"
 
+export const liStyles = "even:bg-mist-500 odd:bg-mist-600 even:dark:bg-mist-800 odd:dark:bg-mist-900 " +
+    "rounded-md p-2 flex gap-2 items-center"
+export const pillStyles = `rounded-md px-2 py-1 `
+export const timeStyles = `font-normal md:font-bold text-xs md:text-md bg-mist-800 dark:bg-mist-950  w-1/6`
+
 export default function ScoreEventSingle({scoringTeam, homeTeam, awayTeam, event}: {
     scoringTeam: Team,
     homeTeam: Team,
@@ -11,7 +16,6 @@ export default function ScoreEventSingle({scoringTeam, homeTeam, awayTeam, event
     const isGoal = event.type === "HOME_GOAL" || event.type === "AWAY_GOAL"
     const homeWinning = (event.hScore || 0) > (event.aScore || 0)
     const awayWinning = (event.aScore || 0) > (event.hScore || 0)
-    const pillStyles = `rounded-md px-2 py-1 `
     const scoreStyles = `flex gap-2 items-center justify-center rounded-md px-2`
     const scoreBgWinning = `bg-cyan-700 dark:bg-cyan-800`
     const scoreBgLosing = `bg-mist-800 dark:bg-mist-950`
@@ -20,11 +24,10 @@ export default function ScoreEventSingle({scoringTeam, homeTeam, awayTeam, event
         ${homeTeam.name} ${event.hGoals}, ${event.hBehinds}, ${event.hScore}, 
         ${awayTeam.name} ${event.aGoals}, ${event.aBehinds}, ${event.aScore}.`
     return (
-        <li className={"even:bg-mist-500 odd:bg-mist-600 even:dark:bg-mist-800 odd:dark:bg-mist-900 " +
-            "rounded-md p-2 flex gap-2 items-center"}
+        <li className={`${liStyles}`}
              aria-label={screenreaderText}
         >
-            <span aria-hidden={true} className={`${pillStyles} font-normal md:font-bold text-xs md:text-md bg-mist-800 dark:bg-mist-950  w-1/6`}>
+            <span aria-hidden={true} className={`${pillStyles} ${timeStyles}`}>
                 {event.timeString}
             </span>
             <div aria-hidden={true} className={"hidden lg:block"}><TeamFlag teamName={scoringTeam.name} size={"xs-sm"}/></div>
