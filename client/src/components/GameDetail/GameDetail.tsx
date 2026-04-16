@@ -186,7 +186,6 @@ export default function GameDetail() {
             { showScoreEvents && gameData.homeTeam && gameData.awayTeam && gameData.timeString !== null &&
                 <>
                     <Section title={"Scoring shots"} headingLevel={3} collapsible={true} prefName={"scoreEvents"} collapsedDefault={true} role={null}>
-                        <Worm gameData={gameData} scoreEvents={gameData.scoreEvents} />
                         <ScoreEvents gameData={gameData} scoreEvents={gameData.scoreEvents} homeTeam={gameData.homeTeam}
                                   awayTeam={gameData.awayTeam}/>
                     </Section>

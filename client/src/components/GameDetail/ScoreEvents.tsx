@@ -2,6 +2,7 @@ import type {ScoreEvent, Team} from "@footy-scores/shared";
 import {useMemo} from "react";
 import type {GameResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import QuarterScoreEvents from "./QuarterScoreEvents.tsx";
+import Worm from "./Worm.tsx";
 
 export type DataGapEvent = {
     hPoints: number
@@ -48,11 +49,12 @@ export default function ScoreEvents({gameData, scoreEvents, homeTeam, awayTeam}:
         awayTeam: Team,
     }) {
 
-    const gameEvents: GameEvents = useMemo(() => {
+    const { gameEvents, integrity } = useMemo((): { gameEvents: GameEvents; integrity: boolean } => {
         const _scoreEvents = scoreEvents.toReversed()
         const gameEvents: GameEvents = {q1: [], q2: [], q3: [], q4: [],}
         let runningHomeScore = 0
         let runningAwayScore = 0
+        let integrity = true
         for (const event of _scoreEvents) {
             const quarter = determineQuarter(event.timeString)
             const eventArray = gameEvents[`q${quarter}`]
@@ -80,6 +82,7 @@ export default function ScoreEvents({gameData, scoreEvents, homeTeam, awayTeam}:
             const awayDiff = (event.aScore || 0) - expectedAwayScore
             if (homeDiff !== 0 || awayDiff !== 0) {
                 eventArray.push({hPoints: homeDiff, aPoints: awayDiff} satisfies DataGapEvent)
+                integrity = false
             }
             eventArray.push(event)
             runningHomeScore = event.hScore || 0
@@ -89,7 +92,7 @@ export default function ScoreEvents({gameData, scoreEvents, homeTeam, awayTeam}:
         gameEvents.q2 = gameEvents.q2.toReversed()
         gameEvents.q3 = gameEvents.q3.toReversed()
         gameEvents.q4 = gameEvents.q4.toReversed()
-        return gameEvents
+        return {gameEvents, integrity}
 
     }, [scoreEvents])
     
@@ -99,6 +102,9 @@ export default function ScoreEvents({gameData, scoreEvents, homeTeam, awayTeam}:
         <div className={"flex flex-col gap-1 w-full"} role={"log"}>
             { scoreEvents.length === 0 &&
                 <span className={"self-start mb-2 text-black dark:text-white"}>Both teams yet to score</span>
+            }
+            {
+                <Worm gameData={gameData} scoreEvents={scoreEvents} integrity={integrity}/>
             }
 
             { currentQuarter >= 4 &&
