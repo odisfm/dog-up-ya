@@ -81,7 +81,7 @@ export default function AppInner() {
                         className={"bg-mist-300 dark:bg-mist-950 pt-2 pb-12 flex flex-col items-center min-h-[100vh] "}
                         onClick={() => viewContext.setSidebarActive(false)}
                     >
-                        <div className={"w-full md:w-2/3 lg:w-3/5 p-2 md:p-0"}>
+                        <div className={"w-full md:w-2/3 lg:w-3/5 xl:w-2/5 p-2 md:p-0"}>
                             <Outlet/>
                         </div>
                     </main>
