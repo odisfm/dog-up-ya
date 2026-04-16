@@ -11,7 +11,7 @@ export default function DataGap({event, homeTeam, awayTeam}: {
     awayTeam: Team,
 }) {
     return (
-        <li className={`${liStyles}`}>
+        <li className={`${liStyles} bg-mist-700`}>
             <span className={`${pillStyles} ${timeStyles}`}>?</span>
             <div className={"flex gap-4"}>{
                 event.hPoints !== 0 &&
