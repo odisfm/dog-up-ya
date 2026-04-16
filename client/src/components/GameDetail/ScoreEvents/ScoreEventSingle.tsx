@@ -1,5 +1,5 @@
 import type {ScoreEvent, Team} from "@footy-scores/shared";
-import TeamFlag from "../TeamFlag.tsx";
+import TeamFlag from "../../TeamFlag.tsx";
 import "./ScoreEvent.css"
 
 export const liStyles = "even:bg-mist-500 odd:bg-mist-600 even:dark:bg-mist-800 odd:dark:bg-mist-900 " +

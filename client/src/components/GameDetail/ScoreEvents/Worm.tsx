@@ -2,8 +2,8 @@ import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, ReferenceLine, Cart
 import type { ScoreEvent } from "@footy-scores/shared";
 import {useContext, useMemo} from "react";
 import type {GameResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
-import { PrefsContext } from '../../contexts/PrefsProvider';
-import TeamFlag from "../TeamFlag.tsx";
+import { PrefsContext } from '../../../contexts/PrefsProvider.tsx';
+import TeamFlag from "../../TeamFlag.tsx";
 
 export default function Worm({ gameData, scoreEvents, integrity }: {
     gameData: GameResponse,

@@ -1,7 +1,7 @@
-import type { DataGapEvent } from "./ScoreEvents";
+import type { DataGapEvent } from "./ScoreEvents.tsx";
 import {liStyles, timeStyles, pillStyles} from "./ScoreEventSingle.tsx";
 import type {Team} from "@footy-scores/shared";
-import TeamFlag from "../TeamFlag.tsx";
+import TeamFlag from "../../TeamFlag.tsx";
 
 const teamStyles = `flex items-center gap-4 font-bold`
 

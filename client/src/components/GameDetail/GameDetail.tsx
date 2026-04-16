@@ -4,13 +4,13 @@ import {Link, Navigate, useNavigate, useParams} from "react-router";
 import type {GameDetailsPayload, GameDetailsResponse} from "@footy-scores/shared/src/types/apiResponses.ts";
 import type {Season, Round} from "@footy-scores/shared"
 import {differenceInMinutes, formatDate} from "date-fns";
-import ScoreEvents from "./ScoreEvents.tsx";
+import ScoreEvents from "./ScoreEvents/ScoreEvents.tsx";
 import Section from "../Section.tsx";
 import GameTips from "./GameTips.tsx";
 import {TimeContext} from "../../contexts/TimeProvider.tsx";
 import {PrefsContext} from "../../contexts/PrefsProvider.tsx";
 import {isInSpoilerWindow} from "../../utils.ts";
-import Worm from "./Worm.tsx";
+import Worm from "./ScoreEvents/Worm.tsx";
 import {AFL_ERA, REFRESH_TIME_MS} from "../../consts.ts";
 import WikiButton from "../buttons/WikiButton.tsx";
 import Loading from "../Loading.tsx";
