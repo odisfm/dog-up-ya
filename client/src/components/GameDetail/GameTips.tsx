@@ -105,7 +105,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                 }
                     <span>{aFor}/{numTipsters} tipped <strong>{aTeam!.name}</strong>, with an average margin of {aMarginAvg.toFixed(1)}.</span>
                     { bFor > 0 &&
-                        <span>{bFor}/{numTipsters} tipped <strong>{bTeam!.name}</strong>, with an average margin of {bMarginAvg.toFixed(1)}.</span>
+                        <span>{bFor}{bFor > 1 ? `/${numTipsters}` : ``} tipped <strong>{bTeam!.name}</strong>, with {bFor > 1 ? `an average` : `a`} margin of {bMarginAvg.toFixed(1)}.</span>
                     }
                 </div>
                 <span className={" mt-2 text-black dark:text-white"}>Tip data comes from the <a href={`https://squiggle.com.au/game/?gid=${gameData.squiggleId}`}>Squiggle tipping competition</a>.</span>
