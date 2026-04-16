@@ -274,16 +274,9 @@ export default function Ladder() {
 
             {ladder && season &&
             <>
-                <h2 className={"text-3xl mt-2 p-2 text-white bg-cyan-600 dark:bg-cyan-700 rounded-md self-start"}>
+                <h2 className={"text-3xl my-2 p-2 text-white bg-cyan-600 dark:bg-cyan-700 rounded-md self-start"}>
                     {`${timeContext.year} ladder`}
                 </h2>
-                {
-                    updatedDate && season.premierTeamId === null &&
-                    <span className={
-                        "self-start text-white mb-2 py-2 px-4 text-left " +
-                        "rounded-md bg-mist-500 dark:bg-mist-800"}
-                    >{`Last updated ${formatDistance(new Date(), updatedDate)} ago`}</span>
-                }
 
                 <div className={"flex gap-1"} aria-label={"select table view"}>
                     <button
@@ -445,6 +438,13 @@ export default function Ladder() {
                             )})}
                     </tbody>
                 </table>
+                {
+                    updatedDate && season.premierTeamId === null &&
+                    <span className={
+                        "self-start text-white mb-2 py-2 px-4 text-left text-sm " +
+                        "rounded-md bg-mist-500 dark:bg-mist-800"}
+                    >{`Last updated ${formatDistance(new Date(), updatedDate)} ago`}</span>
+                }
             </>
 
             }
