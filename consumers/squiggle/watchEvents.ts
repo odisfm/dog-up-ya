@@ -7,6 +7,8 @@ import type {SquiggleEventGame, SquiggleEventScore, SquiggleEventTime, SquiggleE
 const args: string[] = process.argv.slice(2)
 const TEST_MODE = args.includes("test")
 
+console.log(`Opening connection with user agent: ${process.env.USER_AGENT_FOR_SQUIGGLE}`)
+
 const url = TEST_MODE ? "https://sse.squiggle.com.au/test" : "https://sse.squiggle.com.au/events";
 const es = new EventSource(url, {
     fetch: (input, init) =>
