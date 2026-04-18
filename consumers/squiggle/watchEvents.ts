@@ -11,12 +11,22 @@ console.log(`Opening connection with user agent: ${process.env.USER_AGENT_FOR_SQ
 
 const url = TEST_MODE ? "https://sse.squiggle.com.au/test" : "https://sse.squiggle.com.au/events";
 const es = new EventSource(url, {
-    fetch: (input, init) =>
-        fetch(input, {
+    fetch: async (input, init) => {
+        const response = await fetch(input, {
             headers: {
                 "User-Agent": process.env.USER_AGENT_FOR_SQUIGGLE!
             },
-        }),
+        });
+
+        if (!response.ok) {
+            const body = await response.text();
+            console.error(`SSE connection failed: ${response.status} ${response.statusText}`);
+            console.error(`Response headers:`, Object.fromEntries(response.headers.entries()));
+            console.error(`Response body:`, body);
+        }
+
+        return response;
+    },
 });
 
 
