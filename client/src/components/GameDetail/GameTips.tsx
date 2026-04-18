@@ -108,7 +108,7 @@ export default function GameTips({gameData}: {gameData: GameDetailsPayload}) {
                         <span>{bFor}{bFor > 1 ? `/${numTipsters}` : ``} tipped <strong>{bTeam!.name}</strong>, with {bFor > 1 ? `an average` : `a`} margin of {bMarginAvg.toFixed(1)}.</span>
                     }
                 </div>
-                <span className={" mt-2 text-black dark:text-white"}>Tip data comes from the <a href={`https://squiggle.com.au/game/?gid=${gameData.squiggleId}`}>Squiggle tipping competition</a>.</span>
+                <span className={" mt-2 text-black text-sm dark:text-white px-1 opacity-60"}>Tip data comes from the <a href={`https://squiggle.com.au/game/?gid=${gameData.squiggleId}`}>Squiggle tipping competition</a>.</span>
                 <table className={"text-black dark:text-white mt-4 border-separate border-spacing-0 overflow-hidden rounded-md"}>
                     <thead>
                         <tr className={"*:px-2 *:pt-4 text-white bg-mist-500 dark:bg-mist-900"}>
