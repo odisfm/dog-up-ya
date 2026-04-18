@@ -90,10 +90,14 @@ export default function Ladder() {
                 moveViewBack()
             }
         } else if (prefsContext.gesturePrefs.ladder === "seasons") {
-            if (direction === "left" && timeContext.year! < timeContext.latestYear!) {
-                timeContext.setYear(timeContext.year! + 1)
-            } else if (timeContext.year! > FIRST_SEASON){
-                timeContext.setYear(timeContext.year! - 1)
+            if (direction === "left") {
+                if (timeContext.year! < timeContext.latestYear!) {
+                    timeContext.setYear(timeContext.year! + 1)
+                }
+            } else {
+                if (timeContext.year! > FIRST_SEASON) {
+                    timeContext.setYear(timeContext.year! - 1)
+                }
             }
         }
     }
