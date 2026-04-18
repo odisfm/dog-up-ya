@@ -84,7 +84,7 @@ export default function Worm({ gameData, scoreEvents, integrity }: {
             {
                 !integrity &&
                 <span className={"text-left font-extralight text-sm italic py-1 px-2 mb-2 rounded-md " +
-                    "bg-mist-800 dark:bg-mist-900 self-start"}>
+                    "bg-mist-700 dark:bg-mist-900 self-start"}>
                     As some score events are missing, worm is not fully accurate.
                 </span>
             }
