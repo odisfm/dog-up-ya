@@ -12,7 +12,7 @@ import {TimeContext} from "../contexts/TimeProvider.tsx";
 import {formatDistance, isAfter} from "date-fns";
 import {checkApiHeadersVersionMismatch} from "../utils.ts";
 import {useSwipeable} from "react-swipeable";
-import {AFL_ERA} from "../consts.ts";
+import {AFL_ERA, FIRST_SEASON} from "../consts.ts";
 import {Next5} from "./Next5.tsx";
 import WikiButton from "./buttons/WikiButton.tsx";
 import Loading from "./Loading.tsx";
@@ -90,9 +90,9 @@ export default function Ladder() {
                 moveViewBack()
             }
         } else if (prefsContext.gesturePrefs.ladder === "seasons") {
-            if (direction === "left") {
+            if (direction === "left" && timeContext.year! < timeContext.latestYear!) {
                 timeContext.setYear(timeContext.year! + 1)
-            } else {
+            } else if (timeContext.year! > FIRST_SEASON){
                 timeContext.setYear(timeContext.year! - 1)
             }
         }
